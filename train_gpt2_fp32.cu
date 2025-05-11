@@ -1292,15 +1292,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T) {
 
   clock_gettime(CLOCK_MONOTONIC, &stages[2]);
 
-	double input_validation_time = 
-		(stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
-
-	double forward_pass_time = 
-		(stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
-
-	printf("input validation time: %f ms, forward pass time: %f ms\n",
-			input_validation_time, forward_pass_time);
-
   residual = acts.residual3 + (L-1) * B * T * C; // last residual is in residual3
   layernorm_forward(acts.lnf, acts.lnf_mean, acts.lnf_rstd, residual, params.lnfw, params.lnfb, B, T, C);
   matmul_forward(acts.output, acts.lnf, params.wte, NULL, B, T, C, Vp);
@@ -1322,6 +1313,20 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T) {
     // if we don't have targets, we don't have loss
     model->mean_loss = -1.0f;
   }
+
+	clock_gettime(CLOCK_MONOTONIC, &stages[3]);
+
+	double input_validation_time = 
+		(stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+	double forward_pass_time = 
+		(stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+
+	double fused_classifier_time = 
+		(stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+
+	printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
+			input_validation_time, forward_pass_time, fused_classifier_time);
 }
 
 void gpt2_zero_grad(GPT2 *model) {
