@@ -1325,8 +1325,8 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T) {
 	double fused_classifier_time = 
 		(stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
 
-	printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
-			input_validation_time, forward_pass_time, fused_classifier_time);
+	// printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
+	//		input_validation_time, forward_pass_time, fused_classifier_time);
 }
 
 void gpt2_zero_grad(GPT2 *model) {
