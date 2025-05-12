@@ -1169,7 +1169,7 @@ void gpt2_build_from_checkpoint(GPT2 *model, const char* checkpoint_path) {
   model->mean_loss = -1.0f; // -1.0f will designate no loss
 }
 
-void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T) {
+void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time) {
   struct timespec stages[10];
 
   // targets are optional and could be NULL
@@ -1316,17 +1316,19 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T) {
 
 	clock_gettime(CLOCK_MONOTONIC, &stages[3]);
 
-	double input_validation_time = 
-		(stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+	if (time) {
+		double input_validation_time = 
+			(stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
 
-	double forward_pass_time = 
-		(stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+		double forward_pass_time = 
+			(stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
 
-	double fused_classifier_time = 
-		(stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+		double fused_classifier_time = 
+			(stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
 
-	// printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
-	//		input_validation_time, forward_pass_time, fused_classifier_time);
+		printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
+				input_validation_time, forward_pass_time, fused_classifier_time);
+	}
 }
 
 void gpt2_zero_grad(GPT2 *model) {
@@ -1694,7 +1696,7 @@ int main(int argc, char *argv[]) {
       dataloader_reset(&val_loader);
       for (int i = 0; i < val_num_batches; i++) {
         dataloader_next_batch(&val_loader);
-        gpt2_forward(&model, val_loader.inputs, val_loader.targets, B, T);
+        gpt2_forward(&model, val_loader.inputs, val_loader.targets, B, T, 0);
         val_loss += model.mean_loss;
       }
       val_loss /= val_num_batches;
@@ -1715,7 +1717,7 @@ int main(int argc, char *argv[]) {
         // we re-calculate the forward pass for all of (B,T) positions from scratch
         // but the inference here is just for sanity checking anyway
         // and we can maybe optimize a bit more later, with careful tests
-        gpt2_forward(&model, gen_tokens, NULL, B, T);
+        gpt2_forward(&model, gen_tokens, NULL, B, T, 0);
         // furthermore, below we're only using b=0 (i.e. the first row) of all B rows
         // we're in principle running B "inference streams" in parallel here
         // only using position 0 because it's a bit faster (copy less probs from GPU -> CPU)
@@ -1749,7 +1751,7 @@ int main(int argc, char *argv[]) {
     clock_gettime(CLOCK_MONOTONIC, &start);
     dataloader_next_batch(&train_loader);
     clock_gettime(CLOCK_MONOTONIC, &stage1);
-    gpt2_forward(&model, train_loader.inputs, train_loader.targets, B, T);
+    gpt2_forward(&model, train_loader.inputs, train_loader.targets, B, T, 1);
     clock_gettime(CLOCK_MONOTONIC, &stage2);
     gpt2_zero_grad(&model);
     clock_gettime(CLOCK_MONOTONIC, &stage3);
