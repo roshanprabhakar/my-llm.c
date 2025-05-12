@@ -1170,10 +1170,11 @@ void gpt2_build_from_checkpoint(GPT2 *model, const char* checkpoint_path) {
 }
 
 void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time) {
-  struct timespec stages[10];
+  struct timespec stages[20]; // Increased array size for more detailed timing
 
   // targets are optional and could be NULL
 
+  // Start overall timing
   clock_gettime(CLOCK_MONOTONIC, &stages[0]);
 
   // ensure the model was initialized or error out
@@ -1189,6 +1190,8 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
   int NH = model->config.num_heads;
   int C = model->config.channels;
 
+  // Stage 1: Input validation and memory allocation (if needed)
+  clock_gettime(CLOCK_MONOTONIC, &stages[1]);
 
   // validate inputs, all indices must be in the range [0, V)
   for(int i = 0; i < B * T; i++) {
@@ -1225,6 +1228,9 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     }
   }
 
+  // Stage 2: Memory copy operations
+  clock_gettime(CLOCK_MONOTONIC, &stages[2]);
+
   // copy inputs/targets to the model
   cudaCheck(cudaMemcpy(model->inputs, inputs, B * T * sizeof(int), cudaMemcpyHostToDevice));
   if (targets != NULL) {
@@ -1232,15 +1238,26 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
   }
 
   cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
-  clock_gettime(CLOCK_MONOTONIC, &stages[1]);
+  clock_gettime(CLOCK_MONOTONIC, &stages[3]);
 
-  // forward pass
+  // Stage 3: Initialize for forward pass
   ParameterTensors params = model->params; // for brevity
   ActivationTensors acts = model->acts;
   float* residual;
+
+  // Stage 4: Token embedding
+  clock_gettime(CLOCK_MONOTONIC, &stages[4]);
   encoder_forward(acts.encoded, model->inputs, params.wte, params.wpe, B, T, C); // encoding goes into residual[0]
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[5]);
+
+  // Stage 5: Transformer layers
+  double transformer_layer_times[L]; // Array to store time for each layer
+  double total_transformer_time = 0.0;
 
   for (int l = 0; l < L; l++) {
+    struct timespec layer_start, layer_end;
+    clock_gettime(CLOCK_MONOTONIC, &layer_start);
 
     residual = l == 0 ? acts.encoded : acts.residual3 + (l-1) * B * T * C;
 
@@ -1289,16 +1306,27 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     gelu_forward(l_fch_gelu, l_fch, B*T*4*C);
     matmul_forward(l_fcproj, l_fch_gelu, l_fcprojw, l_fcprojb, B, T, 4*C, C);
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
+
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &layer_end);
+
+    // Calculate and store layer time
+    transformer_layer_times[l] = (layer_end.tv_sec - layer_start.tv_sec) +
+                                (layer_end.tv_nsec - layer_start.tv_nsec) / 1e9;
+    total_transformer_time += transformer_layer_times[l];
   }
 
-  cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
-  clock_gettime(CLOCK_MONOTONIC, &stages[2]);
+  clock_gettime(CLOCK_MONOTONIC, &stages[6]);
 
+  // Stage 6: Final layer norm and output projection
   residual = acts.residual3 + (L-1) * B * T * C; // last residual is in residual3
   layernorm_forward(acts.lnf, acts.lnf_mean, acts.lnf_rstd, residual, params.lnfw, params.lnfb, B, T, C);
   matmul_forward(acts.output, acts.lnf, params.wte, NULL, B, T, C, Vp);
 
-  // also forward the cross-entropy loss function if we have the targets
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[7]);
+
+  // Stage 7: Loss computation (if targets provided)
   if (targets != NULL) {
     // fused classifier: does the forward pass and first part of the backward pass
     // we're passing dlosses = NULL, which will default them to 1.0f/(B*T), i.e. uniform loss
@@ -1310,28 +1338,74 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     for (int i=0; i<B*T; i++) { mean_loss += model->cpu_losses[i]; }
     mean_loss /= B*T;
     model->mean_loss = mean_loss;
-
   } else {
     // if we don't have targets, we don't have loss
     model->mean_loss = -1.0f;
   }
 
   cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
-	clock_gettime(CLOCK_MONOTONIC, &stages[3]);
+  clock_gettime(CLOCK_MONOTONIC, &stages[8]);
 
-	if (time) {
-		double input_validation_time = 
-			(stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+  // Calculate final timing results
+  if (time) {
+    double init_time =
+      (stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
 
-		double forward_pass_time = 
-			(stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+    double validation_time =
+      (stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
 
-		double fused_classifier_time = 
-			(stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+    double memcpy_time =
+      (stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
 
-		printf("input validation time: %f ms, forward pass time: %f ms, fused time: %f ms\n",
-				input_validation_time, forward_pass_time, fused_classifier_time);
-	}
+    double setup_time =
+      (stages[4].tv_sec - stages[3].tv_sec) + (stages[4].tv_nsec - stages[3].tv_nsec) / 1e9;
+
+    double embedding_time =
+      (stages[5].tv_sec - stages[4].tv_sec) + (stages[5].tv_nsec - stages[4].tv_nsec) / 1e9;
+
+    // Transformer layers (detailed above)
+
+    double final_layernorm_time =
+      (stages[7].tv_sec - stages[6].tv_sec) + (stages[7].tv_nsec - stages[6].tv_nsec) / 1e9;
+
+    double loss_time =
+      (stages[8].tv_sec - stages[7].tv_sec) + (stages[8].tv_nsec - stages[7].tv_nsec) / 1e9;
+
+    double total_time =
+      (stages[8].tv_sec - stages[0].tv_sec) + (stages[8].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+    double sum_of_components = init_time + validation_time + memcpy_time + setup_time +
+                               embedding_time + total_transformer_time +
+                               final_layernorm_time + loss_time;
+
+    // Print detailed timing information
+    printf("Forward pass detailed timing (ms):\n");
+    printf("  Initialization:     %7.3f\n", init_time * 1000);
+    printf("  Input validation:   %7.3f\n", validation_time * 1000);
+    printf("  Memory copy:        %7.3f\n", memcpy_time * 1000);
+    printf("  Setup:              %7.3f\n", setup_time * 1000);
+    printf("  Token embedding:    %7.3f\n", embedding_time * 1000);
+    printf("  Transformer layers: %7.3f (sum of %d layers)\n", total_transformer_time * 1000, L);
+
+    // Optionally print per-layer timing
+    if (L <= 12) { // Only print individual layer times if not too many
+      for (int l = 0; l < L; l++) {
+        printf("    - Layer %2d:       %7.3f\n", l, transformer_layer_times[l] * 1000);
+      }
+    }
+
+    printf("  Final LN & output:  %7.3f\n", final_layernorm_time * 1000);
+    printf("  Loss computation:   %7.3f\n", loss_time * 1000);
+    printf("  -------------------------------\n");
+    printf("  Sum of components:  %7.3f\n", sum_of_components * 1000);
+    printf("  Total measured:     %7.3f\n", total_time * 1000);
+
+    // Calculate and report overhead/discrepancy
+    double overhead = total_time - sum_of_components;
+    printf("  Overhead/sync:      %7.3f (%4.1f%%)\n",
+           overhead * 1000,
+           (overhead / total_time) * 100);
+  }
 }
 
 void gpt2_zero_grad(GPT2 *model) {
