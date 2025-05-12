@@ -1231,6 +1231,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     cudaCheck(cudaMemcpy(model->targets, targets, B * T * sizeof(int), cudaMemcpyHostToDevice));
   }
 
+  cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
   clock_gettime(CLOCK_MONOTONIC, &stages[1]);
 
   // forward pass
@@ -1290,6 +1291,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
   }
 
+  cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
   clock_gettime(CLOCK_MONOTONIC, &stages[2]);
 
   residual = acts.residual3 + (L-1) * B * T * C; // last residual is in residual3
@@ -1314,6 +1316,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     model->mean_loss = -1.0f;
   }
 
+  cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
 	clock_gettime(CLOCK_MONOTONIC, &stages[3]);
 
 	if (time) {
