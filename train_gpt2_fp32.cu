@@ -1307,7 +1307,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     matmul_forward(l_fcproj, l_fch_gelu, l_fcprojw, l_fcprojb, B, T, 4*C, C);
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
 
-    // cudaCheck(cudaDeviceSynchronize());
+    cudaCheck(cudaDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &layer_end);
 
     // Calculate and store layer time
