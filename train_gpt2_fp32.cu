@@ -1685,7 +1685,8 @@ int main(int argc, char *argv[]) {
   float* cpu_logits = (float*)mallocCheck(model.config.vocab_size * sizeof(float));
 
   // train
-  struct timespec start, stage1, stage2, stage3, stage4, end; // For timing different iteration stages.
+	struct timespec stages[10];
+  struct timespec start, end; // For timing different iteration stages.
   double total_sum_iteration_time_s = 0.0;
   for (int step = 0; step <= train_num_batches; step++) {
     int last_step = step == train_num_batches;
@@ -1750,36 +1751,50 @@ int main(int argc, char *argv[]) {
     // do a training step
     clock_gettime(CLOCK_MONOTONIC, &start);
     dataloader_next_batch(&train_loader);
-    clock_gettime(CLOCK_MONOTONIC, &stage1);
+    clock_gettime(CLOCK_MONOTONIC, &stages[0]);
     gpt2_forward(&model, train_loader.inputs, train_loader.targets, B, T, 1);
-    clock_gettime(CLOCK_MONOTONIC, &stage2);
+    clock_gettime(CLOCK_MONOTONIC, &stages[1]);
     gpt2_zero_grad(&model);
-    clock_gettime(CLOCK_MONOTONIC, &stage3);
+    clock_gettime(CLOCK_MONOTONIC, &stages[2]);
     gpt2_backward(&model);
-    clock_gettime(CLOCK_MONOTONIC, &stage4);
+    clock_gettime(CLOCK_MONOTONIC, &stages[3]);
     gpt2_update(&model, learning_rate, 0.9f, 0.999f, 1e-8f, 0.0f, step+1);
     cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &end);
 
-    double inference_time_s = (stage2.tv_sec - stage1.tv_sec) + 
-      (stage2.tv_nsec - stage1.tv_nsec) / 1e9;
+		double data_loader_time_s = (stages[0].tv_sec - start.tv_sec) + 
+			(stages[0].tv_nsec - start.tv_nsec) / 1e9;
 
-    double training_time_s = (stage4.tv_sec - stage3.tv_sec) + 
-      (stage4.tv_nsec - stage3.tv_nsec) / 1e9;
+    double forward_time_s = (stages[1].tv_sec - stages[0].tv_sec) + 
+      (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+		double zero_grad_time_s = (stages[2].tv_sec - stages[1].tv_sec) + 
+      (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+
+		double backward_time_s = (stages[3].tv_sec - stages[2].tv_sec) + 
+      (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+
+		double model_update_time_s = (end.tv_sec - stages[3].tv_sec) + 
+      (end.tv_nsec - stages[3].tv_nsec) / 1e9;
 
     double time_elapsed_s = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     total_sum_iteration_time_s += time_elapsed_s;
     int tokens_per_second = (B * T) / time_elapsed_s;
 
-    printf("step %4d/%d: train loss %f (inf: %f ms, tra: %f ms, tot: %f ms, %d tok/s)\n", 
-        step + 1, 
-        train_num_batches, 
-        model.mean_loss, 
-        inference_time_s * 1000,
-        training_time_s * 1000,
-        time_elapsed_s * 1000, 
-        tokens_per_second);
+		printf("step %4d/%d: loss %f, timings:\ndata load: %f ms\nforward: %f ms\nzero grad: %f ms\n"
+					 "backward: %f ms\nmodel_update: %f ms\ntotal: %f ms\ncomponent-wise sum: %f ms",
+				step + 1,
+				train_num_batches,
+				model.mean_loss,
+				data_loader_time_s * 1000,
+				forward_time_s * 1000,
+				zero_grad_time_s * 1000,
+				backward_time_s * 1000,
+				model_update_time_s * 1000,
+				time_elapsed_s * 1000,
+				(data_loader_time_s + forward_time_s + zero_grad_time_s + backward_time_s + model_update_time_s) * 1000);
+
     logger_log_train(&logger, step, model.mean_loss);
   }
   // add a total average, for optimizations that are only mild improvements
