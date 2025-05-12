@@ -1413,13 +1413,20 @@ void gpt2_zero_grad(GPT2 *model) {
   if (model->grads_memory != NULL) { cudaCheck(cudaMemset(model->grads_memory, 0, model->num_parameters * sizeof(float))); }
 }
 
-void gpt2_backward(GPT2 *model) {
+void gpt2_backward(GPT2 *model, int time) {
+  struct timespec stages[20]; // Increased array size for more detailed timing
+
+  // Start overall backward pass timing
+  clock_gettime(CLOCK_MONOTONIC, &stages[0]);
 
   // double check we forwarded previously, with targets
   if (model->mean_loss == -1.0f) {
     printf("Error: must forward with targets before backward\n");
     exit(EXIT_FAILURE);
   }
+
+  // Stage 1: Memory allocation (if needed)
+  clock_gettime(CLOCK_MONOTONIC, &stages[1]);
 
   // lazily allocate the memory for gradients of the weights and activations, if needed
   if (model->grads_memory == NULL) {
@@ -1443,6 +1450,9 @@ void gpt2_backward(GPT2 *model) {
     gpt2_zero_grad(model);
   }
 
+  // Stage 2: Setup for backward pass
+  clock_gettime(CLOCK_MONOTONIC, &stages[2]);
+
   // convenience shortcuts
   int B = model->batch_size;
   int T = model->seq_len;
@@ -1457,19 +1467,36 @@ void gpt2_backward(GPT2 *model) {
   ActivationTensors acts = model->acts;
   GradActTensors grads_acts = model->grads_acts;
 
+  // Stage 3: Initial backward for classifier matmul
+  clock_gettime(CLOCK_MONOTONIC, &stages[3]);
+
   // we kick off the chain rule by filling in dlosses with 1.0f/(B*T)
   // this was done in the fused classifier kernel as last step of forward pass
   // technically that is a small, inline backward() pass of calculating
   // total, final loss as the mean over all losses over all (B,T) positions in the batch
   // next: backward the classifier matmul
   matmul_backward(grads_acts.bt4c, grads.wte, NULL, acts.output, acts.lnf, params.wte, B, T, C, Vp);
-  // backward the final layernorm
+
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[4]);
+
+  // Stage 4: Backward the final layernorm
   float* residual = acts.residual3 + (L-1) * B * T * C; // last residual is in residual3
   float* dresidual = grads_acts.residual3; // the main buffer holding the gradient in the backward pass
   layernorm_backward(dresidual, grads.lnfw, grads.lnfb, grads_acts.bt4c, residual, params.lnfw, acts.lnf_mean, acts.lnf_rstd, B, T, C);
 
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[5]);
+
+  // Stage 5: Transformer layers backward
+  double transformer_layer_times[L]; // Array to store time for each layer
+  double total_transformer_time = 0.0;
+
   // now backward all the layers
   for (int l = L-1; l >= 0; l--) {
+    struct timespec layer_start, layer_end;
+    clock_gettime(CLOCK_MONOTONIC, &layer_start);
+
     residual = l == 0 ? acts.encoded : acts.residual3 + (l-1) * B * T * C;
 
     // get the pointers of the weights for this layer
@@ -1518,12 +1545,14 @@ void gpt2_backward(GPT2 *model) {
     // re-use scratch buffer of the forward pass
     float* scratch = acts.output;
 
-    // backprop this layer
+    // backprop this layer (MLP backward)
     matmul_backward(dl_bt4c, dl_fcprojw, dl_fcprojb, dresidual, l_fch_gelu, l_fcprojw, B, T, 4*C, C);
     gelu_backward(dl_bt4c, l_fch, dl_bt4c, B*T*4*C);
     matmul_backward(dl_btc, dl_fcw, dl_fcb, dl_bt4c, l_ln2, l_fcw, B, T, C, 4 * C);
     // layernorm backward does += to the dresidual, so it correctly accumulates grad from the MLP block above
     layernorm_backward(dresidual, dl_ln2w, dl_ln2b, dl_btc, l_residual2, l_ln2w, l_ln2_mean, l_ln2_rstd, B, T, C);
+
+    // Attention backward
     matmul_backward(dl_btc, dl_attprojw, dl_attprojb, dresidual, l_atty, l_attprojw, B, T, C, C);
     // we more B x T x (4)C buffers. l_atty and l_fch aren't needed anymore at this point, so reuse their memory
     float* buffer_a = l_atty;
@@ -1533,13 +1562,90 @@ void gpt2_backward(GPT2 *model) {
     matmul_backward(dl_btc, dl_qkvw, dl_qkvb, dl_bt4c, l_ln1, l_qkvw, B, T, C, 3 * C);
     // layernorm backward does += to dresidual, so it correctly accumulates gradient for the Attention block above
     layernorm_backward(dresidual, dl_ln1w, dl_ln1b, dl_btc, residual, l_ln1w, l_ln1_mean, l_ln1_rstd, B, T, C);
+
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &layer_end);
+
+    // Calculate and store layer time
+    transformer_layer_times[l] = (layer_end.tv_sec - layer_start.tv_sec) +
+                                (layer_end.tv_nsec - layer_start.tv_nsec) / 1e9;
+    total_transformer_time += transformer_layer_times[l];
   }
+
+  clock_gettime(CLOCK_MONOTONIC, &stages[6]);
+
+  // Stage 6: Final encoder backward
   encoder_backward(grads.wte, grads.wpe, dresidual, model->inputs, B, T, C);
+
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[7]);
+
+  // Calculate and output timing results if requested
+  if (time) {
+    double init_time =
+      (stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+    double setup_time =
+      (stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+
+    double backward_start_time =
+      (stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+
+    double classifier_backward_time =
+      (stages[4].tv_sec - stages[3].tv_sec) + (stages[4].tv_nsec - stages[3].tv_nsec) / 1e9;
+
+    double final_layernorm_backward_time =
+      (stages[5].tv_sec - stages[4].tv_sec) + (stages[5].tv_nsec - stages[4].tv_nsec) / 1e9;
+
+    double transformer_backward_time = total_transformer_time;
+
+    double encoder_backward_time =
+      (stages[7].tv_sec - stages[6].tv_sec) + (stages[7].tv_nsec - stages[6].tv_nsec) / 1e9;
+
+    double total_time =
+      (stages[7].tv_sec - stages[0].tv_sec) + (stages[7].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+    double sum_of_components = init_time + setup_time + backward_start_time +
+                              classifier_backward_time + final_layernorm_backward_time +
+                              transformer_backward_time + encoder_backward_time;
+
+    // Print detailed timing information
+    printf("Backward pass detailed timing (ms):\n");
+    printf("  Initialization:        %7.3f\n", init_time * 1000);
+    printf("  Setup:                 %7.3f\n", setup_time * 1000);
+    printf("  Prep for backward:     %7.3f\n", backward_start_time * 1000);
+    printf("  Classifier backward:   %7.3f\n", classifier_backward_time * 1000);
+    printf("  Final LN backward:     %7.3f\n", final_layernorm_backward_time * 1000);
+    printf("  Transformer backward:  %7.3f (sum of %d layers)\n", transformer_backward_time * 1000, L);
+
+    // Optionally print per-layer timing
+    if (L <= 12) { // Only print individual layer times if not too many
+      for (int l = L-1; l >= 0; l--) {
+        printf("    - Layer %2d:          %7.3f\n", l, transformer_layer_times[l] * 1000);
+      }
+    }
+
+    printf("  Encoder backward:      %7.3f\n", encoder_backward_time * 1000);
+    printf("  -------------------------------\n");
+    printf("  Sum of components:     %7.3f\n", sum_of_components * 1000);
+    printf("  Total measured:        %7.3f\n", total_time * 1000);
+
+    // Calculate and report overhead/discrepancy
+    double overhead = total_time - sum_of_components;
+    printf("  Overhead/sync:         %7.3f (%4.1f%%)\n",
+           overhead * 1000,
+           (overhead / total_time) * 100);
+  }
 }
 
-void gpt2_update(GPT2 *model, float learning_rate, float beta1, float beta2, float eps, float weight_decay, int t) {
+void gpt2_update(GPT2 *model, float learning_rate, float beta1, float beta2, float eps, float weight_decay, int t, int time) {
   // reference: https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html
+  struct timespec stages[5]; // For timing measurement
 
+  // Start timing
+  clock_gettime(CLOCK_MONOTONIC, &stages[0]);
+
+  // Stage 1: Memory allocation (if needed)
   // lazily allocate the memory for m_memory and v_memory
   if (model->m_memory == NULL) {
     cudaCheck(cudaMalloc((void**)&model->m_memory, model->num_parameters * sizeof(float)));
@@ -1550,14 +1656,56 @@ void gpt2_update(GPT2 *model, float learning_rate, float beta1, float beta2, flo
     printf("allocated %zu MiB for AdamW optimizer state v\n", (model->num_parameters * sizeof(float)) >> 20);
   }
 
+  clock_gettime(CLOCK_MONOTONIC, &stages[1]);
+
+  // Stage 2: Setup for AdamW update
   int block_size = 512;
   int num_blocks = CEIL_DIV(model->num_parameters, block_size);
   float beta1_correction = 1.0f - powf(beta1, t);
   float beta2_correction = 1.0f - powf(beta2, t);
+
+  clock_gettime(CLOCK_MONOTONIC, &stages[2]);
+
+  // Stage 3: Run AdamW kernel
   adamw_kernel2<<<num_blocks, block_size>>>(model->params_memory, model->grads_memory, model->m_memory, model->v_memory,
       model->num_parameters,
       learning_rate, beta1, beta2, beta1_correction, beta2_correction, eps, weight_decay);
   cudaCheck(cudaGetLastError());
+
+  cudaCheck(cudaDeviceSynchronize());
+  clock_gettime(CLOCK_MONOTONIC, &stages[3]);
+
+  // Calculate and output timing results if requested
+  if (time) {
+    double memory_time =
+      (stages[1].tv_sec - stages[0].tv_sec) + (stages[1].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+    double setup_time =
+      (stages[2].tv_sec - stages[1].tv_sec) + (stages[2].tv_nsec - stages[1].tv_nsec) / 1e9;
+
+    double kernel_time =
+      (stages[3].tv_sec - stages[2].tv_sec) + (stages[3].tv_nsec - stages[2].tv_nsec) / 1e9;
+
+    double total_time =
+      (stages[3].tv_sec - stages[0].tv_sec) + (stages[3].tv_nsec - stages[0].tv_nsec) / 1e9;
+
+    double sum_of_components = memory_time + setup_time + kernel_time;
+
+    // Print detailed timing information
+    printf("Update (AdamW) detailed timing (ms):\n");
+    printf("  Memory allocation:    %7.3f\n", memory_time * 1000);
+    printf("  Setup:                %7.3f\n", setup_time * 1000);
+    printf("  AdamW kernel:         %7.3f\n", kernel_time * 1000);
+    printf("  -------------------------------\n");
+    printf("  Sum of components:    %7.3f\n", sum_of_components * 1000);
+    printf("  Total measured:       %7.3f\n", total_time * 1000);
+
+    // Calculate and report overhead/discrepancy
+    double overhead = total_time - sum_of_components;
+    printf("  Overhead/sync:        %7.3f (%4.1f%%)\n",
+           overhead * 1000,
+           (overhead / total_time) * 100);
+  }
 }
 
 void gpt2_free(GPT2 *model) {
@@ -1774,7 +1922,7 @@ int main(int argc, char *argv[]) {
       dataloader_reset(&val_loader);
       for (int i = 0; i < val_num_batches; i++) {
         dataloader_next_batch(&val_loader);
-        gpt2_forward(&model, val_loader.inputs, val_loader.targets, B, T, 0);
+        gpt2_forward(&model, val_loader.inputs, val_loader.targets, B, T, 0); // No timing for validation
         val_loss += model.mean_loss;
       }
       val_loss /= val_num_batches;
@@ -1795,7 +1943,7 @@ int main(int argc, char *argv[]) {
         // we re-calculate the forward pass for all of (B,T) positions from scratch
         // but the inference here is just for sanity checking anyway
         // and we can maybe optimize a bit more later, with careful tests
-        gpt2_forward(&model, gen_tokens, NULL, B, T, 0);
+        gpt2_forward(&model, gen_tokens, NULL, B, T, 0); // No timing for inference
         // furthermore, below we're only using b=0 (i.e. the first row) of all B rows
         // we're in principle running B "inference streams" in parallel here
         // only using position 0 because it's a bit faster (copy less probs from GPU -> CPU)
@@ -1836,10 +1984,10 @@ int main(int argc, char *argv[]) {
     gpt2_zero_grad(&model);
     cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[2]);
-    gpt2_backward(&model);
+    gpt2_backward(&model, 1); // Pass timing flag
     cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[3]);
-    gpt2_update(&model, learning_rate, 0.9f, 0.999f, 1e-8f, 0.0f, step+1);
+    gpt2_update(&model, learning_rate, 0.9f, 0.999f, 1e-8f, 0.0f, step+1, 1); // Pass timing flag
     cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &end);
 
