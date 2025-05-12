@@ -1783,7 +1783,7 @@ int main(int argc, char *argv[]) {
     int tokens_per_second = (B * T) / time_elapsed_s;
 
 		printf("step %4d/%d: loss %f, timings:\ndata load: %f ms\nforward: %f ms\nzero grad: %f ms\n"
-					 "backward: %f ms\nmodel_update: %f ms\ntotal: %f ms\ncomponent-wise sum: %f ms",
+					 "backward: %f ms\nmodel_update: %f ms\ntotal: %f ms\ncomponent-wise sum: %f ms\n",
 				step + 1,
 				train_num_batches,
 				model.mean_loss,
