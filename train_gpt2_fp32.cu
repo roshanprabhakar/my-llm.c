@@ -1751,12 +1751,16 @@ int main(int argc, char *argv[]) {
     // do a training step
     clock_gettime(CLOCK_MONOTONIC, &start);
     dataloader_next_batch(&train_loader);
+    cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[0]);
     gpt2_forward(&model, train_loader.inputs, train_loader.targets, B, T, 1);
+    cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[1]);
     gpt2_zero_grad(&model);
+    cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[2]);
     gpt2_backward(&model);
+    cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
     clock_gettime(CLOCK_MONOTONIC, &stages[3]);
     gpt2_update(&model, learning_rate, 0.9f, 0.999f, 1e-8f, 0.0f, step+1);
     cudaCheck(cudaDeviceSynchronize()); // finish all CUDA work to get correct precise timings
