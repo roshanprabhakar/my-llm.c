@@ -688,7 +688,7 @@ void matmul_forward(
 	Matrix<RowMajor> mat_bias(1, OC, (nn_real *)bias);
 	Matrix<RowMajor> mat_C(B*T, OC, (nn_real *)out);
 
-	Matrix::mul(mat_C, mat_A, mat_B, mat_bias);
+	Matrix::mul<RowMajor, RowMajor, ColMajor, RowMajor>(mat_C, mat_A, mat_B, mat_bias);
 
 	nn_real *bias_ptr = mat_bias.getHostCopy();
 	nn_real *out_ptr = mat_C.getHostCopy();
