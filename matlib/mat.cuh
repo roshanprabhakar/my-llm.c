@@ -2,8 +2,7 @@
 #define LLMC_MAT_LIB
 
 #include <cuda_runtime.h>
-
-#include "llmc/cuda_common.h"
+#include "cuda_common.h"
 
 typedef float nn_real;
 
