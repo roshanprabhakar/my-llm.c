@@ -60,10 +60,21 @@ class ColMajor {
 		static __host__ __device__ int stride(int rows, int cols) { return rows; }
 };
 
+
 template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
 void mul(Matrix<OutPolicy>& out, 
          const Matrix<APolicy>& A,
          const Matrix<BPolicy>& B,
-         const Matrix<BiasPolicy>& bias);
+         const Matrix<BiasPolicy>& bias) {
+
+	int sqrt_block_size = 16;
+
+	dim3 gridDim(CEIL_DIV(B.cols(), 8*sqrt_block_size), CEIL_DIV(A.rows(), 8*sqrt_block_size));
+  dim3 blockDim(sqrt_block_size, sqrt_block_size);
+	matmul_forward_kernel<<<gridDim, blockDim>>>(out, A, B, bias);
+
+  cudaCheck(cudaGetLastError());
+}
+
 
 #endif // LLMC_MAT_LIB
