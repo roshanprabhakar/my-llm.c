@@ -1264,7 +1264,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
   clock_gettime(CLOCK_MONOTONIC, &stages[5]);
 
   // Stage 5: Transformer layers
-  double transformer_layer_times[L]; // Array to store time for each layer
   double kernel_times_all[L][9]; // Store kernel times for all layers
   double total_transformer_time = 0.0;
 
@@ -1307,7 +1306,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     float* scratch = acts.output;
 
     // now do the forward pass
-    struct timespec kernel_start, kernel_end;
     double kernel_times[9]; // timing for individual kernels
     
     TIMED_KERNEL_CALL(layernorm_forward(l_ln1, l_ln1_mean, l_ln1_rstd, residual, l_ln1w, l_ln1b, B, T, C), 0);
@@ -1518,7 +1516,6 @@ void gpt2_backward(GPT2 *model, int time) {
   clock_gettime(CLOCK_MONOTONIC, &stages[5]);
 
   // Stage 5: Transformer layers backward
-  double transformer_layer_times[L]; // Array to store time for each layer
   double total_transformer_time = 0.0;
 
   // now backward all the layers
@@ -1639,12 +1636,6 @@ void gpt2_backward(GPT2 *model, int time) {
 		// printf("  Final LN backward:     %7.3f\n", final_layernorm_backward_time * 1000);
 		// printf("  Transformer backward:  %7.3f (sum of %d layers)\n", transformer_backward_time * 1000, L);
 		// 
-		// // Optionally print per-layer timing
-		// if (L <= 12) { // Only print individual layer times if not too many
-		//   for (int l = L-1; l >= 0; l--) {
-		//     printf("    - Layer %2d:          %7.3f\n", l, transformer_layer_times[l] * 1000);
-		//   }
-		// }
 		// 
 		// printf("  Encoder backward:      %7.3f\n", encoder_backward_time * 1000);
 		// printf("  -------------------------------\n");
