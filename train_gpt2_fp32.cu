@@ -1269,8 +1269,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
   double total_transformer_time = 0.0;
 
   for (int l = 0; l < L; l++) {
-    struct timespec layer_start, layer_end;
-    clock_gettime(CLOCK_MONOTONIC, &layer_start);
 
     residual = l == 0 ? acts.encoded : acts.residual3 + (l-1) * B * T * C;
 
@@ -1327,11 +1325,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     cudaCheck(cudaDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &layer_end);
 
-    // Calculate and store layer time
-    transformer_layer_times[l] = (layer_end.tv_sec - layer_start.tv_sec) +
-                                (layer_end.tv_nsec - layer_start.tv_nsec) / 1e9;
-    total_transformer_time += transformer_layer_times[l];
-    
     // Store kernel times for this layer
     for (int k = 0; k < 9; k++) {
       kernel_times_all[l][k] = kernel_times[k];
@@ -1531,8 +1524,6 @@ void gpt2_backward(GPT2 *model, int time) {
 
   // now backward all the layers
   for (int l = L-1; l >= 0; l--) {
-    struct timespec layer_start, layer_end;
-    clock_gettime(CLOCK_MONOTONIC, &layer_start);
 
     residual = l == 0 ? acts.encoded : acts.residual3 + (l-1) * B * T * C;
 
@@ -1602,11 +1593,6 @@ void gpt2_backward(GPT2 *model, int time) {
 
     cudaCheck(cudaDeviceSynchronize());
     clock_gettime(CLOCK_MONOTONIC, &layer_end);
-
-    // Calculate and store layer time
-    transformer_layer_times[l] = (layer_end.tv_sec - layer_start.tv_sec) +
-                                (layer_end.tv_nsec - layer_start.tv_nsec) / 1e9;
-    total_transformer_time += transformer_layer_times[l];
   }
 
   clock_gettime(CLOCK_MONOTONIC, &stages[6]);
