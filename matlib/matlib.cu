@@ -1,5 +1,5 @@
 #include "matlib/mat.cuh"
-#include "cuda_common.h"
+#include "llmc/cuda_common.h"
 
 #if 0
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
