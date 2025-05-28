@@ -696,11 +696,12 @@ void matmul_forward(
 	nn_real *bias_ptr = mat_bias.getHostCopy();
 	nn_real *out_ptr = mat_C.getHostCopy();
 
-	printf("-------------------");
+	printf("-------------------\n");
 	for (int i = 0; i < 10; ++i) {
 		printf("[bias: %f, out: %f] ", bias_ptr[i], out_ptr[i]);
 	}
-	printf("-------------------");
+	printf("\n");
+	printf("-------------------\n");
 
 	free(bias_ptr);
 	free(out_ptr);
