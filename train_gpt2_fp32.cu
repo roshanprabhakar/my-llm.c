@@ -34,10 +34,12 @@
 #include "llmc/dataloader.h"
 // defines: unifed library for all matrix kernels and launchers
 #include "matlib/mat.cuh"
+#include "cuda_common.h"
 
 // ----------------------------------------------------------------------------
 // CUDA utils
 
+#if 0
 // convenience macro for calculating grid/block dimensions for kernels
 #define CEIL_DIV(M, N) (((M) + (N)-1) / (N))
 
@@ -50,6 +52,7 @@ void cudaCheck(cudaError_t error, const char *file, int line) {
   }
 };
 #define cudaCheck(err) (cudaCheck(err, __FILE__, __LINE__))
+#endif
 
 // Macro for timing kernel calls
 #define TIMED_KERNEL_CALL(kernel_call, timer_idx) do { \
