@@ -1323,7 +1323,6 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
 
     cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &layer_end);
 
     // Store kernel times for this layer
     for (int k = 0; k < 9; k++) {
@@ -1592,7 +1591,6 @@ void gpt2_backward(GPT2 *model, int time) {
     layernorm_backward(dresidual, dl_ln1w, dl_ln1b, dl_btc, residual, l_ln1w, l_ln1_mean, l_ln1_rstd, B, T, C);
 
     cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &layer_end);
   }
 
   clock_gettime(CLOCK_MONOTONIC, &stages[6]);
