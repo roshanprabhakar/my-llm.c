@@ -34,6 +34,7 @@
 #include "llmc/dataloader.h"
 
 #include "matlib/mat.cuh"
+#include "cuda_utils.h"
 
 // ----------------------------------------------------------------------------
 // CUDA utils

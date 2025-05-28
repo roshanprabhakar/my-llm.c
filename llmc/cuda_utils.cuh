@@ -283,4 +283,5 @@ __device__ __forceinline__ void stochastic_rounding(float in, float *out, unsign
     *out = in; // dummy function for when floatX is float (FP32 mode)
 }
 
+
 #endif

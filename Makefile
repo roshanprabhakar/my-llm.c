@@ -279,7 +279,7 @@ $(NVCC_CUDNN): llmc/cudnn_att.cpp
 	$(NVCC) -c $(NVCC_FLAGS) $(PFLAGS) $^ $(NVCC_INCLUDES) -o $@
 
 $(BUILD_DIR)/matlib.o: matlib/matlib.cu
-	$(NVCC) -c $(NVCC_FLAGS) $^ $(NVCC_INCLUDES) -o $@
+	$(NVCC) -c $(NVCC_FLAGS) $^ $(NVCC_INCLUDES) -o $@ -I./
 
 train_gpt2cu: train_gpt2.cu $(NVCC_CUDNN)
 	$(NVCC) $(NVCC_FLAGS) $(PFLAGS) $^ $(NVCC_LDFLAGS) $(NVCC_INCLUDES) $(NVCC_LDLIBS) $(CUDA_OUTPUT_FILE)

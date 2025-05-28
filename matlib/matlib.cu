@@ -1,5 +1,5 @@
-#include "mat.cuh"
-
+#include "matlib/mat.cuh"
+#include "cuda_common.h"
 
 #if 0
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
@@ -128,6 +128,7 @@ void mul(Matrix<OutPolicy>& out,
 	dim3 gridDim(CEIL_DIV(B.cols(), 8*sqrt_block_size), CEIL_DIV(A.rows(), 8*sqrt_block_size));
   dim3 blockDim(sqrt_block_size, sqrt_block_size);
 	matmul_forward_kernel<<<gridDim, blockDim>>>(out, A, B, bias);
+
   cudaCheck(cudaGetLastError());
 }
 
