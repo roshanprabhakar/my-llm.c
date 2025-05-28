@@ -1467,14 +1467,14 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     }
     
     printf("  Average kernel times per layer:\n");
-    printf("    LayerNorm1:        %7.3f\n", avg_kernel_times[0] * 1000);
+    // printf("    LayerNorm1:        %7.3f\n", avg_kernel_times[0] * 1000);
     printf("    QKV matmul:        %7.3f\n", avg_kernel_times[1] * 1000);
-    printf("    Attention:         %7.3f\n", avg_kernel_times[2] * 1000);
+    // printf("    Attention:         %7.3f\n", avg_kernel_times[2] * 1000);
     printf("    AttProj matmul:    %7.3f\n", avg_kernel_times[3] * 1000);
-    printf("    Residual1:         %7.3f\n", avg_kernel_times[4] * 1000);
-    printf("    LayerNorm2:        %7.3f\n", avg_kernel_times[5] * 1000);
+    // printf("    Residual1:         %7.3f\n", avg_kernel_times[4] * 1000);
+    // printf("    LayerNorm2:        %7.3f\n", avg_kernel_times[5] * 1000);
     printf("    FC matmul:         %7.3f\n", avg_kernel_times[6] * 1000);
-    printf("    GELU:              %7.3f\n", avg_kernel_times[7] * 1000);
+    // printf("    GELU:              %7.3f\n", avg_kernel_times[7] * 1000);
     printf("    FCProj matmul:     %7.3f\n", avg_kernel_times[8] * 1000);
 
     printf("  Final LN & output:  %7.3f\n", final_layernorm_time * 1000);
