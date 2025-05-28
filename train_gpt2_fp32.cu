@@ -654,7 +654,7 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
         vals[i][j+2] = b.z;
         vals[i][j+3] = b.w;
 #endif
-				*reinterpret_cast<float4 *>(&vals[i]) = *reinterpret_cast<float4 *>(bias + oc + j);
+				*reinterpret_cast<float4 *>(&vals[i]) = *reinterpret_cast<const float4 *>(bias + oc + j);
       }
     }
   }
