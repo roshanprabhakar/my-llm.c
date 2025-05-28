@@ -42,7 +42,7 @@ class Matrix {
 		}
 
 		__host__ nn_real *getHostCopy() {
-			nn_real *ptr = reinterpret_cast<nn_real *>(malloc(this->size() * sizeof(nn_real)))
+			nn_real *ptr = reinterpret_cast<nn_real *>(malloc(this->size() * sizeof(nn_real)));
 			cudaMemcpy(ptr, this->d_data_, this->size() * sizeof(nn_real), cudaMemcpyDeviceToHost);
 			return ptr;
 		}
