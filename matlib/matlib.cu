@@ -1,5 +1,6 @@
 #include "mat.cuh"
 
+
 #if 0
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
     const float* inp, const float* weight, const float* bias,

@@ -13,7 +13,7 @@ class Matrix {
 
 	public:
 		Matrix(int rows, int cols, nn_real *data)
-			: rows_(rows), cols_(cols), size_(rows*cols), stride_(stride), d_data_(data)  { 
+			: rows_(rows), cols_(cols), size_(rows*cols), d_data_(data)  { 
 				stride_ = OrderPolicy::stride(rows, cols);
 		}
 
