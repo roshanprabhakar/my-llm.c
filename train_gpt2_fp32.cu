@@ -647,11 +647,14 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
   if(bias != NULL) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j += 4) {
+#if 0
         float4 b = ld_vec(bias + oc + j);
         vals[i][j+0] = b.x;
         vals[i][j+1] = b.y;
         vals[i][j+2] = b.z;
         vals[i][j+3] = b.w;
+#endif
+				*reinterpret_cast<float4 *>(&vals[i]) = *reinterpret_cast<float4 *>(bias + oc + j);
       }
     }
   }
@@ -1454,21 +1457,25 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     printf("  Token embedding:    %7.3f\n", embedding_time * 1000);
     printf("  Transformer layers: %7.3f (sum of %d layers)\n", total_transformer_time * 1000, L);
 
-    // Optionally print per-layer timing
-    if (L <= 12) { // Only print individual layer times if not too many
+    // Calculate and print average kernel timings across all layers
+    double avg_kernel_times[9] = {0.0};
+    for (int k = 0; k < 9; k++) {
       for (int l = 0; l < L; l++) {
-        printf("    - Layer %2d:       %7.3f\n", l, transformer_layer_times[l] * 1000);
-        // printf("      LayerNorm1:      %7.3f\n", kernel_times_all[l][0] * 1000);
-        printf("      QKV matmul:      %7.3f\n", kernel_times_all[l][1] * 1000);
-        // printf("      Attention:       %7.3f\n", kernel_times_all[l][2] * 1000);
-        printf("      AttProj matmul:  %7.3f\n", kernel_times_all[l][3] * 1000);
-        // printf("      Residual1:       %7.3f\n", kernel_times_all[l][4] * 1000);
-        // printf("      LayerNorm2:      %7.3f\n", kernel_times_all[l][5] * 1000);
-        printf("      FC matmul:       %7.3f\n", kernel_times_all[l][6] * 1000);
-        // printf("      GELU:            %7.3f\n", kernel_times_all[l][7] * 1000);
-        printf("      FCProj matmul:   %7.3f\n", kernel_times_all[l][8] * 1000);
+        avg_kernel_times[k] += kernel_times_all[l][k];
       }
+      avg_kernel_times[k] /= L;
     }
+    
+    printf("  Average kernel times per layer:\n");
+    printf("    LayerNorm1:        %7.3f\n", avg_kernel_times[0] * 1000);
+    printf("    QKV matmul:        %7.3f\n", avg_kernel_times[1] * 1000);
+    printf("    Attention:         %7.3f\n", avg_kernel_times[2] * 1000);
+    printf("    AttProj matmul:    %7.3f\n", avg_kernel_times[3] * 1000);
+    printf("    Residual1:         %7.3f\n", avg_kernel_times[4] * 1000);
+    printf("    LayerNorm2:        %7.3f\n", avg_kernel_times[5] * 1000);
+    printf("    FC matmul:         %7.3f\n", avg_kernel_times[6] * 1000);
+    printf("    GELU:              %7.3f\n", avg_kernel_times[7] * 1000);
+    printf("    FCProj matmul:     %7.3f\n", avg_kernel_times[8] * 1000);
 
     printf("  Final LN & output:  %7.3f\n", final_layernorm_time * 1000);
     printf("  Loss computation:   %7.3f\n", loss_time * 1000);
