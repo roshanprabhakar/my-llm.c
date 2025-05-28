@@ -647,14 +647,17 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
   if(bias != NULL) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j += 4) {
+				st_vec(&vals[i], ld_vec(bias + oc + j));
 #if 0
+				*reinterpret_cast<float4 *>(bias + oc + j) = 
+					*reinterpret_cast<float4 const *>(&vals[i]);
+
         float4 b = ld_vec(bias + oc + j);
         vals[i][j+0] = b.x;
         vals[i][j+1] = b.y;
         vals[i][j+2] = b.z;
         vals[i][j+3] = b.w;
 #endif
-				*reinterpret_cast<float4 *>(&vals[i]) = *reinterpret_cast<const float4 *>(bias + oc + j);
       }
     }
   }
