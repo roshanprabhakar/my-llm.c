@@ -33,6 +33,10 @@ class Matrix {
 			return d_data_[OrderPolicy::index(row, col, this->stride())];
 		}
 
+		__device__ nn_real operator()(int row, int col) const {
+			return d_data_[OrderPolicy::index(row, col, this->stride())];
+		}
+
 		__device__ Matrix<OrderPolicy> getSubMatrix(int row, int col, int numRows, int numCols) const {
 			return Matrix<OrderPolicy>(
 					numRows, 
