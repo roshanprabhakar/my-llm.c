@@ -30,14 +30,14 @@ class Matrix {
 		__device__ nn_real *data() const { return d_data_; }
 
 		__device__ nn_real &operator()(int row, int col) {
-			return d_data_[OrderPolicy::index(row, col, this->rows(), this->cols(), this->stride())];
+			return d_data_[OrderPolicy::index(row, col, this->stride())];
 		}
 
 		__device__ Matrix<OrderPolicy> getSubMatrix(int row, int col, int numRows, int numCols) {
 			return Matrix<OrderPolicy>(
 					numRows, 
 					numCols, 
-					this->d_data + OrderPolicy::index(row, col, this->stride()),
+					this->d_data_ + OrderPolicy::index(row, col, this->stride()),
 					this->stride()
 				);
 		}
