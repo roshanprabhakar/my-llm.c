@@ -32,9 +32,8 @@
 #include "llmc/tokenizer.h"
 // defines: dataloader_init, dataloader_reset, dataloader_next_batch, dataloader_free
 #include "llmc/dataloader.h"
-
+// defines: unifed library for all matrix kernels and launchers
 #include "matlib/mat.cuh"
-#include "cuda_utils.h"
 
 // ----------------------------------------------------------------------------
 // CUDA utils
