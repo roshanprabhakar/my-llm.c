@@ -617,6 +617,12 @@ __device__ void st_vec(float* address, float4 val) {
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
     const float* inp, const float* weight, const float* bias,
     int C, int OC) {
+
+	// blockIdx.y
+	// 			The index of the output tile along the cols dimension
+	// blockIdx.x
+	// 			The index of the output tile along the rows dimension
+
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
   // each thread handles 8x8 elements; each block 128 by 128 elements.
@@ -630,6 +636,12 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
   inp += 128 * blockIdx.x * C;
   weight += 128 * blockIdx.y * C;
   out += 128 * blockIdx.x * OC + 128 * blockIdx.y;
+
+	// inp
+	// 			128 * blockIdx.x * C
+	// 				blockIdx.x gives us the index of our block along the rows dim.
+	// 				C gives us the number of columns in the A matrix (input).
+	// 				So, blockIdx.x * C gets an offset to the start of the blockIdx.x'th row.
 
   float vals[8][8] = {};
   if(bias != NULL) {
@@ -1433,6 +1445,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
                                final_layernorm_time + loss_time;
 
     // Print detailed timing information
+#if 1
     printf("Forward pass detailed timing (ms):\n");
     printf("  Initialization:     %7.3f\n", init_time * 1000);
     printf("  Input validation:   %7.3f\n", validation_time * 1000);
@@ -1445,14 +1458,14 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     if (L <= 12) { // Only print individual layer times if not too many
       for (int l = 0; l < L; l++) {
         printf("    - Layer %2d:       %7.3f\n", l, transformer_layer_times[l] * 1000);
-        printf("      LayerNorm1:      %7.3f\n", kernel_times_all[l][0] * 1000);
+        // printf("      LayerNorm1:      %7.3f\n", kernel_times_all[l][0] * 1000);
         printf("      QKV matmul:      %7.3f\n", kernel_times_all[l][1] * 1000);
-        printf("      Attention:       %7.3f\n", kernel_times_all[l][2] * 1000);
+        // printf("      Attention:       %7.3f\n", kernel_times_all[l][2] * 1000);
         printf("      AttProj matmul:  %7.3f\n", kernel_times_all[l][3] * 1000);
-        printf("      Residual1:       %7.3f\n", kernel_times_all[l][4] * 1000);
-        printf("      LayerNorm2:      %7.3f\n", kernel_times_all[l][5] * 1000);
+        // printf("      Residual1:       %7.3f\n", kernel_times_all[l][4] * 1000);
+        // printf("      LayerNorm2:      %7.3f\n", kernel_times_all[l][5] * 1000);
         printf("      FC matmul:       %7.3f\n", kernel_times_all[l][6] * 1000);
-        printf("      GELU:            %7.3f\n", kernel_times_all[l][7] * 1000);
+        // printf("      GELU:            %7.3f\n", kernel_times_all[l][7] * 1000);
         printf("      FCProj matmul:   %7.3f\n", kernel_times_all[l][8] * 1000);
       }
     }
@@ -1468,6 +1481,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     printf("  Overhead/sync:      %7.3f (%4.1f%%)\n",
            overhead * 1000,
            (overhead / total_time) * 100);
+#endif
   }
 }
 
