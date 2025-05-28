@@ -49,6 +49,16 @@ void cudaCheck(cudaError_t error, const char *file, int line) {
 };
 #define cudaCheck(err) (cudaCheck(err, __FILE__, __LINE__))
 
+// Macro for timing kernel calls
+#define TIMED_KERNEL_CALL(kernel_call, timer_idx) do { \
+    struct timespec kernel_start, kernel_end; \
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start); \
+    kernel_call; \
+    cudaCheck(cudaDeviceSynchronize()); \
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end); \
+    kernel_times[timer_idx] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9; \
+} while(0)
+
 // cuBLAS error checking
 void cublasCheck(cublasStatus_t status, const char *file, int line)
 {
@@ -637,27 +647,11 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
   weight += 128 * blockIdx.y * C;
   out += 128 * blockIdx.x * OC + 128 * blockIdx.y;
 
-	// inp
-	// 			128 * blockIdx.x * C
-	// 				blockIdx.x gives us the index of our block along the rows dim.
-	// 				C gives us the number of columns in the A matrix (input).
-	// 				So, blockIdx.x * C gets an offset to the start of the blockIdx.x'th row.
-
   float vals[8][8] = {};
   if(bias != NULL) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j += 4) {
 				st_vec(&vals[i], ld_vec(bias + oc + j));
-#if 0
-				*reinterpret_cast<float4 *>(bias + oc + j) = 
-					*reinterpret_cast<float4 const *>(&vals[i]);
-
-        float4 b = ld_vec(bias + oc + j);
-        vals[i][j+0] = b.x;
-        vals[i][j+1] = b.y;
-        vals[i][j+2] = b.z;
-        vals[i][j+3] = b.w;
-#endif
       }
     }
   }
@@ -1188,7 +1182,7 @@ void gpt2_build_from_checkpoint(GPT2 *model, const char* checkpoint_path) {
 }
 
 void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time) {
-  struct timespec stages[20]; // Increased array size for more detailed timing
+  struct timespec stages[20];
 
   // targets are optional and could be NULL
 
@@ -1318,59 +1312,15 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     struct timespec kernel_start, kernel_end;
     double kernel_times[9]; // timing for individual kernels
     
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    layernorm_forward(l_ln1, l_ln1_mean, l_ln1_rstd, residual, l_ln1w, l_ln1b, B, T, C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[0] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    matmul_forward(scratch, l_ln1, l_qkvw, l_qkvb, B, T, C, 3*C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[1] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    attention_forward(l_atty, l_qkvr, l_att, scratch, B, T, C, NH);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[2] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    matmul_forward(l_attproj, l_atty, l_attprojw, l_attprojb, B, T, C, C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[3] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    residual_forward(l_residual2, residual, l_attproj, B*T*C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[4] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    layernorm_forward(l_ln2, l_ln2_mean, l_ln2_rstd, l_residual2, l_ln2w, l_ln2b, B, T, C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[5] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    matmul_forward(l_fch, l_ln2, l_fcw, l_fcb, B, T, C, 4*C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[6] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    gelu_forward(l_fch_gelu, l_fch, B*T*4*C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[7] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
-    
-    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
-    matmul_forward(l_fcproj, l_fch_gelu, l_fcprojw, l_fcprojb, B, T, 4*C, C);
-    cudaCheck(cudaDeviceSynchronize());
-    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
-    kernel_times[8] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    TIMED_KERNEL_CALL(layernorm_forward(l_ln1, l_ln1_mean, l_ln1_rstd, residual, l_ln1w, l_ln1b, B, T, C), 0);
+    TIMED_KERNEL_CALL(matmul_forward(scratch, l_ln1, l_qkvw, l_qkvb, B, T, C, 3*C), 1);
+    TIMED_KERNEL_CALL(attention_forward(l_atty, l_qkvr, l_att, scratch, B, T, C, NH), 2);
+    TIMED_KERNEL_CALL(matmul_forward(l_attproj, l_atty, l_attprojw, l_attprojb, B, T, C, C), 3);
+    TIMED_KERNEL_CALL(residual_forward(l_residual2, residual, l_attproj, B*T*C), 4);
+    TIMED_KERNEL_CALL(layernorm_forward(l_ln2, l_ln2_mean, l_ln2_rstd, l_residual2, l_ln2w, l_ln2b, B, T, C), 5);
+    TIMED_KERNEL_CALL(matmul_forward(l_fch, l_ln2, l_fcw, l_fcb, B, T, C, 4*C), 6);
+    TIMED_KERNEL_CALL(gelu_forward(l_fch_gelu, l_fch, B*T*4*C), 7);
+    TIMED_KERNEL_CALL(matmul_forward(l_fcproj, l_fch_gelu, l_fcprojw, l_fcprojb, B, T, 4*C, C), 8);
     
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
 
