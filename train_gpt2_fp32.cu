@@ -660,6 +660,7 @@ void layernorm_forward(float* out, float* mean, float* rstd,
   cudaCheck(cudaGetLastError());
 }
 
+#if 0
 // kernel 1 is the most naive matmul kernel
 void matmul_forward_correct(float* out,
     const float* inp, const float* weight, const float* bias,
@@ -673,6 +674,7 @@ void matmul_forward_correct(float* out,
   matmul_forward_kernel4<<<gridDim, blockDim>>>(out, inp, weight, bias, C, OC);
   cudaCheck(cudaGetLastError());
 }
+#endif
 
 void matmul_forward(
 		float *out, float const *x, float const *param, float const *bias,
@@ -681,15 +683,15 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
-	Matrix<RowMajor> inp(B*T, C, x);
-	Matrix<ColMajor> param(C, OC, param);
-	Matrix<RowMajor> bias(1, OC, bias);
-	Matrix<RowMajor> out(B*T, OC, out)
+	Matrix<RowMajor> A(B*T, C, (nn_real *)x);
+	Matrix<ColMajor> B(C, OC, (nn_real *)param);
+	Matrix<RowMajor> b(1, OC, (nn_real *)bias);
+	Matrix<RowMajor> C(B*T, OC, (nn_real *)out);
 
-	Matrix::mul(out, inp, param, bias);
+	Matrix::mul(C, A, B, b);
 
-	nn_real *bias_ptr = bias.getHostCopy();
-	nn_real *out_ptr = out.getHostCopy();
+	nn_real *bias_ptr = b.getHostCopy();
+	nn_real *out_ptr = C.getHostCopy();
 
 	printf("-------------------");
 	for (int i = 0; i < 10; ++i) {
