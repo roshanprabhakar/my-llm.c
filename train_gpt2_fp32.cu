@@ -651,7 +651,7 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
   if(bias != NULL) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j += 4) {
-				st_vec(&vals[i], ld_vec(bias + oc + j));
+				st_vec(&vals[i][j], ld_vec(bias + oc + j));
       }
     }
   }
