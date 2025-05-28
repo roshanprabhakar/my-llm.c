@@ -1694,31 +1694,31 @@ void gpt2_backward(GPT2 *model, int time) {
                               transformer_backward_time + encoder_backward_time;
 
     // Print detailed timing information
-    printf("Backward pass detailed timing (ms):\n");
-    printf("  Initialization:        %7.3f\n", init_time * 1000);
-    printf("  Setup:                 %7.3f\n", setup_time * 1000);
-    printf("  Prep for backward:     %7.3f\n", backward_start_time * 1000);
-    printf("  Classifier backward:   %7.3f\n", classifier_backward_time * 1000);
-    printf("  Final LN backward:     %7.3f\n", final_layernorm_backward_time * 1000);
-    printf("  Transformer backward:  %7.3f (sum of %d layers)\n", transformer_backward_time * 1000, L);
-
-    // Optionally print per-layer timing
-    if (L <= 12) { // Only print individual layer times if not too many
-      for (int l = L-1; l >= 0; l--) {
-        printf("    - Layer %2d:          %7.3f\n", l, transformer_layer_times[l] * 1000);
-      }
-    }
-
-    printf("  Encoder backward:      %7.3f\n", encoder_backward_time * 1000);
-    printf("  -------------------------------\n");
-    printf("  Sum of components:     %7.3f\n", sum_of_components * 1000);
-    printf("  Total measured:        %7.3f\n", total_time * 1000);
-
-    // Calculate and report overhead/discrepancy
-    double overhead = total_time - sum_of_components;
-    printf("  Overhead/sync:         %7.3f (%4.1f%%)\n",
-           overhead * 1000,
-           (overhead / total_time) * 100);
+		// printf("Backward pass detailed timing (ms):\n");
+		// printf("  Initialization:        %7.3f\n", init_time * 1000);
+		// printf("  Setup:                 %7.3f\n", setup_time * 1000);
+		// printf("  Prep for backward:     %7.3f\n", backward_start_time * 1000);
+		// printf("  Classifier backward:   %7.3f\n", classifier_backward_time * 1000);
+		// printf("  Final LN backward:     %7.3f\n", final_layernorm_backward_time * 1000);
+		// printf("  Transformer backward:  %7.3f (sum of %d layers)\n", transformer_backward_time * 1000, L);
+		// 
+		// // Optionally print per-layer timing
+		// if (L <= 12) { // Only print individual layer times if not too many
+		//   for (int l = L-1; l >= 0; l--) {
+		//     printf("    - Layer %2d:          %7.3f\n", l, transformer_layer_times[l] * 1000);
+		//   }
+		// }
+		// 
+		// printf("  Encoder backward:      %7.3f\n", encoder_backward_time * 1000);
+		// printf("  -------------------------------\n");
+		// printf("  Sum of components:     %7.3f\n", sum_of_components * 1000);
+		// printf("  Total measured:        %7.3f\n", total_time * 1000);
+		// 
+		// // Calculate and report overhead/discrepancy
+		// double overhead = total_time - sum_of_components;
+		// printf("  Overhead/sync:         %7.3f (%4.1f%%)\n",
+		//        overhead * 1000,
+		//        (overhead / total_time) * 100);
   }
 }
 
