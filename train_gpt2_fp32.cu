@@ -1449,13 +1449,13 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
 
     // Print detailed timing information
 #if 1
-    printf("Forward pass detailed timing (ms):\n");
-    printf("  Initialization:     %7.3f\n", init_time * 1000);
-    printf("  Input validation:   %7.3f\n", validation_time * 1000);
-    printf("  Memory copy:        %7.3f\n", memcpy_time * 1000);
-    printf("  Setup:              %7.3f\n", setup_time * 1000);
-    printf("  Token embedding:    %7.3f\n", embedding_time * 1000);
-    printf("  Transformer layers: %7.3f (sum of %d layers)\n", total_transformer_time * 1000, L);
+		// printf("Forward pass detailed timing (ms):\n");
+		// printf("  Initialization:     %7.3f\n", init_time * 1000);
+		// printf("  Input validation:   %7.3f\n", validation_time * 1000);
+		// printf("  Memory copy:        %7.3f\n", memcpy_time * 1000);
+		// printf("  Setup:              %7.3f\n", setup_time * 1000);
+		// printf("  Token embedding:    %7.3f\n", embedding_time * 1000);
+		// printf("  Transformer layers: %7.3f (sum of %d layers)\n", total_transformer_time * 1000, L);
 
     // Calculate and print average kernel timings across all layers
     double avg_kernel_times[9] = {0.0};
@@ -1477,17 +1477,17 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     // printf("    GELU:              %7.3f\n", avg_kernel_times[7] * 1000);
     printf("    FCProj matmul:     %7.3f\n", avg_kernel_times[8] * 1000);
 
-    printf("  Final LN & output:  %7.3f\n", final_layernorm_time * 1000);
-    printf("  Loss computation:   %7.3f\n", loss_time * 1000);
-    printf("  -------------------------------\n");
-    printf("  Sum of components:  %7.3f\n", sum_of_components * 1000);
-    printf("  Total measured:     %7.3f\n", total_time * 1000);
-
-    // Calculate and report overhead/discrepancy
-    double overhead = total_time - sum_of_components;
-    printf("  Overhead/sync:      %7.3f (%4.1f%%)\n",
-           overhead * 1000,
-           (overhead / total_time) * 100);
+		// printf("  Final LN & output:  %7.3f\n", final_layernorm_time * 1000);
+		// printf("  Loss computation:   %7.3f\n", loss_time * 1000);
+		// printf("  -------------------------------\n");
+		// printf("  Sum of components:  %7.3f\n", sum_of_components * 1000);
+		// printf("  Total measured:     %7.3f\n", total_time * 1000);
+		// 
+		// // Calculate and report overhead/discrepancy
+		// double overhead = total_time - sum_of_components;
+		// printf("  Overhead/sync:      %7.3f (%4.1f%%)\n",
+		//        overhead * 1000,
+		//        (overhead / total_time) * 100);
 #endif
   }
 }
