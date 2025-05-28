@@ -1253,6 +1253,7 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
 
   // Stage 5: Transformer layers
   double transformer_layer_times[L]; // Array to store time for each layer
+  double kernel_times_all[L][9]; // Store kernel times for all layers
   double total_transformer_time = 0.0;
 
   for (int l = 0; l < L; l++) {
@@ -1296,15 +1297,63 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     float* scratch = acts.output;
 
     // now do the forward pass
+    struct timespec kernel_start, kernel_end;
+    double kernel_times[9]; // timing for individual kernels
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     layernorm_forward(l_ln1, l_ln1_mean, l_ln1_rstd, residual, l_ln1w, l_ln1b, B, T, C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[0] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     matmul_forward(scratch, l_ln1, l_qkvw, l_qkvb, B, T, C, 3*C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[1] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     attention_forward(l_atty, l_qkvr, l_att, scratch, B, T, C, NH);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[2] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     matmul_forward(l_attproj, l_atty, l_attprojw, l_attprojb, B, T, C, C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[3] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     residual_forward(l_residual2, residual, l_attproj, B*T*C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[4] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     layernorm_forward(l_ln2, l_ln2_mean, l_ln2_rstd, l_residual2, l_ln2w, l_ln2b, B, T, C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[5] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     matmul_forward(l_fch, l_ln2, l_fcw, l_fcb, B, T, C, 4*C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[6] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     gelu_forward(l_fch_gelu, l_fch, B*T*4*C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[7] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
+    clock_gettime(CLOCK_MONOTONIC, &kernel_start);
     matmul_forward(l_fcproj, l_fch_gelu, l_fcprojw, l_fcprojb, B, T, 4*C, C);
+    cudaCheck(cudaDeviceSynchronize());
+    clock_gettime(CLOCK_MONOTONIC, &kernel_end);
+    kernel_times[8] = (kernel_end.tv_sec - kernel_start.tv_sec) + (kernel_end.tv_nsec - kernel_start.tv_nsec) / 1e9;
+    
     residual_forward(l_residual3, l_residual2, l_fcproj, B*T*C);
 
     cudaCheck(cudaDeviceSynchronize());
@@ -1314,6 +1363,11 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     transformer_layer_times[l] = (layer_end.tv_sec - layer_start.tv_sec) +
                                 (layer_end.tv_nsec - layer_start.tv_nsec) / 1e9;
     total_transformer_time += transformer_layer_times[l];
+    
+    // Store kernel times for this layer
+    for (int k = 0; k < 9; k++) {
+      kernel_times_all[l][k] = kernel_times[k];
+    }
   }
 
   clock_gettime(CLOCK_MONOTONIC, &stages[6]);
@@ -1391,6 +1445,15 @@ void gpt2_forward(GPT2 *model, int* inputs, int* targets, int B, int T, int time
     if (L <= 12) { // Only print individual layer times if not too many
       for (int l = 0; l < L; l++) {
         printf("    - Layer %2d:       %7.3f\n", l, transformer_layer_times[l] * 1000);
+        printf("      LayerNorm1:      %7.3f\n", kernel_times_all[l][0] * 1000);
+        printf("      QKV matmul:      %7.3f\n", kernel_times_all[l][1] * 1000);
+        printf("      Attention:       %7.3f\n", kernel_times_all[l][2] * 1000);
+        printf("      AttProj matmul:  %7.3f\n", kernel_times_all[l][3] * 1000);
+        printf("      Residual1:       %7.3f\n", kernel_times_all[l][4] * 1000);
+        printf("      LayerNorm2:      %7.3f\n", kernel_times_all[l][5] * 1000);
+        printf("      FC matmul:       %7.3f\n", kernel_times_all[l][6] * 1000);
+        printf("      GELU:            %7.3f\n", kernel_times_all[l][7] * 1000);
+        printf("      FCProj matmul:   %7.3f\n", kernel_times_all[l][8] * 1000);
       }
     }
 
