@@ -3,6 +3,8 @@
 
 #include <cuda_runtime.h>
 
+#include "llmc/cuda_common.h"
+
 typedef float nn_real;
 
 template <typename OrderPolicy>
