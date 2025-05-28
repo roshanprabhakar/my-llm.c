@@ -34,7 +34,7 @@
 #include "llmc/dataloader.h"
 // defines: unifed library for all matrix kernels and launchers
 #include "matlib/mat.cuh"
-#include "cuda_common.h"
+#include "llmc/cuda_common.h"
 
 // ----------------------------------------------------------------------------
 // CUDA utils
