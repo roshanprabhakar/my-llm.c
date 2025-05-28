@@ -683,21 +683,24 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
-	Matrix<RowMajor> A(B*T, C, (nn_real *)x);
-	Matrix<ColMajor> B(C, OC, (nn_real *)param);
-	Matrix<RowMajor> b(1, OC, (nn_real *)bias);
-	Matrix<RowMajor> C(B*T, OC, (nn_real *)out);
+	Matrix<RowMajor> mat_A(B*T, C, (nn_real *)x);
+	Matrix<ColMajor> mat_B(C, OC, (nn_real *)param);
+	Matrix<RowMajor> mat_bias(1, OC, (nn_real *)bias);
+	Matrix<RowMajor> mat_C(B*T, OC, (nn_real *)out);
 
-	Matrix::mul(C, A, B, b);
+	Matrix::mul(mat_C, mat_A, mat_B, mat_bias);
 
-	nn_real *bias_ptr = b.getHostCopy();
-	nn_real *out_ptr = C.getHostCopy();
+	nn_real *bias_ptr = mat_bias.getHostCopy();
+	nn_real *out_ptr = mat_C.getHostCopy();
 
 	printf("-------------------");
 	for (int i = 0; i < 10; ++i) {
 		printf("[bias: %f, out: %f] ", bias_ptr[i], out_ptr[i]);
 	}
 	printf("-------------------");
+
+	free(bias_ptr);
+	free(out_ptr);
 
 	// Copy bias to host
 	// Copy row i from output to host
