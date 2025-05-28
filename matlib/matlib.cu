@@ -110,7 +110,7 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 
 	for (int i = 0; i < 8; ++i) {
 		for (int j = 0; j < 8; ++j) {
-			out_sub(8 * threadIdx.x + i, 8 * threadIdx.y + j) = result[i][j];
+			out_sub(8 * threadIdx.x + i, 8 * threadIdx.y + j) = vals[i][j];
 		}
 	}
 
