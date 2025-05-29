@@ -63,6 +63,7 @@ class Matrix {
 };
 
 
+#if 0
 template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 		Matrix<OutPolicy> out,
@@ -94,6 +95,29 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 		}
 	}
 }
+#endif
+
+template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
+__global__ void matmul_forward_kernel(
+		Matrix<OutPolicy> out,
+		const Matrix<APolicy> A,
+		const Matrix<BPolicy> B,
+		const Matrix<BiasPolicy> bias) {
+
+	for (int r = 0; r < 8; ++r) {
+		for (int c = 0; c < 8; ++c) {
+			int y = (blockIdx.y * blockDim.y + threadIdx.y) * 8;
+			int x = (blockIdx.x * blockDim.x + threadIdx.x) * 8;
+
+			if (y < out.rows() && x < out.cols()) {
+				out(y, x) = bias(1, x);
+			}
+		}
+	}
+							
+}
+
+
 
 
 template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
@@ -103,6 +127,11 @@ void mul(Matrix<OutPolicy>& out,
          const Matrix<BiasPolicy>& bias) {
 
 	int sqrt_block_size = 16;
+
+	if (out.rows() != A.rows() || out.cols() != B.cols() || out.cols() != bias.cols()) {
+		printf("Error: incompatible matrix dimensions.\n");
+		return;
+	}
 
 	dim3 gridDim(CEIL_DIV(B.cols(), 8*sqrt_block_size), CEIL_DIV(A.rows(), 8*sqrt_block_size));
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
