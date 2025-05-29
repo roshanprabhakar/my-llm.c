@@ -687,9 +687,9 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
-	Matrix<RowMajor> mat_A(B*T, C, (float)x);
-	Matrix<ColMajor> mat_B(C, OC, (float)param);
-	Matrix<RowMajor> mat_bias(1, OC, (float)bias);
+	Matrix<RowMajor> mat_A(B*T, C, (float *)x);
+	Matrix<ColMajor> mat_B(C, OC, (float *)param);
+	Matrix<RowMajor> mat_bias(1, OC, (float *)bias);
 	Matrix<RowMajor> mat_C(B*T, OC, out);
 
 	mul(mat_C, mat_A, mat_B, mat_bias);
