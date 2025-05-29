@@ -278,11 +278,14 @@ test_gpt2: test_gpt2.c
 $(NVCC_CUDNN): llmc/cudnn_att.cpp
 	$(NVCC) -c $(NVCC_FLAGS) $(PFLAGS) $^ $(NVCC_INCLUDES) -o $@
 
+$(BUILD_DIR)/matrix_kernels.o: matrix_kernels.cu
+	$(NVCC) -c $(NVCC_FLAGS) $^ $(NVCC_INCLUDES) -o $@
+
 
 train_gpt2cu: train_gpt2.cu $(NVCC_CUDNN)
 	$(NVCC) $(NVCC_FLAGS) $(PFLAGS) $^ $(NVCC_LDFLAGS) $(NVCC_INCLUDES) $(NVCC_LDLIBS) $(CUDA_OUTPUT_FILE)
 
-train_gpt2fp32cu: train_gpt2_fp32.cu
+train_gpt2fp32cu: train_gpt2_fp32.cu $(BUILD_DIR)/matrix_kernels.o
 	$(NVCC) $(NVCC_FLAGS) $^ $(NVCC_LDFLAGS) $(NVCC_INCLUDES) $(NVCC_LDLIBS) $(CUDA_OUTPUT_FILE) -I./
 
 test_gpt2cu: test_gpt2.cu $(NVCC_CUDNN)
