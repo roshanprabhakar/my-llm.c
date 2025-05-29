@@ -74,11 +74,6 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 	Matrix<BPolicy> B_sub = B.getSubMatrix(0, 128 * blockIdx.x, B.rows(), 128);
 	Matrix<OutPolicy> out_sub = out.getSubMatrix(128 * blockIdx.x, 128 * blockIdx.y, 128, 128);
 
-#if 0
-	__shared__ float lhs_s[128][32];
-	__shared__ float rhs_s[128][32];
-#endif
-
 	int oc = 8 * (blockIdx.x * blockDim.x + threadIdx.x);
 
 	float vals[8][8] = {};
@@ -92,7 +87,10 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 
 	for (int i = 0; i < 8; ++i) {
 		for (int j = 0; j < 8; ++j) {
-			out_sub(8 * threadIdx.x + i, 8 * threadIdx.y + j) = vals[i][j];
+			
+			if (8 * threadIdx.x + i < out.rows() && 8 * threadIdx.y + j < out.cols()) {
+				out_sub(8 * threadIdx.x + i, 8 * threadIdx.y + j) = vals[i][j];
+			}
 		}
 	}
 }
