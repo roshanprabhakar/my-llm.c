@@ -106,8 +106,8 @@ __global__ void matmul_forward_kernel(
 
 	for (int r = 0; r < 8; ++r) {
 		for (int c = 0; c < 8; ++c) {
-			int y = (blockIdx.y * blockDim.y + threadIdx.y) * 8 + y;
-			int x = (blockIdx.x * blockDim.x + threadIdx.x) * 8 + x;
+			int y = (blockIdx.y * blockDim.y + threadIdx.y) * 8 + r;
+			int x = (blockIdx.x * blockDim.x + threadIdx.x) * 8 + c;
 
 			if (y < out.rows() && x < out.cols()) {
 				out(y, x) = bias(1, x);
