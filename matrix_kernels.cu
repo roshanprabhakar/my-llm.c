@@ -52,5 +52,5 @@ void mul(Matrix<OutPolicy>& out,
 // Explicit instantiation for the expected data ordering.
 template void mul(Matrix<RowMajor>& out, 
 									const Matrix<RowMajor>& A, 
-									const Matrix<RowMajor>& B,
+									const Matrix<ColMajor>& B,
 									const Matrix<RowMajor>& bias);
