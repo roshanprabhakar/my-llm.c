@@ -681,15 +681,15 @@ void matmul_forward_correct(float* out,
 #endif
 
 void matmul_forward(
-		float *out, float const *x, float const *param, float const *bias,
+		float *out, const float *x, const float *param, const float *bias,
 		int B, int T, int C, int OC) {
 
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
-	Matrix<RowMajor> mat_A(B*T, C, x);
-	Matrix<ColMajor> mat_B(C, OC, param);
-	Matrix<RowMajor> mat_bias(1, OC, bias);
+	Matrix<RowMajor> mat_A(B*T, C, (float)x);
+	Matrix<ColMajor> mat_B(C, OC, (float)param);
+	Matrix<RowMajor> mat_bias(1, OC, (float)bias);
 	Matrix<RowMajor> mat_C(B*T, OC, out);
 
 	mul(mat_C, mat_A, mat_B, mat_bias);
