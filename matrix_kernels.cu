@@ -49,15 +49,9 @@ void mul(Matrix<OutPolicy>& out,
 	cudaCheck(cudaGetLastError());
 }
 
-// Explicit template instantiations for common use cases
-template void mul<RowMajor, RowMajor, RowMajor, RowMajor>(
+// Explicit instantiation for the expected data ordering.
+template void mul<RowMajor, RowMajor, ColMajor, RowMajor>(
 	Matrix<RowMajor>& out, 
 	const Matrix<RowMajor>& A,
 	const Matrix<RowMajor>& B,
 	const Matrix<RowMajor>& bias);
-
-template void mul<ColMajor, ColMajor, ColMajor, ColMajor>(
-	Matrix<ColMajor>& out, 
-	const Matrix<ColMajor>& A,
-	const Matrix<ColMajor>& B,
-	const Matrix<ColMajor>& bias);
