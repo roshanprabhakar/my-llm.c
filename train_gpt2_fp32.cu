@@ -697,6 +697,18 @@ void matmul_forward(
 	float *bias_ptr = mat_bias.getHostCopy();
 	float *out_ptr = mat_C.getHostCopy();
 
+	for (int row = 0; row < B*C; ++row) {
+		for (int col = 0; col < OC; ++col) {
+			float diff = bias_ptr[col] - out_ptr[row * OC + col];
+			if (diff > 1e-9) {
+				printf("Diff between exected and actual not small enough, diff = %f.\n", diff);
+				free(bias_ptr);
+				free(out_ptr);
+				return;
+			}
+		}
+	}
+
 	printf("-------------------\n");
 	for (int i = 0; i < 10; ++i) {
 		printf("[bias: %f, out: %f] ", bias_ptr[i], out_ptr[i]);
