@@ -701,7 +701,8 @@ void matmul_forward(
 		for (int col = 0; col < OC; ++col) {
 			float diff = bias_ptr[col] - out_ptr[row * OC + col];
 			if (diff > 1e-9) {
-				printf("Diff between exected and actual not small enough, diff = %f.\n", diff);
+				printf("Mismatch for row %d, col %d of %f. B(%d), T(%d), C(%d), OC(%d).\n",
+						row, col, diff, B, T, C, OC);
 				free(bias_ptr);
 				free(out_ptr);
 				return;
