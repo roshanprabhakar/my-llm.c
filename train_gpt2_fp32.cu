@@ -694,8 +694,8 @@ void matmul_forward(
 
 	mul(mat_C, mat_A, mat_B, mat_bias);
 
-	nn_real *bias_ptr = mat_bias.getHostCopy();
-	nn_real *out_ptr = mat_C.getHostCopy();
+	float *bias_ptr = mat_bias.getHostCopy();
+	float *out_ptr = mat_C.getHostCopy();
 
 	printf("-------------------\n");
 	for (int i = 0; i < 10; ++i) {
