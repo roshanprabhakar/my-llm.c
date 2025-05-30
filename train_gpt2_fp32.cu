@@ -705,35 +705,22 @@ void matmul_forward(
 	dim3 gridDim(CEIL_DIV(X.cols(), sqrt_block_size), CEIL_DIV(X.rows(), sqrt_block_size));
 	matcpy<<<gridDim, blockDim>>>(X, O);
 
-	free(h_x);
-	cudaFree(d_o);
-
-#if 0
-	float *dst_d
-	cudaCheck(cudaMalloc((void **)&x_cpy, B*T*C*sizeof(float)));
-	cudaMemcpy(x_cpy, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
-
-	Matrix<RowMajor> mat_A(B*T, C, (float *)x);
-
-	float *A_cpy;
-	cudaCheck(cudaMalloc((void **)&A_cpy, mat_A.size() * sizeof(float)));
-	Matrix<RowMajor> mat_out(B*T, C, A_cpy);
-
-	int sqrt_block_size = 16;
-	dim3 blockDim(sqrt_block_size, sqrt_block_size);
-	dim3 gridDim(CEIL_DIV(mat_A.cols(), sqrt_block_size), CEIL_DIV(mat_A.rows(), sqrt_block_size));
-	matcpy<<<gridDim, blockDim>>>(mat_A, mat_out);
-	float *A_cpy_host = mat_out.getHostCopy();
+	float *h_o = reinterpret_cast<float *>(malloc(B*T*C*sizeof(float)));
+	cudaMemcpy(h_o, d_o, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
 
 	for (int i = 0; i < B*T*C; ++i) {
-		if (x_cpy[i] != A_cpy_host[i]) {
+		if (h_o[i] != h_x[i]) {
 			int r = i / (B*T);
 			int c = i % (B*T);
 			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
-					i, r, c, A_cpy_host[i], x[i]);
+					i, r, c, h_o[i], h_x[i]);
 		}
 	}
-#endif
+
+	free(h_o);
+	free(h_x);
+	cudaFree(d_o);
+
 	printf("Exited matmul_forward\n");
 
 #if 0
