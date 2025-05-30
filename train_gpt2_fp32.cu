@@ -709,7 +709,7 @@ void matmul_forward(
 	cudaMemcpy(h_o, d_o, OC*C*sizeof(float), cudaMemcpyDeviceToHost);
 
 	for (int i = 0; i < B*T*C; ++i) {
-		if (h_o[i] != h_x[i]) {
+		if (h_o[i] != h_param[i]) {
 			int r = i / (B*T);
 			int c = i % (B*T);
 			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
@@ -720,7 +720,7 @@ void matmul_forward(
 	}
 
 	free(h_o);
-	free(h_x);
+	free(h_param);
 	cudaFree(d_o);
 
 	printf("Exited matmul_forward\n");
