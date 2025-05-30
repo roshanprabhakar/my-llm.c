@@ -691,7 +691,7 @@ void matmul_forward(
 	cudaCheck(cudaMalloc((void **)&x_cpy, B*T*C*sizeof(float)));
 	cudaMemcpy(x_cpy, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
 
-	Matrix<RowMajor> mat_A(B*T, C, reinterpret_cast<float *>(x));
+	Matrix<RowMajor> mat_A(B*T, C, (float *)x);
 
 	float *A_cpy;
 	cudaCheck(cudaMalloc((void **)&A_cpy, mat_A.size() * sizeof(float)));
