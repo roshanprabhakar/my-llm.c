@@ -689,24 +689,24 @@ void matmul_forward(
 
 	printf("Entered matmul_forward\n");
 
-	float *h_x = reinterpret_cast<float *>(malloc(B*T*C*sizeof(float)));
-	cudaMemcpy(h_x, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
+	float *h_param = reinterpret_cast<float *>(malloc(OC*C*sizeof(float)));
+	cudaMemcpy(h_param, param, OC*C*sizeof(float), cudaMemcpyDeviceToHost);
 
-	Matrix<RowMajor> X(B*T, C, (float *)x);
+	Matrix<ColMajor> P(C, OC, (float *)param);
 
 	float *d_o;
-	cudaCheck(cudaMalloc((void **)&d_o, B*T*C*sizeof(float)));
-	cudaCheck(cudaMemset(d_o, 0, B*T*C*sizeof(float)));
+	cudaCheck(cudaMalloc((void **)&d_o, OC*C*sizeof(float)));
+	cudaCheck(cudaMemset(d_o, 0, OC*C*sizeof(float)));
 
-	Matrix<RowMajor> O(B*T, C, (float *)d_o);
+	Matrix<ColMajor> O(C, OC, (float *)d_o);
 
 	int sqrt_block_size = 16;
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
-	dim3 gridDim(CEIL_DIV(X.cols(), sqrt_block_size), CEIL_DIV(X.rows(), sqrt_block_size));
-	matcpy<<<gridDim, blockDim>>>(X, O);
+	dim3 gridDim(CEIL_DIV(P.cols(), sqrt_block_size), CEIL_DIV(P.rows(), sqrt_block_size));
+	matcpy<<<gridDim, blockDim>>>(P, O);
 
-	float *h_o = reinterpret_cast<float *>(malloc(B*T*C*sizeof(float)));
-	cudaMemcpy(h_o, d_o, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
+	float *h_o = reinterpret_cast<float *>(malloc(OC*C*sizeof(float)));
+	cudaMemcpy(h_o, d_o, OC*C*sizeof(float), cudaMemcpyDeviceToHost);
 
 	for (int i = 0; i < B*T*C; ++i) {
 		if (h_o[i] != h_x[i]) {
