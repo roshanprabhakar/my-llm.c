@@ -720,8 +720,8 @@ void matmul_forward(
 		if (h_o[i] != h_param[i]) {
 			int r = i / (B*T);
 			int c = i % (B*T);
-			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
-					i, r, c, h_o[i], h_param[i]);
+			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f, OC(%d), C(%d).\n",
+					i, r, c, h_o[i], h_param[i], OC, C);
 
 			for (volatile int j = 0; j < 100000000; ++j);
 		}
