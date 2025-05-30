@@ -696,9 +696,9 @@ void matmul_forward(
 
 	float *d_o;
 	cudaCheck(cudaMalloc((void **)&d_o, B*T*C*sizeof(float)));
-	cudaMemset(d_o, 0, B*T*C*sizeof(float));
+	cudaCheck(cudaMemset(d_o, 0, B*T*C*sizeof(float)));
 
-	Matrix<RowMajor> O(B*T, C, (float *)x);
+	Matrix<RowMajor> O(B*T, C, (float *)d_o);
 
 	int sqrt_block_size = 16;
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
@@ -715,8 +715,7 @@ void matmul_forward(
 			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
 					i, r, c, h_o[i], h_x[i]);
 
-			volatile int tmp = 0;
-			for (int j = 0; j < 100000000; ++j) { ++tmp; }
+			// for (volatile int j = 0; j < 100000000; ++j);
 		}
 	}
 
