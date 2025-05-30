@@ -716,7 +716,7 @@ void matmul_forward(
 					i, r, c, h_o[i], h_x[i]);
 
 			volatile int tmp = 0;
-			for (int j = 0; j < 100000; ++j) { ++tmp; }
+			for (int j = 0; j < 100000000; ++j) { ++tmp; }
 		}
 	}
 
