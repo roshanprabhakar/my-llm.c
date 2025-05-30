@@ -688,6 +688,7 @@ void matmul_forward(
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
 	printf("Entered matmul_forward\n");
+#if 0
 	float *x_cpy;
 	cudaCheck(cudaMalloc((void **)&x_cpy, B*T*C*sizeof(float)));
 	cudaMemcpy(x_cpy, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
@@ -712,6 +713,7 @@ void matmul_forward(
 					i, r, c, A_cpy_host[i], x[i]);
 		}
 	}
+#endif
 	printf("Exited matmul_forward\n");
 
 #if 0
