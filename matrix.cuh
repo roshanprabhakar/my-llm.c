@@ -98,8 +98,14 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 #endif
 
 template <typename MPolicy, typename OutPolicy>
-__global__ void matcpy(Matrix<MPolicy> M, Matrix<OutPolicy> Out) {
+__global__ void matcpy(Matrix<MPolicy> m, Matrix<OutPolicy> out) {
 
+	int row = blockIdx.y * blockDim.y + threadIdx.y;
+	int col = blockIdx.x * blockDim.x + threadIdx.x;
+
+	if (row < out.rows() && col < out.cols() && row < m.rows() && col < m.cols()) {
+		out(row, col) = m(row, col)
+	}
 
 }
 
