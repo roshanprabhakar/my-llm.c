@@ -101,12 +101,12 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 template <typename MPolicy, typename OutPolicy>
 __global__ void matcpy(Matrix<MPolicy> m, Matrix<OutPolicy> out) {
 
-	int tile_width = 8;
-	int tile_x = 8 * (blockIdx.x * blockDim.x + threadIdx.x);
-	int tile_y = 8 * (blockIdx.y * blockDim.y + threadIdx.y);
+	const int tile_width = 8;
+	int tile_x = tile_width * (blockIdx.x * blockDim.x + threadIdx.x);
+	int tile_y = tile_width * (blockIdx.y * blockDim.y + threadIdx.y);
 	
-	int num_cols = min(8, m.cols() - tile_x);
-	int num_rows = min(8, m.rows() - tile_y);
+	int num_cols = min(tile_width, m.cols() - tile_x);
+	int num_rows = min(tile_width, m.rows() - tile_y);
 
 	Matrix<MPolicy> m_tile = m.getSubMatrix(tile_y, tile_x, num_rows, num_cols);
 
