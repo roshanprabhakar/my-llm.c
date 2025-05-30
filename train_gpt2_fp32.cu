@@ -703,7 +703,7 @@ void matmul_forward(
 
 	int sqrt_block_size = 16;
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
-	dim3 gridDim(CEIL_DIV(mat_A.cols(), sqrt_block_size), CEIL_DIV(mat_A.rows(), sqrt_block_size));
+	dim3 gridDim(CEIL_DIV(X.cols(), sqrt_block_size), CEIL_DIV(X.rows(), sqrt_block_size));
 	matcpy<<<gridDim, blockDim>>>(X, O);
 
 
