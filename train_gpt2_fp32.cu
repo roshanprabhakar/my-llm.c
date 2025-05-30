@@ -687,6 +687,7 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
+	printf("Entered matmul_forward\n");
 	float *x_cpy;
 	cudaCheck(cudaMalloc((void **)&x_cpy, B*T*C*sizeof(float)));
 	cudaMemcpy(x_cpy, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
@@ -711,6 +712,7 @@ void matmul_forward(
 					i, r, c, A_cpy_host[i], x[i]);
 		}
 	}
+	printf("Exited matmul_forward\n");
 
 #if 0
 	Matrix<RowMajor> mat_A(B*T, C, reinterpret_cast<float *>(x));
