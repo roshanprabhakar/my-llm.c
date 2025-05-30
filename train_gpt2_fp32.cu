@@ -687,6 +687,34 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
+	float *x_cpy;
+	cudaCheck(cudaMalloc((void **)&x_cpy, B*T*C*sizeof(float)));
+	cudaMemcpy(x_cpy, x, cudaMemcpyDeviceToHost);
+
+	Matrix<RowMajor> mat_A(B*T, C, reinterpret_cast<float *>(x));
+
+	float *A_cpy;
+	cudaCheck(cudaMalloc((void **)&A_cpy, mat_A.size() * sizeof(float)));
+	Matrix<RowMajor> mat_out(B*T, C, A_cpy);
+
+	int sqrt_block_size = 16;
+	dim3 blockDim(sqrt_block_size, sqrt_block_size);
+	dim3 gridDim(CEIL_DIV(A.cols(), sqrt_block_size), CEIL_DIV(A.rows(), sqrt_block_size));
+	matcpy<<<gridDim, blockDim>>>(mat_A, A_cpy);
+	float *A_cpy_host = A_cpy.getHostCopy();
+
+	for (int i = 0; i < B*T*C; ++i) {
+		if (x_cpy[i] != A_cpy_host[i]) {
+			int r = i / (B*T);
+			int c = i % (B*T);
+			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
+					i, r, c, A_cpy_host[i], x[i]);
+		}
+	}
+
+#if 0
+	Matrix<RowMajor> mat_A(B*T, C, reinterpret_cast<float *>(x));
+
 	Matrix<RowMajor> mat_A(B*T, C, (float *)x);
 	Matrix<ColMajor> mat_B(C, OC, (float *)param);
 	Matrix<RowMajor> mat_bias(1, OC, (float *)bias);
@@ -723,6 +751,7 @@ void matmul_forward(
 	// Copy bias to host
 	// Copy row i from output to host
 	// Make sure they are the same
+#endif
 
 }
 

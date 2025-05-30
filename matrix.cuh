@@ -31,7 +31,7 @@ class Matrix {
 		__host__ __device__ Matrix(int rows, int cols, float *data, int stride)
 			: rows_(rows), cols_(cols), size_(rows*cols), stride_(stride), d_data_(data)  { }
 
-		__host__ __device__ int size(void) const { return rows_ * cols_; }
+		__host__ __device__ int size(void) const { return size_; }
 		__host__ __device__ int rows(void) const { return rows_; }
 		__host__ __device__ int cols(void) const { return cols_; }
 		__host__ __device__ int stride(void) const { return stride_; }
@@ -42,7 +42,7 @@ class Matrix {
 			return d_data_[OrderPolicy::index(row, col, this->stride())];
 		}
 
-		__device__ float operator()(int row, int col) const {
+		__device__ float &operator()(int row, int col) const {
 			return d_data_[OrderPolicy::index(row, col, this->stride())];
 		}
 
@@ -96,6 +96,12 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 	}
 }
 #endif
+
+template <typename MPolicy, typename OutPolicy>
+__global__ void matcpy(Matrix<MPolicy> M, Matrix<OutPolicy> Out) {
+
+
+}
 
 template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
 __global__ void matmul_forward_kernel(
