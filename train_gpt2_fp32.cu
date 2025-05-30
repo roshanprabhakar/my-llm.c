@@ -714,6 +714,9 @@ void matmul_forward(
 			int c = i % (B*T);
 			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
 					i, r, c, h_o[i], h_x[i]);
+
+			volatile int tmp = 0;
+			for (int j = 0; j < 100000; ++j) { ++tmp; }
 		}
 	}
 
