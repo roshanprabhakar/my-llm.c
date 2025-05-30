@@ -687,6 +687,14 @@ void matmul_forward(
   // out is (B,T,OC). OC is short for "output channels", e.g. OC = 4 * C
   // inp is (B,T,C), weight is (OC, C), bias is (OC)
 
+	// Create CUDA events for timing
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	
+	// Record the start time
+	cudaEventRecord(start, 0);
+
 	printf("Entered matmul_forward\n");
 
 	float *h_param = reinterpret_cast<float *>(malloc(OC*C*sizeof(float)));
@@ -723,7 +731,19 @@ void matmul_forward(
 	free(h_param);
 	cudaFree(d_o);
 
+	// Record the end time and calculate elapsed time
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	
+	float milliseconds = 0;
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	
+	printf("matmul_forward execution time: %.3f ms\n", milliseconds);
 	printf("Exited matmul_forward\n");
+	
+	// Clean up events
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
 
 #if 0
 	Matrix<RowMajor> mat_A(B*T, C, reinterpret_cast<float *>(x));
