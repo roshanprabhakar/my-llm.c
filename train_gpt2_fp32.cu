@@ -710,7 +710,7 @@ void matmul_forward(
 
 	int sqrt_block_size = 16;
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
-	dim3 gridDim(CEIL_DIV(P.cols(), sqrt_block_size), CEIL_DIV(P.rows(), sqrt_block_size));
+	dim3 gridDim(CEIL_DIV(P.cols(), 8*sqrt_block_size), CEIL_DIV(P.rows(), 8*sqrt_block_size));
 	matcpy<<<gridDim, blockDim>>>(P, O);
 
 	float *h_o = reinterpret_cast<float *>(malloc(OC*C*sizeof(float)));
