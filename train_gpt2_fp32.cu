@@ -689,8 +689,7 @@ void matmul_forward(
 
 	printf("Entered matmul_forward\n");
 
-	float *h_x;
-	cudaCheck(cudaMalloc((void **)&h_x, B*T*C*sizeof(float)));
+	float *h_x = reinterpret_cast<float *>(malloc(B*T*C*sizeof(float)));
 	cudaMemcpy(h_x, x, B*T*C*sizeof(float), cudaMemcpyDeviceToHost);
 
 	Matrix<RowMajor> X(B*T, C, (float *)x);
@@ -706,6 +705,8 @@ void matmul_forward(
 	dim3 gridDim(CEIL_DIV(X.cols(), sqrt_block_size), CEIL_DIV(X.rows(), sqrt_block_size));
 	matcpy<<<gridDim, blockDim>>>(X, O);
 
+	free(h_x);
+	cudaFree(d_o);
 
 #if 0
 	float *dst_d
