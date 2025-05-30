@@ -696,8 +696,8 @@ void matmul_forward(
 	Matrix<RowMajor> X(B*T, C, (float *)x);
 
 	float *d_o;
-	cudaCheck(cudaMalloc((void **)&d_x_cpy, B*T*C*sizeof(float)));
-	cudaMemset(d_x_cpy, 0, B*T*C*sizeof(float));
+	cudaCheck(cudaMalloc((void **)&d_o, B*T*C*sizeof(float)));
+	cudaMemset(d_o, 0, B*T*C*sizeof(float));
 
 	Matrix<RowMajor> O(B*T, C, (float *)x);
 
