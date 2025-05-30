@@ -708,7 +708,7 @@ void matmul_forward(
 	float *h_o = reinterpret_cast<float *>(malloc(OC*C*sizeof(float)));
 	cudaMemcpy(h_o, d_o, OC*C*sizeof(float), cudaMemcpyDeviceToHost);
 
-	for (int i = 0; i < B*T*C; ++i) {
+	for (int i = 0; i < OC*C; ++i) {
 		if (h_o[i] != h_param[i]) {
 			int r = i / (B*T);
 			int c = i % (B*T);
