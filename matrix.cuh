@@ -108,7 +108,7 @@ __global__ void matcpy(Matrix<MPolicy> m, Matrix<OutPolicy> out) {
 	int num_cols = min(8, m.cols() - tile_x);
 	int num_rows = min(8, m.rows() - tile_y);
 
-	Matrix<MPolicy> m_tile = m.getSubMatrix(tile_y, tile_x, num_pixels_y, num_pixels_x);
+	Matrix<MPolicy> m_tile = m.getSubMatrix(tile_y, tile_x, num_rows, num_cols);
 
 	for (int r = 0; r < m_tile.rows(); ++r) {
 		for (int c = 0; c < m_tile.cols(); ++c) {
