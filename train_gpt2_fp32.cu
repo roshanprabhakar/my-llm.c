@@ -723,7 +723,7 @@ void matmul_forward(
 			printf("mistmatch @i = %d, r = %d, c = %d, got %f, expected %f.\n",
 					i, r, c, h_o[i], h_param[i]);
 
-			// for (volatile int j = 0; j < 100000000; ++j);
+			for (volatile int j = 0; j < 100000000; ++j);
 		}
 	}
 
