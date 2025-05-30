@@ -699,7 +699,7 @@ void matmul_forward(
 
 	int sqrt_block_size = 16;
 	dim3 blockDim(sqrt_block_size, sqrt_block_size);
-	dim3 gridDim(CEIL_DIV(A.cols(), sqrt_block_size), CEIL_DIV(A.rows(), sqrt_block_size));
+	dim3 gridDim(CEIL_DIV(mat_A.cols(), sqrt_block_size), CEIL_DIV(mat_A.rows(), sqrt_block_size));
 	matcpy<<<gridDim, blockDim>>>(mat_A, mat_out);
 	float *A_cpy_host = mat_out.getHostCopy();
 
