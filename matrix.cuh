@@ -60,6 +60,17 @@ class Matrix {
 			cudaMemcpy(ptr, this->d_data_, this->size() * sizeof(float), cudaMemcpyDeviceToHost);
 			return ptr;
 		}
+
+		// Loads a float4 from continuous memory: a row vector if the matrix is row order, 
+		// a column vector otherwise.
+		__device__ float4 &getVector(int r, int c) {
+			return *reinterpret_cast<float4 *>(this->operator()(r, c));
+		}
+
+		// Stores a float4 into continuous memory.
+		__device__ void setVector(int r, int c, float4 v) {
+			*reinterpret_cast<float4 *>(this->operator()(r, c)) = v;
+		}
 };
 
 
@@ -98,43 +109,31 @@ __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel(
 #endif
 
 
-template <typename MPolicy, typename OutPolicy>
-__global__ void matcpy(Matrix<MPolicy> m, Matrix<OutPolicy> out) {
+template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
+__global__ void matcpy(Matrix<OutPolicy> out,
+											 Matrix<APolicy> A,
+											 Matrix<BPolicy> B,
+											 Matrix<BiasPolicy> bias) {
 
-	const int tile_width = 8;
-	int tile_x = tile_width * (blockIdx.x * blockDim.x + threadIdx.x);
-	int tile_y = tile_width * (blockIdx.y * blockDim.y + threadIdx.y);
-	
-	int num_cols = min(tile_width, m.cols() - tile_x);
-	int num_rows = min(tile_width, m.rows() - tile_y);
+	Matrix<APolicy> A_reg = A.getSubMatrix(128 * blockIdx.y, 0, 128, A.cols());
+	Matrix<BPolicy> B_reg = B.getSubMatrix(0, 128 * blockIdx.x, B.rows(), 128);
+	Matrix<OutPolicy> out_reg = out.getSubMatrix(128 * blockIdx.y, 128 * blockIdx.x, 128, 128);
 
-	Matrix<MPolicy> m_tile = m.getSubMatrix(tile_y, tile_x, num_rows, num_cols);
+	int oc = 8 * (blockIdx.x * blockDim.x + threadIdx.x);
 
-	for (int r = 0; r < m_tile.rows(); ++r) {
-		for (int c = 0; c < m_tile.cols(); ++c) {
-			out(tile_y + r, tile_x + c) = m_tile(r, c);
+	float vals[8][8];
+	if (bias.data() != NULL) {
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 0; j < 8; j += 4) {
+				*reinterpret_cast<float4 *>(&vals[i][j]) = bias.getVector(0, oc);
+			}
 		}
 	}
-}
 
-
-
-template <typename OutPolicy, typename APolicy, typename BPolicy, typename BiasPolicy>
-__global__ void matmul_forward_kernel(
-		Matrix<OutPolicy> out,
-		const Matrix<APolicy> A,
-		const Matrix<BPolicy> B,
-		const Matrix<BiasPolicy> bias) {
-
-	for (int r = 0; r < 8; ++r) {
-		for (int c = 0; c < 8; ++c) {
-			int y = (blockIdx.y * blockDim.y + threadIdx.y) * 8 + r;
-			int x = (blockIdx.x * blockDim.x + threadIdx.x) * 8 + c;
-
-			if (y < out.rows() && x < out.cols()) {
-				out.data()[y * out.cols() + x] = bias.data()[x];
-				// out(y, x) = bias(1, x);
-			}
+	for (int i = 0; i < 8; ++i) {
+		for (int j = 0; j < 8; j += 4) {
+			out_reg.getVector(8 * threadIdx.y + i, 8 * threadIdx.x + j) = 
+				*reinterpret_cast<float4 *>(&vals[i][j]);
 		}
 	}
 }
