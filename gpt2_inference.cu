@@ -1,6 +1,8 @@
 #define TESTING
 #include "train_gpt2_fp32.cu"
 
+#include <stdexcept>
+
 #include <string.h>
 
 // Let's write an inference server for gpt2_small using the kernels already included in this
