@@ -49,9 +49,9 @@ int main(int argc, char const **argv) {
 	// int C = model.config.channels;
 	int B = 1;
 	int T = 1024; // Maximum sequence length for gpt2_small.
-	int V = model.config.vocab_size;
-	int Vp = model.config.padded_vocab_size;
-	int maxT = model.config.max_seq_len;
+	// int V = model.config.vocab_size;
+	// int Vp = model.config.padded_vocab_size;
+	// int maxT = model.config.max_seq_len;
 	// int L = model.config.num_layers;
 
 	// Input tokens to feed the model.
@@ -59,9 +59,6 @@ int main(int argc, char const **argv) {
 
 	// Host memory to hold logits.
 	float *cpu_logits = reinterpret_cast<float *>(mallocCheck(B * T * Vp * sizeof(float)));
-
-	cudaCheck(cudaMemcpy(cpu_logits, model.acts.output, B * T * Vp * sizeof(float), cudaMemcpyDeviceToHost));
-#if 0
 
 	for (int i = 0; i < B * T; ++i) { gen_tokens[i] = GPT2_EOT; }
 	for (int t = 1; t < num_tokens; ++t) {
@@ -92,6 +89,5 @@ int main(int argc, char const **argv) {
 	}
 
 	return 0;
-#endif
 }
 
