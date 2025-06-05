@@ -54,9 +54,13 @@ int main(int argc, char const **argv) {
 	int maxT = model.config.max_seq_len;
 	// int L = model.config.num_layers;
 
-	// Some memory for generating samples from the model.
+	// Input tokens to feed the model.
 	int *gen_tokens = reinterpret_cast<int *>(mallocCheck(B * T * sizeof(int)));
+
+	// Host memory to hold logits.
 	float *cpu_logits = reinterpret_cast<float *>(mallocCheck(B * T * Vp * sizeof(float)));
+
+#if 0
 	cudaCheck(cudaMemcpy(cpu_logits, model.acts.output, B * T * Vp * sizeof(float), cudaMemcpyDeviceToHost));
 
 	for (int i = 0; i < B * T; ++i) { gen_tokens[i] = GPT2_EOT; }
@@ -88,4 +92,6 @@ int main(int argc, char const **argv) {
 	}
 
 	return 0;
+#endif
 }
+
