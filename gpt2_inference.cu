@@ -77,7 +77,7 @@ int main(int argc, char const **argv) {
 	}	
 
 	// Print the generated sequence.
-	int eot_cound = 0;
+	int eot_count = 0;
 	for (int i = 0; i < B && eot_count < 2; ++i) {
 		for (int t = 0; t < T && eot_count < 2; ++t) {
 			if (gen_tokens[T * i + t] == GPT2_EOT) { eot_count++; }
