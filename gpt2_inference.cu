@@ -60,8 +60,8 @@ int main(int argc, char const **argv) {
 	// Host memory to hold logits.
 	float *cpu_logits = reinterpret_cast<float *>(mallocCheck(B * T * Vp * sizeof(float)));
 
-#if 0
 	cudaCheck(cudaMemcpy(cpu_logits, model.acts.output, B * T * Vp * sizeof(float), cudaMemcpyDeviceToHost));
+#if 0
 
 	for (int i = 0; i < B * T; ++i) { gen_tokens[i] = GPT2_EOT; }
 	for (int t = 1; t < num_tokens; ++t) {

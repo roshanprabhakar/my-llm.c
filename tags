@@ -9,23 +9,23 @@ AMPERE_CONSUMER	llmc/mfu.h	/^static const PerfData AMPERE_CONSUMER = {40.f, 80.f
 AMPERE_DATACENTER	llmc/mfu.h	/^static const PerfData AMPERE_DATACENTER = {156.f, 312.f, 312.f, 312.f, -1.f, -1.f, 1410.f, 432.f};$/;"	v
 APP_NAME	dev/cuda/benchmark_on_modal.py	/^APP_NAME = "llm.c benchmark run"$/;"	v
 ASSUMED_NUM_COMPLETIONS	llmc/dataloader.h	/^#define ASSUMED_NUM_COMPLETIONS /;"	d
-ActivationTensors	train_gpt2.c	/^} ActivationTensors;$/;"	t	typeref:struct:__anon12	file:
+ActivationTensors	alternatives/train_gpt2.c	/^} ActivationTensors;$/;"	t	typeref:struct:__anon12	file:
 Attn_scale_UID	llmc/cudnn_att.cpp	/^    Attn_scale_UID,$/;"	e	enum:UIDs	file:
+AutoModelForCausalLM	alternatives/train_llama3.py	/^        from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
 AutoModelForCausalLM	dev/eval/export_hf.py	/^    from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
-AutoModelForCausalLM	train_llama3.py	/^        from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
+AutoTokenizer	alternatives/train_llama3.py	/^        from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
 AutoTokenizer	dev/data/fineweb.py	/^from transformers import AutoTokenizer$/;"	i
 AutoTokenizer	dev/data/tinyshakespeare.py	/^from transformers import AutoTokenizer$/;"	i
 AutoTokenizer	dev/data/tinystories.py	/^from transformers import AutoTokenizer$/;"	i
 AutoTokenizer	dev/eval/export_hf.py	/^    from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
-AutoTokenizer	train_llama3.py	/^        from transformers import AutoModelForCausalLM, AutoTokenizer$/;"	i
 B	doc/layernorm/layernorm.py	/^B = 2$/;"	v
 B	llmc/dataloader.h	/^    size_t B; \/\/ (micro) batch size dimension of the tensor that feeds into the model$/;"	m	struct:__anon6
 B	llmc/dataloader.h	/^    size_t B;$/;"	m	struct:__anon5
 BF_16_32	llmc/mfu.h	/^    float BF_16_32;    \/\/ bf16 with 32 bit accumulate$/;"	m	struct:__anon1
 BUILD_DIR	Makefile	/^BUILD_DIR = build$/;"	m
 BUILD_DIR	dev/test/Makefile	/^BUILD_DIR = build$/;"	m
-Block	train_gpt2.py	/^class Block(nn.Module):$/;"	c
-Block	train_llama3.py	/^class Block(nn.Module):$/;"	c
+Block	alternatives/train_gpt2.py	/^class Block(nn.Module):$/;"	c
+Block	alternatives/train_llama3.py	/^class Block(nn.Module):$/;"	c
 C	doc/layernorm/layernorm.py	/^C = 4$/;"	v
 CC	Makefile	/^  CC := cl$/;"	m
 CC	Makefile	/^CC ?= clang$/;"	m
@@ -65,28 +65,28 @@ CUDNN_FRONTEND_PATH	Makefile	/^      CUDNN_FRONTEND_PATH ?= cudnn-frontend\/incl
 CUDNN_FRONTEND_PATH	dev/test/Makefile	/^    CUDNN_FRONTEND_PATH ?= $(HOME)\/cudnn-frontend\/include$/;"	m
 CUDNN_FRONTEND_PATH	dev/test/Makefile	/^    CUDNN_FRONTEND_PATH ?= cudnn-frontend\/include$/;"	m
 CUDNN_INCLUDE_PATH	Makefile	/^      CUDNN_INCLUDE_PATH ?= -I"C:\\Program Files\\NVIDIA\\CUDNN\\v9.1\\include\\12.4"$/;"	m
-CausalSelfAttention	train_gpt2.py	/^class CausalSelfAttention(nn.Module):$/;"	c
-CausalSelfAttention	train_llama3.py	/^class CausalSelfAttention(nn.Module):$/;"	c
+CausalSelfAttention	alternatives/train_gpt2.py	/^class CausalSelfAttention(nn.Module):$/;"	c
+CausalSelfAttention	alternatives/train_llama3.py	/^class CausalSelfAttention(nn.Module):$/;"	c
 DATALOADER_H	llmc/dataloader.h	/^#define DATALOADER_H$/;"	d
 DATA_CACHE_DIR	dev/data/fineweb.py	/^DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), local_dir)$/;"	v
 DATA_CACHE_DIR	dev/data/hellaswag.py	/^DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), "hellaswag")$/;"	v
 DATA_CACHE_DIR	dev/data/mmlu.py	/^DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), "mmlu")$/;"	v
 DATA_CACHE_DIR	dev/data/tinyshakespeare.py	/^DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), "tinyshakespeare")$/;"	v
 DATA_CACHE_DIR	dev/data/tinystories.py	/^DATA_CACHE_DIR = os.path.join(os.path.dirname(__file__), "tinystories")$/;"	v
-DDP	train_gpt2.py	/^from torch.nn.parallel import DistributedDataParallel as DDP$/;"	i
-DDP	train_llama3.py	/^from torch.nn.parallel import DistributedDataParallel as DDP$/;"	i
+DDP	alternatives/train_gpt2.py	/^from torch.nn.parallel import DistributedDataParallel as DDP$/;"	i
+DDP	alternatives/train_llama3.py	/^from torch.nn.parallel import DistributedDataParallel as DDP$/;"	i
 DIR	dev/unistd.h	/^typedef struct DIR {$/;"	s
 DIR	dev/unistd.h	/^} DIR;$/;"	t	typeref:struct:DIR
 DataLoader	llmc/dataloader.h	/^} DataLoader;$/;"	t	typeref:struct:__anon5
-DistributedDataLoader	train_gpt2.py	/^class DistributedDataLoader:$/;"	c
-DistributedShardedDataLoader	train_llama3.py	/^class DistributedShardedDataLoader:$/;"	c
+DistributedDataLoader	alternatives/train_gpt2.py	/^class DistributedDataLoader:$/;"	c
+DistributedShardedDataLoader	alternatives/train_llama3.py	/^class DistributedShardedDataLoader:$/;"	c
 EPSILONE	llmc/rand.h	/^    #define EPSILONE /;"	d
 EvalLoader	llmc/dataloader.h	/^} EvalLoader;$/;"	t	typeref:struct:__anon6
+F	alternatives/train_gpt2.py	/^from torch.nn import functional as F$/;"	i
+F	alternatives/train_llama3.py	/^from torch.nn import functional as F$/;"	i
 F	dev/data/hellaswag.py	/^from torch.nn import functional as F$/;"	i
 F	dev/data/mmlu.py	/^from torch.nn import functional as F$/;"	i
-F	train_gpt2.py	/^from torch.nn import functional as F$/;"	i
-F	train_llama3.py	/^from torch.nn import functional as F$/;"	i
-FLASH	train_gpt2.py	/^FLASH = 0$/;"	v
+FLASH	alternatives/train_gpt2.py	/^FLASH = 0$/;"	v
 FORCE_NVCC_O	Makefile	/^FORCE_NVCC_O ?= 3$/;"	m
 FP_16_16	llmc/mfu.h	/^    float FP_16_16;    \/\/ fp16 with 16 bit accumulate$/;"	m	struct:__anon1
 FP_16_32	llmc/mfu.h	/^    float FP_16_32;    \/\/ fp16 with 32 bit accumulate$/;"	m	struct:__anon1
@@ -94,17 +94,17 @@ FP_8_16	llmc/mfu.h	/^    float FP_8_16;$/;"	m	struct:__anon1
 FP_8_32	llmc/mfu.h	/^    float FP_8_32;     \/\/ and so on$/;"	m	struct:__anon1
 F_OK	dev/unistd.h	/^#define F_OK /;"	d
 False	llmc/cuda_common.h	/^constexpr std::bool_constant<true> False;$/;"	v
-GELU_SCALING_FACTOR	train_gpt2.c	/^#define GELU_SCALING_FACTOR /;"	d	file:
-GPT	train_gpt2.py	/^class GPT(nn.Module):$/;"	c
-GPT2	train_gpt2.c	/^} GPT2;$/;"	t	typeref:struct:__anon13	file:
+GELU_SCALING_FACTOR	alternatives/train_gpt2.c	/^#define GELU_SCALING_FACTOR /;"	d	file:
+GPT	alternatives/train_gpt2.py	/^class GPT(nn.Module):$/;"	c
+GPT2	alternatives/train_gpt2.c	/^} GPT2;$/;"	t	typeref:struct:__anon13	file:
+GPT2Config	alternatives/train_gpt2.c	/^} GPT2Config;$/;"	t	typeref:struct:__anon10	file:
 GPT2Config	dev/eval/export_hf.py	/^from transformers import GPT2Config, GPT2Tokenizer, GPT2LMHeadModel$/;"	i
-GPT2Config	train_gpt2.c	/^} GPT2Config;$/;"	t	typeref:struct:__anon10	file:
+GPT2LMHeadModel	alternatives/train_gpt2.py	/^        from transformers import GPT2LMHeadModel$/;"	i
 GPT2LMHeadModel	dev/data/hellaswag.py	/^from transformers import GPT2LMHeadModel$/;"	i
 GPT2LMHeadModel	dev/data/mmlu.py	/^from transformers import GPT2LMHeadModel$/;"	i
 GPT2LMHeadModel	dev/eval/export_hf.py	/^from transformers import GPT2Config, GPT2Tokenizer, GPT2LMHeadModel$/;"	i
-GPT2LMHeadModel	train_gpt2.py	/^        from transformers import GPT2LMHeadModel$/;"	i
 GPT2Tokenizer	dev/eval/export_hf.py	/^from transformers import GPT2Config, GPT2Tokenizer, GPT2LMHeadModel$/;"	i
-GPTConfig	train_gpt2.py	/^class GPTConfig:$/;"	c
+GPTConfig	alternatives/train_gpt2.py	/^class GPTConfig:$/;"	c
 GPUEntry	llmc/mfu.h	/^} GPUEntry;$/;"	t	typeref:struct:__anon2
 GPUUtilInfo	llmc/mfu.h	/^struct GPUUtilInfo {$/;"	s
 GPU_COMPUTE_CAPABILITY	Makefile	/^      GPU_COMPUTE_CAPABILITY := $(strip $(GPU_COMPUTE_CAPABILITY))$/;"	m
@@ -134,18 +134,18 @@ LDFLAGS	dev/test/Makefile	/^LDFLAGS =$/;"	m
 LDLIBS	Makefile	/^  LDLIBS :=$/;"	m
 LDLIBS	Makefile	/^LDLIBS = -lm$/;"	m
 LDLIBS	dev/test/Makefile	/^LDLIBS = -lm$/;"	m
-LLaMA	train_llama3.py	/^class LLaMA(nn.Module):$/;"	c
+LLaMA	alternatives/train_llama3.py	/^class LLaMA(nn.Module):$/;"	c
 LMASK	llmc/rand.h	/^#define LMASK /;"	d
 LOGGER_H	llmc/logger.h	/^#define LOGGER_H$/;"	d
 LOOP_UNROLL	dev/cpu/matmul_forward.c	/^    #define LOOP_UNROLL /;"	d	file:
 LayerNorm	doc/layernorm/layernorm.py	/^class LayerNorm:$/;"	c
 LearningRateScheduler	llmc/schedulers.h	/^} LearningRateScheduler;$/;"	t	typeref:struct:__anon7
-LlamaConfig	train_llama3.py	/^class LlamaConfig:$/;"	c
+LlamaConfig	alternatives/train_llama3.py	/^class LlamaConfig:$/;"	c
 Logger	llmc/logger.h	/^} Logger;$/;"	t	typeref:struct:__anon9
 MATRIX_A	llmc/rand.h	/^    unsigned int MATRIX_A[2];$/;"	m	struct:__anon8
 MAX_1024_THREADS_BLOCKS	dev/cuda/common.h	/^#define MAX_1024_THREADS_BLOCKS /;"	d
 MAX_1024_THREADS_BLOCKS	llmc/cuda_common.h	/^#define MAX_1024_THREADS_BLOCKS /;"	d
-MAX_NO_WHITESPACES_CHARS	train_llama3.py	/^MAX_NO_WHITESPACES_CHARS = 25_000$/;"	v
+MAX_NO_WHITESPACES_CHARS	alternatives/train_llama3.py	/^MAX_NO_WHITESPACES_CHARS = 25_000$/;"	v
 MAX_PATH_LENGTH	dev/unistd.h	/^#define MAX_PATH_LENGTH /;"	d
 MERSENNE_STATE_M	llmc/rand.h	/^#define MERSENNE_STATE_M /;"	d
 MERSENNE_STATE_N	llmc/rand.h	/^#define MERSENNE_STATE_N /;"	d
@@ -153,16 +153,16 @@ MFUH_PRECISION_BF16	llmc/mfu.h	/^#define MFUH_PRECISION_BF16 /;"	d
 MFUH_PRECISION_FP16	llmc/mfu.h	/^#define MFUH_PRECISION_FP16 /;"	d
 MFUH_PRECISION_FP32	llmc/mfu.h	/^#define MFUH_PRECISION_FP32 /;"	d
 MFU_H	llmc/mfu.h	/^#define MFU_H$/;"	d
-MLP	train_gpt2.py	/^class MLP(nn.Module):$/;"	c
-MLP	train_llama3.py	/^class MLP(nn.Module):$/;"	c
+MLP	alternatives/train_gpt2.py	/^class MLP(nn.Module):$/;"	c
+MLP	alternatives/train_llama3.py	/^class MLP(nn.Module):$/;"	c
 MPI_PATHS	dev/cuda/Makefile	/^MPI_PATHS = -I\/usr\/lib\/x86_64-linux-gnu\/openmpi\/include -L\/usr\/lib\/x86_64-linux-gnu\/openmpi\/lib\/$/;"	m
 NCLL_INCUDES	Makefile	/^NCLL_INCUDES =$/;"	m
 NCU	profile_gpt2cu.py	/^    NCU = "\/usr\/local\/cuda\/bin\/ncu"$/;"	v
 NCU	profile_gpt2cu.py	/^NCU = shutil.which("ncu")$/;"	v
 NOMINMAX	llmc/cudnn_att.cpp	/^#define NOMINMAX$/;"	d	file:
-NUM_ACTIVATION_TENSORS	train_gpt2.c	/^#define NUM_ACTIVATION_TENSORS /;"	d	file:
+NUM_ACTIVATION_TENSORS	alternatives/train_gpt2.c	/^#define NUM_ACTIVATION_TENSORS /;"	d	file:
 NUM_KERNELS	dev/cpu/matmul_forward.c	/^#define NUM_KERNELS /;"	d	file:
-NUM_PARAMETER_TENSORS	train_gpt2.c	/^#define NUM_PARAMETER_TENSORS /;"	d	file:
+NUM_PARAMETER_TENSORS	alternatives/train_gpt2.c	/^#define NUM_PARAMETER_TENSORS /;"	d	file:
 NVCC	Makefile	/^    NVCC := nvcc$/;"	m
 NVCC	Makefile	/^    NVCC :=$/;"	m
 NVCC	Makefile	/^  NVCC := $(shell which nvcc 2>\/dev\/null)$/;"	m
@@ -185,7 +185,7 @@ NVCC_LDLIBS	dev/test/Makefile	/^NVCC_LDLIBS =$/;"	m
 NVTX_RANGE_FN	llmc/cuda_common.h	/^#define NVTX_RANGE_FN(/;"	d
 N_GPUS	dev/cuda/benchmark_on_modal.py	/^N_GPUS = int(os.environ.get("N_GPUS", 1))$/;"	v
 N_LAYERS	profile_gpt2cu.py	/^N_LAYERS = 12$/;"	v
-NewGELU	train_gpt2.py	/^class NewGELU(nn.Module):$/;"	c
+NewGELU	alternatives/train_gpt2.py	/^class NewGELU(nn.Module):$/;"	c
 NvtxRange	llmc/cuda_common.h	/^    NvtxRange(const char* s) { nvtxRangePush(s); }$/;"	f	class:NvtxRange
 NvtxRange	llmc/cuda_common.h	/^    NvtxRange(const std::string& base_str, int number) {$/;"	f	class:NvtxRange
 NvtxRange	llmc/cuda_common.h	/^class NvtxRange {$/;"	c
@@ -215,8 +215,8 @@ PRECISION_MODE	llmc/cuda_common.h	/^#define PRECISION_MODE /;"	d
 PU_COMPUTE_CAPABILITY	Makefile	/^  ifndef GPU_COMPUTE_CAPABILITY # set to defaults if: make GPU_COMPUTE_CAPABILITY=$/;"	m
 PU_COMPUTE_CAPABILITY	dev/cuda/Makefile	/^  ifndef GPU_COMPUTE_CAPABILITY # set to defaults if: make GPU_COMPUTE_CAPABILITY=$/;"	m
 PU_COMPUTE_CAPABILITY	dev/test/Makefile	/^  ifndef GPU_COMPUTE_CAPABILITY # set to defaults if: make GPU_COMPUTE_CAPABILITY=$/;"	m
-ParameterTensors	train_gpt2.c	/^} ParameterTensors;$/;"	t	typeref:struct:__anon11	file:
-Path	train_llama3.py	/^from pathlib import Path$/;"	i
+ParameterTensors	alternatives/train_gpt2.c	/^} ParameterTensors;$/;"	t	typeref:struct:__anon11	file:
+Path	alternatives/train_llama3.py	/^from pathlib import Path$/;"	i
 PerfData	llmc/mfu.h	/^} PerfData;$/;"	t	typeref:struct:__anon1
 PrecisionMode	llmc/cuda_common.h	/^enum PrecisionMode {$/;"	g
 ProcessPoolExecutor	dev/data/tinystories.py	/^from concurrent.futures import ProcessPoolExecutor, as_completed$/;"	i
@@ -229,7 +229,7 @@ REMOVE_FILES	Makefile	/^  REMOVE_FILES = del *.exe,*.obj,*.lib,*.exp,*.pdb && de
 REMOVE_FILES	Makefile	/^REMOVE_FILES = rm -f$/;"	m
 REMOVE_FILES	dev/test/Makefile	/^REMOVE_FILES = rm -f$/;"	m
 RESULT	dev/eval/summarize_eval.py	/^RESULT = sys.argv[1]$/;"	v
-RMSNorm	train_llama3.py	/^class RMSNorm(torch.nn.Module):$/;"	c
+RMSNorm	alternatives/train_llama3.py	/^class RMSNorm(torch.nn.Module):$/;"	c
 SAMPLER_H	llmc/sampler.h	/^#define SAMPLER_H$/;"	d
 SCHEDULERS_H	llmc/schedulers.h	/^#define SCHEDULERS_H$/;"	d
 SHARD_NAME_LEN	dev/test/test_dataloader.c	/^#define SHARD_NAME_LEN /;"	d	file:
@@ -244,14 +244,14 @@ T	llmc/dataloader.h	/^    size_t T;$/;"	m	struct:__anon5
 TARGETS	Makefile	/^TARGETS = train_gpt2 test_gpt2$/;"	m
 TARGETS	dev/cuda/Makefile	/^TARGETS = adamw attention_backward attention_forward classifier_fused crossentropy_forward crossentropy_softmax_backward encoder_backward encoder_forward gelu_backward gelu_forward layernorm_backward layernorm_forward matmul_backward matmul_backward_bias matmul_forward nccl_all_reduce residual_forward softmax_forward trimat_forward fused_residual_forward  global_norm permute$/;"	m
 TARGETS	dev/test/Makefile	/^TARGETS = test_dataloader$/;"	m
-TESTING	test_gpt2.c	/^#define TESTING$/;"	d	file:
+TESTING	alternatives/test_gpt2.c	/^#define TESTING$/;"	d	file:
 TF_32	llmc/mfu.h	/^    float TF_32;       \/\/ tensor-core performance 32 bit$/;"	m	struct:__anon1
-TIKTOKEN_MAX_ENCODE_CHARS	train_llama3.py	/^TIKTOKEN_MAX_ENCODE_CHARS = 400_000$/;"	v
+TIKTOKEN_MAX_ENCODE_CHARS	alternatives/train_llama3.py	/^TIKTOKEN_MAX_ENCODE_CHARS = 400_000$/;"	v
 TQDM_DISABLE	dev/cuda/benchmark_on_modal.py	/^            TQDM_DISABLE="true",$/;"	v
 TURN_OFF_FP_FAST	dev/unistd.h	/^#define TURN_OFF_FP_FAST /;"	d
 TURN_ON_FP_FAST	dev/unistd.h	/^#define TURN_ON_FP_FAST /;"	d
+Tokenizer	alternatives/train_llama3.py	/^class Tokenizer:$/;"	c
 Tokenizer	llmc/tokenizer.h	/^} Tokenizer;$/;"	t	typeref:struct:__anon3
-Tokenizer	train_llama3.py	/^class Tokenizer:$/;"	c
 True	llmc/cuda_common.h	/^constexpr std::bool_constant<true> True;$/;"	v
 UIDs	llmc/cudnn_att.cpp	/^enum UIDs {$/;"	g	file:
 UMASK	llmc/rand.h	/^#define UMASK /;"	d
@@ -268,49 +268,51 @@ V_UID	llmc/cudnn_att.cpp	/^    V_UID,$/;"	e	enum:UIDs	file:
 WARP_SIZE	dev/cuda/common.h	/^#define WARP_SIZE /;"	d
 WARP_SIZE	llmc/cuda_common.h	/^#define WARP_SIZE /;"	d
 WIN32_LEAN_AND_MEAN	dev/unistd.h	/^#define WIN32_LEAN_AND_MEAN$/;"	d
-ZeroRedundancyOptimizer	train_gpt2.py	/^from torch.distributed.optim import ZeroRedundancyOptimizer$/;"	i
-ZeroRedundancyOptimizer	train_llama3.py	/^from torch.distributed.optim import ZeroRedundancyOptimizer$/;"	i
+ZeroRedundancyOptimizer	alternatives/train_gpt2.py	/^from torch.distributed.optim import ZeroRedundancyOptimizer$/;"	i
+ZeroRedundancyOptimizer	alternatives/train_llama3.py	/^from torch.distributed.optim import ZeroRedundancyOptimizer$/;"	i
 _CRT_SECURE_NO_WARNINGS	dev/unistd.h	/^#define _CRT_SECURE_NO_WARNINGS$/;"	d
 _USE_MATH_DEFINES	dev/unistd.h	/^#define _USE_MATH_DEFINES$/;"	d
-__init__	train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:Block
-__init__	train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:CausalSelfAttention
-__init__	train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:GPT
-__init__	train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:MLP
-__init__	train_gpt2.py	/^    def __init__(self, filename_pattern, B, T, process_rank, num_processes):$/;"	m	class:DistributedDataLoader
-__init__	train_llama3.py	/^    def __init__(self, **kwargs):$/;"	m	class:LlamaConfig
-__init__	train_llama3.py	/^    def __init__(self, config):$/;"	m	class:Block
-__init__	train_llama3.py	/^    def __init__(self, config):$/;"	m	class:CausalSelfAttention
-__init__	train_llama3.py	/^    def __init__(self, config):$/;"	m	class:LLaMA
-__init__	train_llama3.py	/^    def __init__(self, config):$/;"	m	class:MLP
-__init__	train_llama3.py	/^    def __init__(self, dim: int, eps: float = 1e-6):$/;"	m	class:RMSNorm
-__init__	train_llama3.py	/^    def __init__(self, filename_pattern, B, T, process_rank, num_processes):$/;"	m	class:DistributedShardedDataLoader
-__init__	train_llama3.py	/^    def __init__(self, model_path: str):$/;"	m	class:Tokenizer
+__init__	alternatives/train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:Block
+__init__	alternatives/train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:CausalSelfAttention
+__init__	alternatives/train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:GPT
+__init__	alternatives/train_gpt2.py	/^    def __init__(self, config):$/;"	m	class:MLP
+__init__	alternatives/train_gpt2.py	/^    def __init__(self, filename_pattern, B, T, process_rank, num_processes):$/;"	m	class:DistributedDataLoader
+__init__	alternatives/train_llama3.py	/^    def __init__(self, **kwargs):$/;"	m	class:LlamaConfig
+__init__	alternatives/train_llama3.py	/^    def __init__(self, config):$/;"	m	class:Block
+__init__	alternatives/train_llama3.py	/^    def __init__(self, config):$/;"	m	class:CausalSelfAttention
+__init__	alternatives/train_llama3.py	/^    def __init__(self, config):$/;"	m	class:LLaMA
+__init__	alternatives/train_llama3.py	/^    def __init__(self, config):$/;"	m	class:MLP
+__init__	alternatives/train_llama3.py	/^    def __init__(self, dim: int, eps: float = 1e-6):$/;"	m	class:RMSNorm
+__init__	alternatives/train_llama3.py	/^    def __init__(self, filename_pattern, B, T, process_rank, num_processes):$/;"	m	class:DistributedShardedDataLoader
+__init__	alternatives/train_llama3.py	/^    def __init__(self, model_path: str):$/;"	m	class:Tokenizer
 __ldcs	dev/cuda/common.h	/^__device__ floatX __ldcs(const floatX* address) {$/;"	f
 __ldcs	llmc/cuda_common.h	/^__device__ floatX __ldcs(const floatX* address) {$/;"	f
 __stcs	dev/cuda/common.h	/^__device__ void __stcs(floatX* address, floatX value) {$/;"	f
 __stcs	llmc/cuda_common.h	/^__device__ void __stcs(floatX* address, floatX value) {$/;"	f
-_inductor	train_gpt2.py	/^import torch._inductor.config as config$/;"	i
-_inductor	train_llama3.py	/^import torch._inductor.config as config$/;"	i
-_init_weights	train_gpt2.py	/^    def _init_weights(self, module):$/;"	m	class:GPT
-_load_data_shard	train_gpt2.py	/^def _load_data_shard(filename):$/;"	f
-_load_data_shard	train_llama3.py	/^def _load_data_shard(filename):$/;"	f
-_norm	train_llama3.py	/^    def _norm(self, x):$/;"	m	class:RMSNorm
-_peek_data_shard	train_gpt2.py	/^def _peek_data_shard(filename):$/;"	f
-_peek_data_shard	train_llama3.py	/^def _peek_data_shard(filename):$/;"	f
-_split_whitespaces_or_nonwhitespaces	train_llama3.py	/^    def _split_whitespaces_or_nonwhitespaces($/;"	m	class:Tokenizer
+_inductor	alternatives/train_gpt2.py	/^import torch._inductor.config as config$/;"	i
+_inductor	alternatives/train_llama3.py	/^import torch._inductor.config as config$/;"	i
+_init_weights	alternatives/train_gpt2.py	/^    def _init_weights(self, module):$/;"	m	class:GPT
+_load_data_shard	alternatives/train_gpt2.py	/^def _load_data_shard(filename):$/;"	f
+_load_data_shard	alternatives/train_llama3.py	/^def _load_data_shard(filename):$/;"	f
+_norm	alternatives/train_llama3.py	/^    def _norm(self, x):$/;"	m	class:RMSNorm
+_peek_data_shard	alternatives/train_gpt2.py	/^def _peek_data_shard(filename):$/;"	f
+_peek_data_shard	alternatives/train_llama3.py	/^def _peek_data_shard(filename):$/;"	f
+_split_whitespaces_or_nonwhitespaces	alternatives/train_llama3.py	/^    def _split_whitespaces_or_nonwhitespaces($/;"	m	class:Tokenizer
 access	dev/unistd.h	/^#define access /;"	d
-act_sizes	train_gpt2.c	/^    size_t act_sizes[NUM_ACTIVATION_TENSORS];$/;"	m	struct:__anon13	file:
+act_sizes	alternatives/train_gpt2.c	/^    size_t act_sizes[NUM_ACTIVATION_TENSORS];$/;"	m	struct:__anon13	file:
 active	llmc/logger.h	/^    int active;$/;"	m	struct:__anon9
-acts	train_gpt2.c	/^    ActivationTensors acts;$/;"	m	struct:__anon13	file:
-acts_memory	train_gpt2.c	/^    float* acts_memory;$/;"	m	struct:__anon13	file:
-adapt_llama_state_dict_keys	train_llama3.py	/^    def adapt_llama_state_dict_keys(checkpoint, config: LlamaConfig):$/;"	m	class:LLaMA
-adapt_llama_state_dict_keys_hf	train_llama3.py	/^    def adapt_llama_state_dict_keys_hf(checkpoint, config: LlamaConfig):$/;"	m	class:LLaMA
-advance	train_gpt2.py	/^    def advance(self): # advance to next data shard$/;"	m	class:DistributedDataLoader
-advance	train_llama3.py	/^    def advance(self): # advance to next data shard$/;"	m	class:DistributedShardedDataLoader
+acts	alternatives/train_gpt2.c	/^    ActivationTensors acts;$/;"	m	struct:__anon13	file:
+acts_memory	alternatives/train_gpt2.c	/^    float* acts_memory;$/;"	m	struct:__anon13	file:
+adapt_llama_state_dict_keys	alternatives/train_llama3.py	/^    def adapt_llama_state_dict_keys(checkpoint, config: LlamaConfig):$/;"	m	class:LLaMA
+adapt_llama_state_dict_keys_hf	alternatives/train_llama3.py	/^    def adapt_llama_state_dict_keys_hf(checkpoint, config: LlamaConfig):$/;"	m	class:LLaMA
+advance	alternatives/train_gpt2.py	/^    def advance(self): # advance to next data shard$/;"	m	class:DistributedDataLoader
+advance	alternatives/train_llama3.py	/^    def advance(self): # advance to next data shard$/;"	m	class:DistributedShardedDataLoader
 all_tokens_np	dev/data/fineweb.py	/^    all_tokens_np = np.empty((args.shard_size,), dtype=token_dtype)$/;"	v
 allow_concurrent_inputs	dev/cuda/benchmark_on_modal.py	/^    allow_concurrent_inputs=4,$/;"	v
-apply_rotary_emb	train_llama3.py	/^def apply_rotary_emb($/;"	f
-apply_scaling	train_llama3.py	/^def apply_scaling(freqs: torch.Tensor):$/;"	f
+apply_rotary_emb	alternatives/train_llama3.py	/^def apply_rotary_emb($/;"	f
+apply_scaling	alternatives/train_llama3.py	/^def apply_scaling(freqs: torch.Tensor):$/;"	f
+argparse	alternatives/train_gpt2.py	/^    import argparse$/;"	i
+argparse	alternatives/train_llama3.py	/^import argparse$/;"	i
 argparse	dev/data/fineweb.py	/^import argparse$/;"	i
 argparse	dev/data/hellaswag.py	/^    import argparse$/;"	i
 argparse	dev/data/mmlu.py	/^    import argparse$/;"	i
@@ -318,8 +320,6 @@ argparse	dev/data/tinyshakespeare.py	/^import argparse$/;"	i
 argparse	dev/data/tinystories.py	/^import argparse$/;"	i
 argparse	dev/eval/export_hf.py	/^import argparse, sys$/;"	i
 argparse	dev/loss_checker_ci.py	/^import argparse$/;"	i
-argparse	train_gpt2.py	/^    import argparse$/;"	i
-argparse	train_llama3.py	/^import argparse$/;"	i
 args	dev/data/fineweb.py	/^args = parser.parse_args()$/;"	v
 args	dev/data/hellaswag.py	/^    args = parser.parse_args()$/;"	v
 args	dev/data/mmlu.py	/^    args = parser.parse_args()$/;"	v
@@ -327,21 +327,21 @@ args	dev/data/tinyshakespeare.py	/^    args = parser.parse_args()$/;"	v
 args	dev/data/tinystories.py	/^    args = parser.parse_args()$/;"	v
 args	dev/eval/export_hf.py	/^    args = parser.parse_args()$/;"	v
 as_completed	dev/data/tinystories.py	/^from concurrent.futures import ProcessPoolExecutor, as_completed$/;"	i
-att	train_gpt2.c	/^    float* att; \/\/ (L, B, NH, T, T)$/;"	m	struct:__anon12	file:
-attention_backward	train_gpt2.c	/^void attention_backward(float* dinp, float* dpreatt, float* datt,$/;"	f
+att	alternatives/train_gpt2.c	/^    float* att; \/\/ (L, B, NH, T, T)$/;"	m	struct:__anon12	file:
+attention_backward	alternatives/train_gpt2.c	/^void attention_backward(float* dinp, float* dpreatt, float* datt,$/;"	f
 attention_backward_cudnn	llmc/cudnn_att.cpp	/^void attention_backward_cudnn(floatX* dqkvr,                                       \/\/ output$/;"	f
-attention_forward	train_gpt2.c	/^void attention_forward(float* out, float* preatt, float* att,$/;"	f
+attention_forward	alternatives/train_gpt2.c	/^void attention_forward(float* out, float* preatt, float* att,$/;"	f
 attention_forward_cudnn	llmc/cudnn_att.cpp	/^void attention_forward_cudnn(floatX* out,  \/\/ output: (B, T, NH, HS)$/;"	f
-attproj	train_gpt2.c	/^    float* attproj; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-attprojb	train_gpt2.c	/^    float* attprojb; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-attprojw	train_gpt2.c	/^    float* attprojw; \/\/ (L, C, C)$/;"	m	struct:__anon11	file:
-atty	train_gpt2.c	/^    float* atty; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+attproj	alternatives/train_gpt2.c	/^    float* attproj; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+attprojb	alternatives/train_gpt2.c	/^    float* attprojb; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+attprojw	alternatives/train_gpt2.c	/^    float* attprojw; \/\/ (L, C, C)$/;"	m	struct:__anon11	file:
+atty	alternatives/train_gpt2.c	/^    float* atty; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
 average	dev/eval/summarize_eval.py	/^average = total \/ 6.0$/;"	v
 avg_dram_bw	profile_gpt2cu.py	/^avg_dram_bw = (total['read'] + total['write']) \/ (total_time \/ 1000.0)$/;"	v
 avg_tensor_util	profile_gpt2cu.py	/^avg_tensor_util = total['tensor'] \/ total_time$/;"	v
 b	doc/layernorm/layernorm.py	/^b = torch.randn(C, requires_grad=True)$/;"	v
 backward	doc/layernorm/layernorm.py	/^    def backward(dout, cache):$/;"	m	class:LayerNorm
-batch_size	train_gpt2.c	/^    int batch_size; \/\/ the batch size (B) of current forward pass$/;"	m	struct:__anon13	file:
+batch_size	alternatives/train_gpt2.c	/^    int batch_size; \/\/ the batch size (B) of current forward pass$/;"	m	struct:__anon13	file:
 benchmark_kernel	dev/cuda/common.h	/^float benchmark_kernel(int repeats, Kernel kernel, KernelArgs&&... kernel_args) {$/;"	f
 blockReduce	dev/cuda/common.h	/^__device__ inline float blockReduce(float val) {$/;"	f
 blockReduce	dev/cuda/common.h	/^__device__ inline float blockReduce(float val, bool final_sync, float out_of_bounds) {$/;"	f
@@ -350,7 +350,7 @@ buffer	llmc/dataloader.h	/^    uint16_t* buffer; \/\/ we fread data from file in
 buffer	llmc/outlier_detector.h	/^    double buffer[OUTLIER_DETECTOR_WINDOW_SIZE];$/;"	m	struct:__anon4
 can_profile	profile_gpt2cu.py	/^can_profile = len([l for l in options.splitlines() if "NVreg_RestrictProfilingToAdminUsers=0" in l]) != 0$/;"	v
 ceil_div	dev/cuda/common.h	/^__host__ __device__ T ceil_div(T dividend, T divisor) {$/;"	f
-channels	train_gpt2.c	/^    int channels; \/\/ number of channels, e.g. 768$/;"	m	struct:__anon10	file:
+channels	alternatives/train_gpt2.c	/^    int channels; \/\/ number of channels, e.g. 768$/;"	m	struct:__anon10	file:
 checkCudnnFE	llmc/cudnn_att.cpp	/^#define checkCudnnFE(/;"	d	file:
 checkCudnnFE	llmc/cudnn_att.cpp	/^static void checkCudnnFE(const fe::error_object& e, const char *file, int line) {$/;"	f	file:
 checkEquals	dev/test/test_dataloader.c	/^#define checkEquals(/;"	d	file:
@@ -358,8 +358,8 @@ checkRange	dev/test/test_dataloader.c	/^#define checkRange(/;"	d	file:
 check_and_add_flag	Makefile	/^  define check_and_add_flag$/;"	m
 check_equals	dev/test/test_dataloader.c	/^void check_equals(const int *tokens, const int n, const int expected, const char *file, int line) {$/;"	f
 check_range	dev/test/test_dataloader.c	/^void check_range(const int *tokens, const int start, const int end, const char *file, int line) {$/;"	f
+check_tensor	alternatives/test_gpt2.c	/^int check_tensor(float *a, float *b, int n, const char* label) {$/;"	f
 check_tensor	doc/layernorm/layernorm.c	/^int check_tensor(float *a, float *b, int n, char* label) {$/;"	f
-check_tensor	test_gpt2.c	/^int check_tensor(float *a, float *b, int n, const char* label) {$/;"	f
 clock	llmc/mfu.h	/^    unsigned int clock;$/;"	m	struct:GPUUtilInfo
 clock_gettime	dev/unistd.h	/^static inline int clock_gettime(int ignore_variable, struct timespec* tv)$/;"	f
 closedir	dev/unistd.h	/^static inline int closedir(DIR *directory) {$/;"	f
@@ -369,19 +369,19 @@ cmd	profile_gpt2cu.py	/^    cmd = ["sudo"] + cmd$/;"	v
 cmd	profile_gpt2cu.py	/^cmd = [NCU, "--set", "full", "--import-source", "yes", "-o", "profile", "-f", ".\/profile_gpt2cu"]$/;"	v
 cmd	profile_gpt2cu.py	/^cmd = [NCU, "-i", "profile.ncu-rep", "--csv", "--page", "raw", "--metrics", ",".join(metrics)]$/;"	v
 compare_numbers	dev/loss_checker_ci.py	/^def compare_numbers(read_values, fixed_values, percent_accuracy):$/;"	f
-config	train_gpt2.c	/^    GPT2Config config;$/;"	m	struct:__anon13	file:
-config	train_gpt2.py	/^import torch._inductor.config as config$/;"	i
-config	train_llama3.py	/^import torch._inductor.config as config$/;"	i
-configure_optimizers	train_gpt2.py	/^    def configure_optimizers(self, weight_decay, learning_rate, betas, device_type, zero_stage):$/;"	m	class:GPT
-configure_optimizers	train_llama3.py	/^    def configure_optimizers(self, weight_decay, learning_rate, betas, device_type, zero_stage):$/;"	m	class:LLaMA
+config	alternatives/train_gpt2.c	/^    GPT2Config config;$/;"	m	struct:__anon13	file:
+config	alternatives/train_gpt2.py	/^import torch._inductor.config as config$/;"	i
+config	alternatives/train_llama3.py	/^import torch._inductor.config as config$/;"	i
+configure_optimizers	alternatives/train_gpt2.py	/^    def configure_optimizers(self, weight_decay, learning_rate, betas, device_type, zero_stage):$/;"	m	class:GPT
+configure_optimizers	alternatives/train_llama3.py	/^    def configure_optimizers(self, weight_decay, learning_rate, betas, device_type, zero_stage):$/;"	m	class:LLaMA
 container_idle_timeout	dev/cuda/benchmark_on_modal.py	/^    container_idle_timeout=900,$/;"	v
 convert	dev/eval/export_hf.py	/^def convert(filepath, output, push_to_hub=False, out_dtype="bfloat16"):$/;"	f
 count	llmc/outlier_detector.h	/^    int count;$/;"	m	struct:__anon4
 counts	profile_gpt2cu.py	/^counts = defaultdict(lambda: 0)$/;"	v
 create_cudnn	llmc/cudnn_att.cpp	/^void create_cudnn() {$/;"	f
 create_dir_if_not_exists	llmc/utils.h	/^extern inline void create_dir_if_not_exists(const char *dir) {$/;"	f
-crossentropy_forward	train_gpt2.c	/^void crossentropy_forward(float* losses,$/;"	f
-crossentropy_softmax_backward	train_gpt2.c	/^void crossentropy_softmax_backward(float* dlogits,$/;"	f
+crossentropy_forward	alternatives/train_gpt2.c	/^void crossentropy_forward(float* losses,$/;"	f
+crossentropy_softmax_backward	alternatives/train_gpt2.c	/^void crossentropy_softmax_backward(float* dlogits,$/;"	f
 csv	profile_gpt2cu.py	/^import csv$/;"	i
 cuDNNCheck	llmc/cudnn_att.cpp	/^#define cuDNNCheck(/;"	d	file:
 cuDNNCheck	llmc/cudnn_att.cpp	/^static void cuDNNCheck(cudnnStatus_t error, const char *file, int line) {$/;"	f	file:
@@ -421,8 +421,8 @@ dV_UID	llmc/cudnn_att.cpp	/^    dV_UID$/;"	e	enum:UIDs	file:
 d_name	dev/unistd.h	/^    char d_name[MAX_PATH_LENGTH];$/;"	m	struct:dirent
 data	dev/eval/summarize_eval.py	/^    data = json.loads(open(".\/%s\/%s"%(RESULT, test)).read())$/;"	v
 data_url	dev/data/mmlu.py	/^data_url = "https:\/\/people.eecs.berkeley.edu\/~hendrycks\/data.tar"$/;"	v
-dataclass	train_gpt2.py	/^from dataclasses import dataclass$/;"	i
-dataclass	train_llama3.py	/^from dataclasses import dataclass$/;"	i
+dataclass	alternatives/train_gpt2.py	/^from dataclasses import dataclass$/;"	i
+dataclass	alternatives/train_llama3.py	/^from dataclasses import dataclass$/;"	i
 dataloader_advance_	llmc/dataloader.h	/^void dataloader_advance_(DataLoader *loader) {$/;"	f
 dataloader_free	llmc/dataloader.h	/^void dataloader_free(DataLoader *loader) {$/;"	f
 dataloader_init	llmc/dataloader.h	/^void dataloader_init(DataLoader *loader,$/;"	f
@@ -432,17 +432,17 @@ dataloader_next_batch	llmc/dataloader.h	/^void dataloader_next_batch(DataLoader 
 dataloader_reset	llmc/dataloader.h	/^void dataloader_reset(DataLoader *loader) {$/;"	f
 dataloader_resume	llmc/dataloader.h	/^void dataloader_resume(DataLoader *loader, size_t current_shard_idx, size_t current_sample_idx) {$/;"	f
 datetime	dev/cuda/benchmark_on_modal.py	/^import datetime$/;"	i
-decode	train_llama3.py	/^    def decode(self, t: Sequence[int]) -> str:$/;"	m	class:Tokenizer
+decode	alternatives/train_llama3.py	/^    def decode(self, t: Sequence[int]) -> str:$/;"	m	class:Tokenizer
 defaultdict	profile_gpt2cu.py	/^from collections import defaultdict$/;"	i
 destroy_cudnn	llmc/cudnn_att.cpp	/^void destroy_cudnn() {$/;"	f
-destroy_process_group	train_gpt2.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
-destroy_process_group	train_llama3.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
+destroy_process_group	alternatives/train_gpt2.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
+destroy_process_group	alternatives/train_llama3.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
 device_to_file	llmc/cuda_common.h	/^inline void device_to_file(FILE* dest, void* src, size_t num_bytes, size_t buffer_size, cudaStream_t stream) {$/;"	f
 directories	dev/data/fineweb.py	/^directories = {$/;"	v
 dirent	dev/unistd.h	/^typedef struct dirent {$/;"	s
 dirent	dev/unistd.h	/^} dirent;$/;"	t	typeref:struct:dirent
-dist	train_gpt2.py	/^import torch.distributed as dist$/;"	i
-dist	train_llama3.py	/^import torch.distributed as dist$/;"	i
+dist	alternatives/train_gpt2.py	/^import torch.distributed as dist$/;"	i
+dist	alternatives/train_llama3.py	/^import torch.distributed as dist$/;"	i
 dout	doc/layernorm/layernorm.py	/^dout = torch.randn(B, T, C)$/;"	v
 download	dev/data/edu_fineweb.sh	/^download() {$/;"	f
 download	dev/data/fineweb.sh	/^download() {$/;"	f
@@ -460,10 +460,10 @@ dram_bw	profile_gpt2cu.py	/^    dram_bw = (read + write) \/ (time \/ 1000.0)$/;"
 efficiency	profile_gpt2cu.py	/^    efficiency = max(dram_bw \/ max_dram_bw, tensor \/ max_tensor)$/;"	v
 enc	dev/data/hellaswag.py	/^enc = tiktoken.get_encoding("gpt2")$/;"	v
 enc	dev/data/mmlu.py	/^enc = tiktoken.get_encoding("gpt2")$/;"	v
-encode	train_llama3.py	/^    def encode($/;"	m	class:Tokenizer
-encoded	train_gpt2.c	/^    float* encoded; \/\/ (B, T, C)$/;"	m	struct:__anon12	file:
-encoder_backward	train_gpt2.c	/^void encoder_backward(float* dwte, float* dwpe,$/;"	f
-encoder_forward	train_gpt2.c	/^void encoder_forward(float* out,$/;"	f
+encode	alternatives/train_llama3.py	/^    def encode($/;"	m	class:Tokenizer
+encoded	alternatives/train_gpt2.c	/^    float* encoded; \/\/ (B, T, C)$/;"	m	struct:__anon12	file:
+encoder_backward	alternatives/train_gpt2.c	/^void encoder_backward(float* dwte, float* dwpe,$/;"	f
+encoder_forward	alternatives/train_gpt2.c	/^void encoder_forward(float* out,$/;"	f
 end_example_index	llmc/dataloader.h	/^    int end_example_index; \/\/ and end. start is inclusive, end is exclusive$/;"	m	struct:__anon6
 ends_with_bin	llmc/utils.h	/^extern inline int ends_with_bin(const char* str) {$/;"	f
 entry_text	profile_gpt2cu.py	/^        entry_text = entry$/;"	v
@@ -483,23 +483,23 @@ execute_command	dev/cuda/benchmark_on_modal.py	/^def execute_command(command: st
 f128	dev/cuda/common.h	/^typedef Packed128<float> f128;$/;"	t
 fakeloss	doc/layernorm/layernorm.py	/^fakeloss = (out * dout).sum()$/;"	v
 fan	llmc/mfu.h	/^    unsigned int fan;$/;"	m	struct:GPUUtilInfo
-fcb	train_gpt2.c	/^    float* fcb; \/\/ (L, 4*C)$/;"	m	struct:__anon11	file:
-fch	train_gpt2.c	/^    float* fch; \/\/ (L, B, T, 4*C)$/;"	m	struct:__anon12	file:
-fch_gelu	train_gpt2.c	/^    float* fch_gelu; \/\/ (L, B, T, 4*C)$/;"	m	struct:__anon12	file:
+fcb	alternatives/train_gpt2.c	/^    float* fcb; \/\/ (L, 4*C)$/;"	m	struct:__anon11	file:
+fch	alternatives/train_gpt2.c	/^    float* fch; \/\/ (L, B, T, 4*C)$/;"	m	struct:__anon12	file:
+fch_gelu	alternatives/train_gpt2.c	/^    float* fch_gelu; \/\/ (L, B, T, 4*C)$/;"	m	struct:__anon12	file:
 fcloseCheck	llmc/utils.h	/^#define fcloseCheck(/;"	d
 fclose_check	llmc/utils.h	/^extern inline void fclose_check(FILE *fp, const char *file, int line) {$/;"	f
-fcproj	train_gpt2.c	/^    float* fcproj; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-fcprojb	train_gpt2.c	/^    float* fcprojb; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-fcprojw	train_gpt2.c	/^    float* fcprojw; \/\/ (L, C, 4*C)$/;"	m	struct:__anon11	file:
-fcw	train_gpt2.c	/^    float* fcw; \/\/ (L, 4*C, C)$/;"	m	struct:__anon11	file:
+fcproj	alternatives/train_gpt2.c	/^    float* fcproj; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+fcprojb	alternatives/train_gpt2.c	/^    float* fcprojb; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+fcprojw	alternatives/train_gpt2.c	/^    float* fcprojw; \/\/ (L, C, 4*C)$/;"	m	struct:__anon11	file:
+fcw	alternatives/train_gpt2.c	/^    float* fcw; \/\/ (L, 4*C, C)$/;"	m	struct:__anon11	file:
 file_exists_in_path	Makefile	/^define file_exists_in_path$/;"	m
 file_exists_in_path	dev/test/Makefile	/^define file_exists_in_path$/;"	m
 file_size_bytes	llmc/dataloader.h	/^    int64_t file_size_bytes;$/;"	m	struct:__anon5
 file_to_device	llmc/cuda_common.h	/^inline void file_to_device(void* dest, FILE* src, size_t num_bytes, size_t buffer_size, cudaStream_t stream) {$/;"	f
 filename	dev/data/fineweb.py	/^            filename = os.path.join(DATA_CACHE_DIR, f"{name}_{split}_{shard_index:06d}.bin")$/;"	v
 filename	dev/data/fineweb.py	/^        filename = os.path.join(DATA_CACHE_DIR, f"{name}_{split}_{shard_index:06d}.bin")$/;"	v
-fill_in_activation_sizes	train_gpt2.c	/^void fill_in_activation_sizes(size_t* act_sizes, GPT2Config config, int B, int T) {$/;"	f
-fill_in_parameter_sizes	train_gpt2.c	/^void fill_in_parameter_sizes(size_t* param_sizes, GPT2Config config) {$/;"	f
+fill_in_activation_sizes	alternatives/train_gpt2.c	/^void fill_in_activation_sizes(size_t* act_sizes, GPT2Config config, int B, int T) {$/;"	f
+fill_in_parameter_sizes	alternatives/train_gpt2.c	/^void fill_in_parameter_sizes(size_t* param_sizes, GPT2Config config) {$/;"	f
 final_learning_rate_frac	llmc/schedulers.h	/^    float final_learning_rate_frac;$/;"	m	struct:__anon7
 findFileData	dev/unistd.h	/^    struct _finddata_t findFileData;$/;"	m	struct:DIR	typeref:struct:DIR::_finddata_t
 find_max_step	llmc/utils.h	/^extern inline int find_max_step(const char* output_log_dir) {$/;"	f
@@ -520,32 +520,32 @@ fn_name	profile_gpt2cu.py	/^        fn_name = fn_name.split("<")[0]$/;"	v
 fn_name	profile_gpt2cu.py	/^    fn_name = kernel.split("(")[0]$/;"	v
 fopenCheck	llmc/utils.h	/^#define fopenCheck(/;"	d
 fopen_check	llmc/utils.h	/^extern inline FILE *fopen_check(const char *path, const char *mode, const char *file, int line) {$/;"	f
+forward	alternatives/train_gpt2.py	/^    def forward(self, idx, targets=None, return_logits=True):$/;"	m	class:GPT
+forward	alternatives/train_gpt2.py	/^    def forward(self, input):$/;"	m	class:NewGELU
+forward	alternatives/train_gpt2.py	/^    def forward(self, x):$/;"	m	class:Block
+forward	alternatives/train_gpt2.py	/^    def forward(self, x):$/;"	m	class:CausalSelfAttention
+forward	alternatives/train_gpt2.py	/^    def forward(self, x):$/;"	m	class:MLP
+forward	alternatives/train_llama3.py	/^    def forward(self, idx, targets=None, return_logits=True, start_pos=0):$/;"	m	class:LLaMA
+forward	alternatives/train_llama3.py	/^    def forward(self, x):$/;"	m	class:MLP
+forward	alternatives/train_llama3.py	/^    def forward(self, x):$/;"	m	class:RMSNorm
+forward	alternatives/train_llama3.py	/^    def forward(self, x, freqs_cis=None, start_pos=None, mask=None):$/;"	m	class:Block
+forward	alternatives/train_llama3.py	/^    def forward(self, x, freqs_cis=None, start_pos=None, mask=None):$/;"	m	class:CausalSelfAttention
 forward	doc/layernorm/layernorm.py	/^    def forward(x, w, b):$/;"	m	class:LayerNorm
-forward	train_gpt2.py	/^    def forward(self, idx, targets=None, return_logits=True):$/;"	m	class:GPT
-forward	train_gpt2.py	/^    def forward(self, input):$/;"	m	class:NewGELU
-forward	train_gpt2.py	/^    def forward(self, x):$/;"	m	class:Block
-forward	train_gpt2.py	/^    def forward(self, x):$/;"	m	class:CausalSelfAttention
-forward	train_gpt2.py	/^    def forward(self, x):$/;"	m	class:MLP
-forward	train_llama3.py	/^    def forward(self, idx, targets=None, return_logits=True, start_pos=0):$/;"	m	class:LLaMA
-forward	train_llama3.py	/^    def forward(self, x):$/;"	m	class:MLP
-forward	train_llama3.py	/^    def forward(self, x):$/;"	m	class:RMSNorm
-forward	train_llama3.py	/^    def forward(self, x, freqs_cis=None, start_pos=None, mask=None):$/;"	m	class:Block
-forward	train_llama3.py	/^    def forward(self, x, freqs_cis=None, start_pos=None, mask=None):$/;"	m	class:CausalSelfAttention
 freadCheck	llmc/utils.h	/^#define freadCheck(/;"	d
 fread_check	llmc/utils.h	/^extern inline void fread_check(void *ptr, size_t size, size_t nmemb, FILE *stream, const char *file, int line) {$/;"	f
-from_pretrained	train_gpt2.py	/^    def from_pretrained(cls, model_type):$/;"	m	class:GPT
-from_pretrained_llama3_hf	train_llama3.py	/^    def from_pretrained_llama3_hf(cls, model_id):$/;"	m	class:LLaMA
-from_pretrained_llama3_meta	train_llama3.py	/^    def from_pretrained_llama3_meta(cls, ckpt_dir, tokenizer_path):$/;"	m	class:LLaMA
+from_pretrained	alternatives/train_gpt2.py	/^    def from_pretrained(cls, model_type):$/;"	m	class:GPT
+from_pretrained_llama3_hf	alternatives/train_llama3.py	/^    def from_pretrained_llama3_hf(cls, model_id):$/;"	m	class:LLaMA
+from_pretrained_llama3_meta	alternatives/train_llama3.py	/^    def from_pretrained_llama3_meta(cls, ckpt_dir, tokenizer_path):$/;"	m	class:LLaMA
 fseekCheck	llmc/utils.h	/^#define fseekCheck(/;"	d
 fseek_check	llmc/utils.h	/^extern inline void fseek_check(FILE *fp, long off, int whence, const char *file, int line) {$/;"	f
 fw	dev/data/fineweb.py	/^    fw = load_dataset("HuggingFaceFW\/fineweb", name=remote_name, split="train")$/;"	v
 fw	dev/data/fineweb.py	/^    fw = load_dataset("HuggingFaceFW\/fineweb-edu", name=remote_name, split="train")$/;"	v
 fwriteCheck	llmc/utils.h	/^#define fwriteCheck(/;"	d
 fwrite_check	llmc/utils.h	/^extern inline void fwrite_check(void *ptr, size_t size, size_t nmemb, FILE *stream, const char *file, int line) {$/;"	f
-gelu_backward	train_gpt2.c	/^void gelu_backward(float* dinp, float* inp, float* dout, int N) {$/;"	f
-gelu_forward	train_gpt2.c	/^void gelu_forward(float* out, float* inp, int N) {$/;"	f
-generate	train_gpt2.py	/^    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):$/;"	m	class:GPT
-generate	train_llama3.py	/^    def generate($/;"	m	class:LLaMA
+gelu_backward	alternatives/train_gpt2.c	/^void gelu_backward(float* dinp, float* inp, float* dout, int N) {$/;"	f
+gelu_forward	alternatives/train_gpt2.c	/^void gelu_forward(float* out, float* inp, int N) {$/;"	f
+generate	alternatives/train_gpt2.py	/^    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):$/;"	m	class:GPT
+generate	alternatives/train_llama3.py	/^    def generate($/;"	m	class:LLaMA
 get_flops_promised	llmc/mfu.h	/^float get_flops_promised(const char* device, int precision_mode) {$/;"	f
 get_gpu_utilization_info	llmc/mfu.h	/^GPUUtilInfo get_gpu_utilization_info() {$/;"	f
 get_learning_rate	llmc/schedulers.h	/^float get_learning_rate(LearningRateScheduler *scheduler, int step) {$/;"	f
@@ -553,32 +553,32 @@ get_learning_rate_constant	llmc/schedulers.h	/^float get_learning_rate_constant(
 get_learning_rate_cosine	llmc/schedulers.h	/^float get_learning_rate_cosine(LearningRateScheduler *scheduler, int step) {$/;"	f
 get_learning_rate_linear	llmc/schedulers.h	/^float get_learning_rate_linear(LearningRateScheduler *scheduler, int step) {$/;"	f
 get_learning_rate_wsd	llmc/schedulers.h	/^float get_learning_rate_wsd(LearningRateScheduler *scheduler, int step) {$/;"	f
-get_lr	train_gpt2.py	/^    def get_lr(it):$/;"	f	function:print0
-get_lr	train_llama3.py	/^    def get_lr(it):$/;"	f	function:print0
+get_lr	alternatives/train_gpt2.py	/^    def get_lr(it):$/;"	f	function:print0
+get_lr	alternatives/train_llama3.py	/^    def get_lr(it):$/;"	f	function:print0
 get_throttle_reason	llmc/mfu.h	/^const char* get_throttle_reason(unsigned long long bits) {$/;"	f
 gl_pathc	dev/unistd.h	/^    size_t gl_pathc;    \/\/ Count of matched pathnames$/;"	m	struct:glob_t
 gl_pathv	dev/unistd.h	/^    char **gl_pathv;    \/\/ List of matched pathnames$/;"	m	struct:glob_t
+glob	alternatives/train_gpt2.py	/^import glob$/;"	i
+glob	alternatives/train_llama3.py	/^import glob$/;"	i
 glob	dev/data/tinystories.py	/^import glob$/;"	i
 glob	dev/unistd.h	/^static inline int glob(const char* pattern, int ignored_flags, int (*ignored_errfunc)(const char* epath, int eerrno), glob_t* pglob){$/;"	f
-glob	train_gpt2.py	/^import glob$/;"	i
-glob	train_llama3.py	/^import glob$/;"	i
 glob_result	llmc/dataloader.h	/^    glob_t glob_result; \/\/ stores the result of glob, for all shards we want to iterate$/;"	m	struct:__anon5
 glob_t	dev/unistd.h	/^typedef struct glob_t {$/;"	s
 glob_t	dev/unistd.h	/^} glob_t;$/;"	t	typeref:struct:glob_t
 globfree	dev/unistd.h	/^static inline void globfree(glob_t *pglob) {$/;"	f
-gpt2_backward	train_gpt2.c	/^void gpt2_backward(GPT2 *model) {$/;"	f
-gpt2_build_from_checkpoint	train_gpt2.c	/^void gpt2_build_from_checkpoint(GPT2 *model, const char* checkpoint_path) {$/;"	f
-gpt2_forward	train_gpt2.c	/^void gpt2_forward(GPT2 *model, int* inputs, int* targets, size_t B, size_t T) {$/;"	f
-gpt2_free	train_gpt2.c	/^void gpt2_free(GPT2 *model) {$/;"	f
-gpt2_update	train_gpt2.c	/^void gpt2_update(GPT2 *model, float learning_rate, float beta1, float beta2, float eps, float weight_decay, int t) {$/;"	f
-gpt2_zero_grad	train_gpt2.c	/^void gpt2_zero_grad(GPT2 *model) {$/;"	f
+gpt2_backward	alternatives/train_gpt2.c	/^void gpt2_backward(GPT2 *model) {$/;"	f
+gpt2_build_from_checkpoint	alternatives/train_gpt2.c	/^void gpt2_build_from_checkpoint(GPT2 *model, const char* checkpoint_path) {$/;"	f
+gpt2_forward	alternatives/train_gpt2.c	/^void gpt2_forward(GPT2 *model, int* inputs, int* targets, size_t B, size_t T) {$/;"	f
+gpt2_free	alternatives/train_gpt2.c	/^void gpt2_free(GPT2 *model) {$/;"	f
+gpt2_update	alternatives/train_gpt2.c	/^void gpt2_update(GPT2 *model, float learning_rate, float beta1, float beta2, float eps, float weight_decay, int t) {$/;"	f
+gpt2_zero_grad	alternatives/train_gpt2.c	/^void gpt2_zero_grad(GPT2 *model) {$/;"	f
 gpu	dev/cuda/benchmark_on_modal.py	/^    gpu=GPU_CONFIG,$/;"	v
 gpu_db	llmc/mfu.h	/^static GPUEntry gpu_db[] = {$/;"	v
 gpu_utilization	llmc/mfu.h	/^    float gpu_utilization;$/;"	m	struct:GPUUtilInfo
-grads	train_gpt2.c	/^    ParameterTensors grads;$/;"	m	struct:__anon13	file:
-grads_acts	train_gpt2.c	/^    ActivationTensors grads_acts;$/;"	m	struct:__anon13	file:
-grads_acts_memory	train_gpt2.c	/^    float* grads_acts_memory;$/;"	m	struct:__anon13	file:
-grads_memory	train_gpt2.c	/^    float* grads_memory;$/;"	m	struct:__anon13	file:
+grads	alternatives/train_gpt2.c	/^    ParameterTensors grads;$/;"	m	struct:__anon13	file:
+grads_acts	alternatives/train_gpt2.c	/^    ActivationTensors grads_acts;$/;"	m	struct:__anon13	file:
+grads_acts_memory	alternatives/train_gpt2.c	/^    float* grads_acts_memory;$/;"	m	struct:__anon13	file:
+grads_memory	alternatives/train_gpt2.c	/^    float* grads_memory;$/;"	m	struct:__anon13	file:
 handle	dev/unistd.h	/^    intptr_t handle;$/;"	m	struct:DIR
 header_bytes	llmc/dataloader.h	/^    size_t header_bytes;  \/\/ header size in bytes$/;"	m	struct:__anon5
 hellaswags	dev/data/hellaswag.py	/^hellaswags = {$/;"	v
@@ -589,13 +589,13 @@ inference_main	dev/cuda/benchmark_on_modal.py	/^def inference_main(compile_comma
 init_detector	llmc/outlier_detector.h	/^void init_detector(OutlierDetector *detector) {$/;"	f
 init_identity_permutation	llmc/rand.h	/^void init_identity_permutation(int *data, int numel) {$/;"	f
 init_ok	llmc/tokenizer.h	/^    int init_ok;$/;"	m	struct:__anon3
-init_process_group	train_gpt2.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
-init_process_group	train_llama3.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
+init_process_group	alternatives/train_gpt2.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
+init_process_group	alternatives/train_llama3.py	/^from torch.distributed import init_process_group, destroy_process_group$/;"	i
+inputs	alternatives/train_gpt2.c	/^    int* inputs; \/\/ the input tokens for the current forward pass$/;"	m	struct:__anon13	file:
 inputs	llmc/dataloader.h	/^    int* inputs;  \/\/ input tokens into transformer$/;"	m	struct:__anon5
 inputs	llmc/dataloader.h	/^    int* inputs;  \/\/ input tokens into transformer$/;"	m	struct:__anon6
-inputs	train_gpt2.c	/^    int* inputs; \/\/ the input tokens for the current forward pass$/;"	m	struct:__anon13	file:
-inspect	train_gpt2.py	/^import inspect$/;"	i
-inspect	train_llama3.py	/^import inspect$/;"	i
+inspect	alternatives/train_gpt2.py	/^import inspect$/;"	i
+inspect	alternatives/train_llama3.py	/^import inspect$/;"	i
 inst	profile_gpt2cu.py	/^    inst = float(row[17]) \/ 1e6$/;"	v
 intra_shard_indices	llmc/dataloader.h	/^    int* intra_shard_indices;$/;"	m	struct:__anon5
 iterate_examples	dev/data/hellaswag.py	/^def iterate_examples(split):$/;"	f
@@ -612,49 +612,49 @@ l2_read	profile_gpt2cu.py	/^    l2_read = l2_read * 32 \/ 1024 \/ 1024 \/ 1024$/
 l2_write	profile_gpt2cu.py	/^    l2_write = float(row[15])$/;"	v
 l2_write	profile_gpt2cu.py	/^    l2_write = l2_write * 32 \/ 1024 \/ 1024 \/ 1024$/;"	v
 label	llmc/dataloader.h	/^    int* label; \/\/ the correct completion labels$/;"	m	struct:__anon6
+layernorm_backward	alternatives/train_gpt2.c	/^void layernorm_backward(float* dinp, float* dweight, float* dbias,$/;"	f
 layernorm_backward	doc/layernorm/layernorm.c	/^void layernorm_backward(float* dinp, float* dweight, float* dbias,$/;"	f
-layernorm_backward	train_gpt2.c	/^void layernorm_backward(float* dinp, float* dweight, float* dbias,$/;"	f
+layernorm_forward	alternatives/train_gpt2.c	/^void layernorm_forward(float* out, float* mean, float* rstd,$/;"	f
 layernorm_forward	doc/layernorm/layernorm.c	/^void layernorm_forward(float* out, float* mean, float* rstd,$/;"	f
-layernorm_forward	train_gpt2.c	/^void layernorm_forward(float* out, float* mean, float* rstd,$/;"	f
 learning_rate	llmc/schedulers.h	/^    float learning_rate;$/;"	m	struct:__anon7
 left_	llmc/rand.h	/^    int left_;$/;"	m	struct:__anon8
-ln1	train_gpt2.c	/^    float* ln1; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-ln1_mean	train_gpt2.c	/^    float* ln1_mean; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
-ln1_rstd	train_gpt2.c	/^    float* ln1_rstd; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
-ln1b	train_gpt2.c	/^    float* ln1b; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-ln1w	train_gpt2.c	/^    float* ln1w; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-ln2	train_gpt2.c	/^    float* ln2; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-ln2_mean	train_gpt2.c	/^    float* ln2_mean; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
-ln2_rstd	train_gpt2.c	/^    float* ln2_rstd; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
-ln2b	train_gpt2.c	/^    float* ln2b; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-ln2w	train_gpt2.c	/^    float* ln2w; \/\/ (L, C)$/;"	m	struct:__anon11	file:
-lnf	train_gpt2.c	/^    float* lnf; \/\/ (B, T, C)$/;"	m	struct:__anon12	file:
-lnf_mean	train_gpt2.c	/^    float* lnf_mean; \/\/ (B, T)$/;"	m	struct:__anon12	file:
-lnf_rstd	train_gpt2.c	/^    float* lnf_rstd; \/\/ (B, T)$/;"	m	struct:__anon12	file:
-lnfb	train_gpt2.c	/^    float* lnfb; \/\/ (C)$/;"	m	struct:__anon11	file:
-lnfw	train_gpt2.c	/^    float* lnfw; \/\/ (C)$/;"	m	struct:__anon11	file:
+ln1	alternatives/train_gpt2.c	/^    float* ln1; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+ln1_mean	alternatives/train_gpt2.c	/^    float* ln1_mean; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
+ln1_rstd	alternatives/train_gpt2.c	/^    float* ln1_rstd; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
+ln1b	alternatives/train_gpt2.c	/^    float* ln1b; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+ln1w	alternatives/train_gpt2.c	/^    float* ln1w; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+ln2	alternatives/train_gpt2.c	/^    float* ln2; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+ln2_mean	alternatives/train_gpt2.c	/^    float* ln2_mean; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
+ln2_rstd	alternatives/train_gpt2.c	/^    float* ln2_rstd; \/\/ (L, B, T)$/;"	m	struct:__anon12	file:
+ln2b	alternatives/train_gpt2.c	/^    float* ln2b; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+ln2w	alternatives/train_gpt2.c	/^    float* ln2w; \/\/ (L, C)$/;"	m	struct:__anon11	file:
+lnf	alternatives/train_gpt2.c	/^    float* lnf; \/\/ (B, T, C)$/;"	m	struct:__anon12	file:
+lnf_mean	alternatives/train_gpt2.c	/^    float* lnf_mean; \/\/ (B, T)$/;"	m	struct:__anon12	file:
+lnf_rstd	alternatives/train_gpt2.c	/^    float* lnf_rstd; \/\/ (B, T)$/;"	m	struct:__anon12	file:
+lnfb	alternatives/train_gpt2.c	/^    float* lnfb; \/\/ (C)$/;"	m	struct:__anon11	file:
+lnfw	alternatives/train_gpt2.c	/^    float* lnfw; \/\/ (C)$/;"	m	struct:__anon11	file:
 load128	dev/cuda/common.h	/^__device__ Packed128<ElementType> load128(const ElementType* address) {$/;"	f
 load128cs	dev/cuda/common.h	/^__device__ Packed128<ElementType> load128cs(const ElementType* address) {$/;"	f
 load_dataset	dev/data/fineweb.py	/^from datasets import load_dataset$/;"	i
-load_tiktoken_bpe	train_llama3.py	/^from tiktoken.load import load_tiktoken_bpe$/;"	i
+load_tiktoken_bpe	alternatives/train_llama3.py	/^from tiktoken.load import load_tiktoken_bpe$/;"	i
 local_batch_offset_bytes	llmc/dataloader.h	/^    size_t local_batch_offset_bytes;  \/\/ inner-sample offset for this process$/;"	m	struct:__anon5
 logger_init	llmc/logger.h	/^void logger_init(Logger *logger, const char *log_dir, int process_rank, int resume) {$/;"	f
 logger_log_eval	llmc/logger.h	/^void logger_log_eval(Logger *logger, int step, float val) {$/;"	f
 logger_log_train	llmc/logger.h	/^void logger_log_train(Logger *logger, int step, float train_loss, float learning_rate, float grad_norm) {$/;"	f
 logger_log_val	llmc/logger.h	/^void logger_log_val(Logger *logger, int step, float val_loss) {$/;"	f
-logits	train_gpt2.c	/^    float* logits; \/\/ (B, T, V)$/;"	m	struct:__anon12	file:
+logits	alternatives/train_gpt2.c	/^    float* logits; \/\/ (B, T, V)$/;"	m	struct:__anon12	file:
 lookup_cache_or_build_graph_bwd	llmc/cudnn_att.cpp	/^auto lookup_cache_or_build_graph_bwd(int B, int NH, int T, int HS) {$/;"	f
 lookup_cache_or_build_graph_fwd	llmc/cudnn_att.cpp	/^auto lookup_cache_or_build_graph_fwd(int B,int H,int T,int HS, int is_inference_only) {$/;"	f
-losses	train_gpt2.c	/^    float* losses; \/\/ (B, T)$/;"	m	struct:__anon12	file:
+losses	alternatives/train_gpt2.c	/^    float* losses; \/\/ (B, T)$/;"	m	struct:__anon12	file:
 lr_scheduler_init	llmc/schedulers.h	/^void lr_scheduler_init(LearningRateScheduler *scheduler, const char* scheduler_type, float learning_rate, int warmup_iterations, int train_num_batches, float final_learning_rate_frac) {$/;"	f
-m_memory	train_gpt2.c	/^    float* m_memory;$/;"	m	struct:__anon13	file:
+m_memory	alternatives/train_gpt2.c	/^    float* m_memory;$/;"	m	struct:__anon13	file:
+main	alternatives/test_gpt2.c	/^int main(int argc, char *argv[]) {$/;"	f
+main	alternatives/train_gpt2.c	/^int main() {$/;"	f
 main	dev/cpu/matmul_forward.c	/^int main(int argc, char **argv) {$/;"	f
 main	dev/loss_checker_ci.py	/^def main():$/;"	f
 main	dev/test/test_dataloader.c	/^int main(void) {$/;"	f
 main	dev/test/test_outlier_detector.c	/^int main(void) {$/;"	f
 main	doc/layernorm/layernorm.c	/^int main() {$/;"	f
-main	test_gpt2.c	/^int main(int argc, char *argv[]) {$/;"	f
-main	train_gpt2.c	/^int main() {$/;"	f
 make_ones_float	dev/cuda/common.h	/^float* make_ones_float(size_t N) {$/;"	f
 make_random_float	dev/cpu/matmul_forward.c	/^float* make_random_float(size_t N) {$/;"	f
 make_random_float	dev/cuda/common.h	/^float* make_random_float(size_t N) {$/;"	f
@@ -662,27 +662,27 @@ make_random_float_01	dev/cuda/common.h	/^float* make_random_float_01(size_t N) {
 make_random_int	dev/cuda/common.h	/^int* make_random_int(size_t N, int V) {$/;"	f
 make_zeros_float	dev/cuda/common.h	/^float* make_zeros_float(size_t N) {$/;"	f
 mallocCheck	llmc/utils.h	/^#define mallocCheck(/;"	d
-malloc_and_point_activations	train_gpt2.c	/^float* malloc_and_point_activations(ActivationTensors* acts, size_t* act_sizes) {$/;"	f
-malloc_and_point_parameters	train_gpt2.c	/^float* malloc_and_point_parameters(ParameterTensors* params, size_t* param_sizes) {$/;"	f
+malloc_and_point_activations	alternatives/train_gpt2.c	/^float* malloc_and_point_activations(ActivationTensors* acts, size_t* act_sizes) {$/;"	f
+malloc_and_point_parameters	alternatives/train_gpt2.c	/^float* malloc_and_point_parameters(ParameterTensors* params, size_t* param_sizes) {$/;"	f
 malloc_check	llmc/utils.h	/^extern inline void *malloc_check(size_t size, const char *file, int line) {$/;"	f
 manual_seed	llmc/rand.h	/^void manual_seed(mt19937_state* state, unsigned int seed) {$/;"	f
 mask	llmc/dataloader.h	/^    char* mask; \/\/ mask=1 at all completion token locations$/;"	m	struct:__anon6
-math	train_gpt2.py	/^import math$/;"	i
-math	train_llama3.py	/^import math$/;"	i
-matmul_backward	train_gpt2.c	/^void matmul_backward(float* dinp, float* dweight, float* dbias,$/;"	f
+math	alternatives/train_gpt2.py	/^import math$/;"	i
+math	alternatives/train_llama3.py	/^import math$/;"	i
+matmul_backward	alternatives/train_gpt2.c	/^void matmul_backward(float* dinp, float* dweight, float* dbias,$/;"	f
+matmul_forward	alternatives/train_gpt2.c	/^void matmul_forward(float* out,$/;"	f
 matmul_forward	dev/cpu/matmul_forward.c	/^void matmul_forward(int kernel_num,$/;"	f
-matmul_forward	train_gpt2.c	/^void matmul_forward(float* out,$/;"	f
 matmul_forward_cpu	dev/cpu/matmul_forward.c	/^void matmul_forward_cpu(float* out,$/;"	f
-matmul_forward_naive	train_gpt2.c	/^void matmul_forward_naive(float* out,$/;"	f
+matmul_forward_naive	alternatives/train_gpt2.c	/^void matmul_forward_naive(float* out,$/;"	f
 matmul_forward_ngc92	dev/cpu/matmul_forward.c	/^void matmul_forward_ngc92(float* out,$/;"	f
 max_clock	llmc/mfu.h	/^    unsigned int max_clock;$/;"	m	struct:GPUUtilInfo
 max_dram_bw	profile_gpt2cu.py	/^    max_dram_bw = max(max_dram_bw, dram_bw)$/;"	v
 max_dram_bw	profile_gpt2cu.py	/^max_dram_bw = 0.0$/;"	v
-max_seq_len	train_gpt2.c	/^    int max_seq_len; \/\/ max sequence length, e.g. 1024$/;"	m	struct:__anon10	file:
+max_seq_len	alternatives/train_gpt2.c	/^    int max_seq_len; \/\/ max sequence length, e.g. 1024$/;"	m	struct:__anon10	file:
 max_tensor	profile_gpt2cu.py	/^    max_tensor = max(max_tensor, tensor)$/;"	v
 max_tensor	profile_gpt2cu.py	/^max_tensor = (max_tensor > 50.0) and 100.0 or 50.0$/;"	v
 max_tensor	profile_gpt2cu.py	/^max_tensor = 0.0$/;"	v
-mean_loss	train_gpt2.c	/^    float mean_loss; \/\/ after a forward pass with targets, will be populated with the mean loss$/;"	m	struct:__anon13	file:
+mean_loss	alternatives/train_gpt2.c	/^    float mean_loss; \/\/ after a forward pass with targets, will be populated with the mean loss$/;"	m	struct:__anon13	file:
 mem_utilization	llmc/mfu.h	/^    float mem_utilization;$/;"	m	struct:GPUUtilInfo
 memcpy_convert	dev/cuda/common.h	/^[[nodiscard]] cudaError_t memcpy_convert(TargetType* d_ptr, float* h_ptr, size_t count) {$/;"	f
 metrics	profile_gpt2cu.py	/^metrics = [$/;"	v
@@ -700,35 +700,35 @@ name	llmc/mfu.h	/^    const char* name;$/;"	m	struct:__anon2
 new_cores	llmc/mfu.h	/^    float new_cores;$/;"	m	struct:__anon2
 new_mhz	llmc/mfu.h	/^    float new_mhz;$/;"	m	struct:__anon2
 next_	llmc/rand.h	/^    unsigned int next_;$/;"	m	struct:__anon8
-next_batch	train_gpt2.py	/^    def next_batch(self):$/;"	m	class:DistributedDataLoader
-next_batch	train_llama3.py	/^    def next_batch(self):$/;"	m	class:DistributedShardedDataLoader
+next_batch	alternatives/train_gpt2.py	/^    def next_batch(self):$/;"	m	class:DistributedDataLoader
+next_batch	alternatives/train_llama3.py	/^    def next_batch(self):$/;"	m	class:DistributedShardedDataLoader
 next_state	llmc/rand.h	/^void next_state(mt19937_state* state) {$/;"	f
+nn	alternatives/train_gpt2.py	/^import torch.nn as nn$/;"	i
+nn	alternatives/train_llama3.py	/^import torch.nn as nn$/;"	i
 nn	dev/data/hellaswag.py	/^import torch.nn as nn$/;"	i
 nn	dev/data/mmlu.py	/^import torch.nn as nn$/;"	i
-nn	train_gpt2.py	/^import torch.nn as nn$/;"	i
-nn	train_llama3.py	/^import torch.nn as nn$/;"	i
 no_cutlass	profile_gpt2cu.py	/^no_cutlass = 0.0$/;"	v
 normal_	llmc/rand.h	/^void normal_(float* data, unsigned int numel, float mean, float std, mt19937_state* state) {$/;"	f
 normal_fill	llmc/rand.h	/^void normal_fill(float* data, unsigned int numel, float mean, float std, mt19937_state* state) {$/;"	f
 normal_fill_16	llmc/rand.h	/^void normal_fill_16(float* data, float mean, float std) {$/;"	f
+np	alternatives/train_gpt2.py	/^import numpy as np$/;"	i
+np	alternatives/train_llama3.py	/^import numpy as np$/;"	i
 np	dev/data/data_common.py	/^import numpy as np$/;"	i
 np	dev/data/fineweb.py	/^import numpy as np$/;"	i
 np	dev/eval/export_hf.py	/^import numpy as np$/;"	i
-np	train_gpt2.py	/^import numpy as np$/;"	i
-np	train_llama3.py	/^import numpy as np$/;"	i
 nprocs	dev/data/fineweb.py	/^nprocs = max(1, os.cpu_count() - 2) # don't hog the entire system$/;"	v
-nullcontext	train_gpt2.py	/^from contextlib import nullcontext$/;"	i
-nullcontext	train_llama3.py	/^from contextlib import nullcontext$/;"	i
-num_activations	train_gpt2.c	/^    size_t num_activations;$/;"	m	struct:__anon13	file:
+nullcontext	alternatives/train_gpt2.py	/^from contextlib import nullcontext$/;"	i
+nullcontext	alternatives/train_llama3.py	/^from contextlib import nullcontext$/;"	i
+num_activations	alternatives/train_gpt2.c	/^    size_t num_activations;$/;"	m	struct:__anon13	file:
 num_batches	llmc/dataloader.h	/^    int num_batches; \/\/ to process the entire dataset across all processes$/;"	m	struct:__anon6
 num_completions	llmc/dataloader.h	/^    int num_completions; \/\/ number of completions for this example$/;"	m	struct:__anon6
 num_examples	llmc/dataloader.h	/^    int num_examples; \/\/ in total across all processes$/;"	m	struct:__anon6
-num_heads	train_gpt2.c	/^    int num_heads; \/\/ number of heads in attention, e.g. 12$/;"	m	struct:__anon10	file:
-num_layers	train_gpt2.c	/^    int num_layers; \/\/ number of layers, e.g. 12$/;"	m	struct:__anon10	file:
-num_parameters	train_gpt2.c	/^    size_t num_parameters;$/;"	m	struct:__anon13	file:
+num_heads	alternatives/train_gpt2.c	/^    int num_heads; \/\/ number of heads in attention, e.g. 12$/;"	m	struct:__anon10	file:
+num_layers	alternatives/train_gpt2.c	/^    int num_layers; \/\/ number of layers, e.g. 12$/;"	m	struct:__anon10	file:
+num_parameters	alternatives/train_gpt2.c	/^    size_t num_parameters;$/;"	m	struct:__anon13	file:
 num_processes	llmc/dataloader.h	/^    int num_processes;$/;"	m	struct:__anon5
 num_processes	llmc/dataloader.h	/^    int num_processes;$/;"	m	struct:__anon6
-num_reserved_special_tokens	train_llama3.py	/^    num_reserved_special_tokens = 256$/;"	v	class:Tokenizer
+num_reserved_special_tokens	alternatives/train_llama3.py	/^    num_reserved_special_tokens = 256$/;"	v	class:Tokenizer
 num_shards	dev/test/test_dataloader.c	/^int num_shards = 4;$/;"	v
 num_tokens	dev/test/test_dataloader.c	/^const int num_tokens = 140;$/;"	v
 num_tokens	llmc/dataloader.h	/^    size_t num_tokens; \/\/ total number of tokens$/;"	m	struct:__anon5
@@ -738,20 +738,20 @@ nvml_get_device	llmc/mfu.h	/^nvmlDevice_t nvml_get_device() {$/;"	f
 opendir	dev/unistd.h	/^static inline DIR *opendir(const char *name) {$/;"	f
 options	profile_gpt2cu.py	/^options = subprocess.check_output(["modprobe", "-c", "nvidia"], text=True)$/;"	v
 ordered_time	profile_gpt2cu.py	/^ordered_time = sorted(summaries.items(), key=lambda x: x[1], reverse=True)$/;"	v
+os	alternatives/train_gpt2.py	/^import os$/;"	i
+os	alternatives/train_llama3.py	/^import os$/;"	i
 os	dev/cuda/benchmark_on_modal.py	/^import os$/;"	i
 os	dev/data/fineweb.py	/^import os$/;"	i
 os	dev/data/hellaswag.py	/^import os$/;"	i
 os	dev/data/mmlu.py	/^import os$/;"	i
 os	dev/data/tinyshakespeare.py	/^import os$/;"	i
 os	dev/data/tinystories.py	/^import os$/;"	i
-os	train_gpt2.py	/^import os$/;"	i
-os	train_llama3.py	/^import os$/;"	i
 output_log_file	llmc/logger.h	/^    char output_log_file[512];$/;"	m	struct:__anon9
-pad_vocab	train_gpt2.py	/^def pad_vocab(tensor, multiple=128, value=0):$/;"	f
-padded_vocab_size	train_gpt2.c	/^    int padded_vocab_size; \/\/ padded to e.g. %128==0, 50304$/;"	m	struct:__anon10	file:
-param_sizes	train_gpt2.c	/^    size_t param_sizes[NUM_PARAMETER_TENSORS];$/;"	m	struct:__anon13	file:
-params	train_gpt2.c	/^    ParameterTensors params;$/;"	m	struct:__anon13	file:
-params_memory	train_gpt2.c	/^    float* params_memory;$/;"	m	struct:__anon13	file:
+pad_vocab	alternatives/train_gpt2.py	/^def pad_vocab(tensor, multiple=128, value=0):$/;"	f
+padded_vocab_size	alternatives/train_gpt2.c	/^    int padded_vocab_size; \/\/ padded to e.g. %128==0, 50304$/;"	m	struct:__anon10	file:
+param_sizes	alternatives/train_gpt2.c	/^    size_t param_sizes[NUM_PARAMETER_TENSORS];$/;"	m	struct:__anon13	file:
+params	alternatives/train_gpt2.c	/^    ParameterTensors params;$/;"	m	struct:__anon13	file:
+params_memory	alternatives/train_gpt2.c	/^    float* params_memory;$/;"	m	struct:__anon13	file:
 parser	dev/data/fineweb.py	/^parser = argparse.ArgumentParser(description="FineWeb and Edu-FineWeb dataset preprocessing")$/;"	v
 parser	dev/data/hellaswag.py	/^    parser = argparse.ArgumentParser()$/;"	v
 parser	dev/data/mmlu.py	/^    parser = argparse.ArgumentParser()$/;"	v
@@ -765,7 +765,7 @@ pass_name	profile_gpt2cu.py	/^        pass_name = "init"$/;"	v
 pass_name	profile_gpt2cu.py	/^        pass_name = "opt"$/;"	v
 pass_name	profile_gpt2cu.py	/^        pass_name = phase$/;"	v
 passes	profile_gpt2cu.py	/^passes = defaultdict(lambda: 0.0)$/;"	v
-pat_str	train_llama3.py	/^    pat_str = r"(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\\r\\n\\p{L}\\p{N}]?\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]+[\\r\\n]*|\\s*[\\r\\n]+|\\s+(?!\\S)|\\s+"  # noqa: E501$/;"	v	class:Tokenizer
+pat_str	alternatives/train_llama3.py	/^    pat_str = r"(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\\r\\n\\p{L}\\p{N}]?\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]+[\\r\\n]*|\\s*[\\r\\n]+|\\s+(?!\\S)|\\s+"  # noqa: E501$/;"	v	class:Tokenizer
 pd	dev/data/mmlu.py	/^import pandas as pd$/;"	i
 perf_data	llmc/mfu.h	/^    const PerfData* perf_data;$/;"	m	struct:__anon2
 phase	profile_gpt2cu.py	/^            phase = "bwd-enc"$/;"	v
@@ -773,21 +773,21 @@ phase	profile_gpt2cu.py	/^        phase = "bwd"$/;"	v
 phase	profile_gpt2cu.py	/^phase = "fwd"$/;"	v
 power	llmc/mfu.h	/^    unsigned int power;$/;"	m	struct:GPUUtilInfo
 power_limit	llmc/mfu.h	/^    unsigned int power_limit;$/;"	m	struct:GPUUtilInfo
-preatt	train_gpt2.c	/^    float* preatt; \/\/ (L, B, NH, T, T)$/;"	m	struct:__anon12	file:
-precompute_freqs_cis	train_llama3.py	/^def precompute_freqs_cis($/;"	f
+preatt	alternatives/train_gpt2.c	/^    float* preatt; \/\/ (L, B, NH, T, T)$/;"	m	struct:__anon12	file:
+precompute_freqs_cis	alternatives/train_llama3.py	/^def precompute_freqs_cis($/;"	f
 prepare_intra_shard_indices_	llmc/dataloader.h	/^void prepare_intra_shard_indices_(DataLoader *loader) {$/;"	f
-print0	train_gpt2.py	/^def print0(*args, **kwargs):$/;"	f
-print0	train_llama3.py	/^def print0(*args, **kwargs):$/;"	f
-probs	train_gpt2.c	/^    float* probs; \/\/ (B, T, V)$/;"	m	struct:__anon12	file:
+print0	alternatives/train_gpt2.py	/^def print0(*args, **kwargs):$/;"	f
+print0	alternatives/train_llama3.py	/^def print0(*args, **kwargs):$/;"	f
+probs	alternatives/train_gpt2.c	/^    float* probs; \/\/ (B, T, V)$/;"	m	struct:__anon12	file:
 process_rank	llmc/dataloader.h	/^    int process_rank;$/;"	m	struct:__anon5
 process_rank	llmc/dataloader.h	/^    int process_rank;$/;"	m	struct:__anon6
 process_shard	dev/data/tinystories.py	/^def process_shard(shard_index, shard_filename, model_desc):$/;"	f
 progress_bar	dev/data/fineweb.py	/^                progress_bar = tqdm(total=args.shard_size, unit="tokens", desc=f"Shard {shard_index}")$/;"	v
 progress_bar	dev/data/fineweb.py	/^            progress_bar = None$/;"	v
 progress_bar	dev/data/fineweb.py	/^    progress_bar = None$/;"	v
-qkv	train_gpt2.c	/^    float* qkv; \/\/ (L, B, T, 3*C)$/;"	m	struct:__anon12	file:
-qkvb	train_gpt2.c	/^    float* qkvb; \/\/ (L, 3*C)$/;"	m	struct:__anon11	file:
-qkvw	train_gpt2.c	/^    float* qkvw; \/\/ (L, 3*C, C)$/;"	m	struct:__anon11	file:
+qkv	alternatives/train_gpt2.c	/^    float* qkv; \/\/ (L, B, T, 3*C)$/;"	m	struct:__anon12	file:
+qkvb	alternatives/train_gpt2.c	/^    float* qkvb; \/\/ (L, 3*C)$/;"	m	struct:__anon11	file:
+qkvw	alternatives/train_gpt2.c	/^    float* qkvw; \/\/ (L, 3*C, C)$/;"	m	struct:__anon11	file:
 r_count	dev/eval/summarize_eval.py	/^    r_count = 0$/;"	v
 r_total	dev/eval/summarize_eval.py	/^    r_total = 0$/;"	v
 randfloat32	llmc/rand.h	/^inline float randfloat32(mt19937_state* state) {$/;"	f
@@ -795,11 +795,11 @@ randfloat64	llmc/rand.h	/^inline double randfloat64(mt19937_state* state) {$/;"	
 randint32	llmc/rand.h	/^unsigned int randint32(mt19937_state* state) {$/;"	f
 randint64	llmc/rand.h	/^inline unsigned long long randint64(mt19937_state* state) {$/;"	f
 random	dev/data/tinystories.py	/^import random$/;"	i
+random_f32	alternatives/train_gpt2.c	/^float random_f32(uint64_t *state) { \/\/ random float32 in [0,1)$/;"	f
 random_f32	llmc/sampler.h	/^float random_f32(unsigned long long *state) { \/\/ random float32 in [0,1)$/;"	f
-random_f32	train_gpt2.c	/^float random_f32(uint64_t *state) { \/\/ random float32 in [0,1)$/;"	f
 random_permutation	llmc/rand.h	/^void random_permutation(int* data, int numel, mt19937_state* state) {$/;"	f
+random_u32	alternatives/train_gpt2.c	/^unsigned int random_u32(uint64_t *state) {$/;"	f
 random_u32	llmc/sampler.h	/^unsigned int random_u32(unsigned long long *state) {$/;"	f
-random_u32	train_gpt2.c	/^unsigned int random_u32(uint64_t *state) {$/;"	f
 read	profile_gpt2cu.py	/^    read = float(row[11])$/;"	v
 read_numbers_from_file	dev/loss_checker_ci.py	/^def read_numbers_from_file(file_path, col_start, col_end):$/;"	f
 readdir	dev/unistd.h	/^static inline struct dirent *readdir(DIR *directory) {$/;"	f
@@ -807,32 +807,32 @@ reader	profile_gpt2cu.py	/^reader = csv.reader(result.splitlines(keepends=True))
 remainder	dev/data/fineweb.py	/^            remainder = args.shard_size - token_count$/;"	v
 render_example	dev/data/hellaswag.py	/^def render_example(example):$/;"	f
 render_example	dev/data/mmlu.py	/^def render_example(example):$/;"	f
-repeat_kv	train_llama3.py	/^def repeat_kv(x: torch.Tensor, n_rep: int) -> torch.Tensor:$/;"	f
+repeat_kv	alternatives/train_llama3.py	/^def repeat_kv(x: torch.Tensor, n_rep: int) -> torch.Tensor:$/;"	f
 replace_forward_slashes	dev/unistd.h	/^static inline void replace_forward_slashes(char* str) {$/;"	f
 requests	dev/data/data_common.py	/^import requests$/;"	i
 requests	dev/data/hellaswag.py	/^import requests$/;"	i
 requests	dev/data/mmlu.py	/^import requests$/;"	i
-reset	train_gpt2.py	/^    def reset(self):$/;"	m	class:DistributedDataLoader
-reset	train_llama3.py	/^    def reset(self):$/;"	m	class:DistributedShardedDataLoader
-reshape_for_broadcast	train_llama3.py	/^def reshape_for_broadcast(freqs_cis: torch.Tensor, x: torch.Tensor):$/;"	f
-residual2	train_gpt2.c	/^    float* residual2; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-residual3	train_gpt2.c	/^    float* residual3; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
-residual_backward	train_gpt2.c	/^void residual_backward(float* dinp1, float* dinp2, float* dout, int N) {$/;"	f
-residual_forward	train_gpt2.c	/^void residual_forward(float* out, float* inp1, float* inp2, int N) {$/;"	f
+reset	alternatives/train_gpt2.py	/^    def reset(self):$/;"	m	class:DistributedDataLoader
+reset	alternatives/train_llama3.py	/^    def reset(self):$/;"	m	class:DistributedShardedDataLoader
+reshape_for_broadcast	alternatives/train_llama3.py	/^def reshape_for_broadcast(freqs_cis: torch.Tensor, x: torch.Tensor):$/;"	f
+residual2	alternatives/train_gpt2.c	/^    float* residual2; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+residual3	alternatives/train_gpt2.c	/^    float* residual3; \/\/ (L, B, T, C)$/;"	m	struct:__anon12	file:
+residual_backward	alternatives/train_gpt2.c	/^void residual_backward(float* dinp1, float* dinp2, float* dout, int N) {$/;"	f
+residual_forward	alternatives/train_gpt2.c	/^void residual_forward(float* out, float* inp1, float* inp2, int N) {$/;"	f
 result	profile_gpt2cu.py	/^result = subprocess.check_output(cmd, text=True).strip()$/;"	v
 run_benchmark	dev/cuda/benchmark_on_modal.py	/^def run_benchmark(compile_command: str, run_command: str):$/;"	f
 run_in_parallel	dev/data/edu_fineweb.sh	/^run_in_parallel() {$/;"	f
 run_in_parallel	dev/data/fineweb.sh	/^run_in_parallel() {$/;"	f
 run_in_parallel	dev/download_starter_pack.sh	/^run_in_parallel() {$/;"	f
 safe_printf	llmc/tokenizer.h	/^void safe_printf(const char *piece) {$/;"	f
-sample_mult	train_gpt2.c	/^int sample_mult(float* probabilities, int n, float coin) {$/;"	f
+sample_mult	alternatives/train_gpt2.c	/^int sample_mult(float* probabilities, int n, float coin) {$/;"	f
 sample_softmax	llmc/sampler.h	/^int sample_softmax(const float* logits, int n, float coin) {$/;"	f
-sample_top_p	train_llama3.py	/^def sample_top_p(probs, p):$/;"	f
+sample_top_p	alternatives/train_llama3.py	/^def sample_top_p(probs, p):$/;"	f
 scloseCheck	llmc/utils.h	/^#define scloseCheck(/;"	d
 sclose_check	llmc/utils.h	/^extern inline void sclose_check(int sockfd, const char *file, int line) {$/;"	f
 score	dev/eval/summarize_eval.py	/^    score = (r_total*100)\/r_count$/;"	v
 seed_	llmc/rand.h	/^    unsigned long long seed_;$/;"	m	struct:__anon8
-seq_len	train_gpt2.c	/^    int seq_len; \/\/ the sequence length (T) of current forward pass$/;"	m	struct:__anon13	file:
+seq_len	alternatives/train_gpt2.c	/^    int seq_len; \/\/ the sequence length (T) of current forward pass$/;"	m	struct:__anon13	file:
 setup_main	dev/cuda/common.h	/^void setup_main() {$/;"	f
 shard_index	dev/data/fineweb.py	/^    shard_index = 0$/;"	v
 shard_indices	llmc/dataloader.h	/^    int* shard_indices;$/;"	m	struct:__anon5
@@ -841,7 +841,7 @@ shard_num_samples	llmc/dataloader.h	/^    size_t shard_num_samples;  \/\/ total 
 should_shuffle	llmc/dataloader.h	/^    int should_shuffle;$/;"	m	struct:__anon5
 shuffle_rng	llmc/dataloader.h	/^    mt19937_state shuffle_rng;$/;"	m	struct:__anon5
 shutil	profile_gpt2cu.py	/^import shutil$/;"	i
-softmax_forward	train_gpt2.c	/^void softmax_forward(float* probs, float* logits, int B, int T, int V, int Vp) {$/;"	f
+softmax_forward	alternatives/train_gpt2.c	/^void softmax_forward(float* probs, float* logits, int B, int T, int V, int Vp) {$/;"	f
 spin	dev/eval/export_hf.py	/^def spin(output):$/;"	f
 start_example_index	llmc/dataloader.h	/^    int start_example_index; \/\/ the assignment of work for this process, start$/;"	m	struct:__anon6
 stat	dev/unistd.h	/^#define stat /;"	d
@@ -849,7 +849,7 @@ state_	llmc/rand.h	/^    unsigned int state_[MERSENNE_STATE_N];$/;"	m	struct:__a
 store128	dev/cuda/common.h	/^__device__ void store128(ElementType* target, Packed128<ElementType> value) {$/;"	f
 store128cg	dev/cuda/common.h	/^__device__ void store128cg(ElementType* target, Packed128<ElementType> value) {$/;"	f
 store128cs	dev/cuda/common.h	/^__device__ void store128cs(ElementType* target, Packed128<ElementType> value) {$/;"	f
-struct	train_gpt2.py	/^import struct$/;"	i
+struct	alternatives/train_gpt2.py	/^import struct$/;"	i
 stub	dev/cuda/benchmark_on_modal.py	/^stub = modal.App(APP_NAME)$/;"	v
 subprocess	dev/cuda/benchmark_on_modal.py	/^import subprocess$/;"	i
 subprocess	profile_gpt2cu.py	/^import subprocess$/;"	i
@@ -860,9 +860,9 @@ sys	dev/cuda/benchmark_on_modal.py	/^import sys$/;"	i
 sys	dev/eval/export_hf.py	/^import argparse, sys$/;"	i
 sys	dev/eval/summarize_eval.py	/^import json, sys$/;"	i
 sys	dev/loss_checker_ci.py	/^import sys$/;"	i
+targets	alternatives/train_gpt2.c	/^    int* targets; \/\/ the target tokens for the current forward pass$/;"	m	struct:__anon13	file:
 targets	llmc/dataloader.h	/^    int* targets; \/\/ target tokens for the transformer$/;"	m	struct:__anon5
 targets	llmc/dataloader.h	/^    int* targets; \/\/ target tokens for the transformer$/;"	m	struct:__anon6
-targets	train_gpt2.c	/^    int* targets; \/\/ the target tokens for the current forward pass$/;"	m	struct:__anon13	file:
 temp_slowdown	llmc/mfu.h	/^    unsigned int temp_slowdown;$/;"	m	struct:GPUUtilInfo
 temperature	llmc/mfu.h	/^    unsigned int temperature;$/;"	m	struct:GPUUtilInfo
 tensor	profile_gpt2cu.py	/^    tensor = float(row[16])$/;"	v
@@ -874,16 +874,16 @@ test_multiprocess_simple	dev/test/test_dataloader.c	/^void test_multiprocess_sim
 test_shuffled	dev/test/test_dataloader.c	/^void test_shuffled(void) {$/;"	f
 test_simple	dev/test/test_dataloader.c	/^void test_simple(void) {$/;"	f
 throttle_reason	llmc/mfu.h	/^    const char* throttle_reason;$/;"	m	struct:GPUUtilInfo
+tiktoken	alternatives/train_gpt2.py	/^    import tiktoken$/;"	i
+tiktoken	alternatives/train_llama3.py	/^import tiktoken$/;"	i
 tiktoken	dev/data/fineweb.py	/^import tiktoken$/;"	i
 tiktoken	dev/data/hellaswag.py	/^import tiktoken$/;"	i
 tiktoken	dev/data/mmlu.py	/^import tiktoken$/;"	i
 tiktoken	dev/data/tinyshakespeare.py	/^import tiktoken$/;"	i
 tiktoken	dev/data/tinystories.py	/^import tiktoken$/;"	i
-tiktoken	train_gpt2.py	/^    import tiktoken$/;"	i
-tiktoken	train_llama3.py	/^import tiktoken$/;"	i
+time	alternatives/train_gpt2.py	/^    import time$/;"	i
+time	alternatives/train_llama3.py	/^import time$/;"	i
 time	profile_gpt2cu.py	/^    time = float(row[13])$/;"	v
-time	train_gpt2.py	/^    import time$/;"	i
-time	train_llama3.py	/^import time$/;"	i
 tokenCheck	llmc/utils.h	/^#define tokenCheck(/;"	d
 token_check	llmc/utils.h	/^extern inline void token_check(const int* tokens, int token_count, int vocab_size, const char *file, int line) {$/;"	f
 token_count	dev/data/fineweb.py	/^            token_count = len(tokens)-remainder$/;"	v
@@ -901,20 +901,20 @@ tokenizer_decode	llmc/tokenizer.h	/^const char *tokenizer_decode(Tokenizer *toke
 tokenizer_free	llmc/tokenizer.h	/^void tokenizer_free(Tokenizer *tokenizer) {$/;"	f
 tokenizer_init	llmc/tokenizer.h	/^void tokenizer_init(Tokenizer *tokenizer, const char *filename) {$/;"	f
 tokens_file	llmc/dataloader.h	/^    FILE* tokens_file;$/;"	m	struct:__anon5
+torch	alternatives/train_gpt2.py	/^import torch$/;"	i
+torch	alternatives/train_gpt2.py	/^import torch._inductor.config as config$/;"	i
+torch	alternatives/train_gpt2.py	/^import torch.distributed as dist$/;"	i
+torch	alternatives/train_gpt2.py	/^import torch.nn as nn$/;"	i
+torch	alternatives/train_llama3.py	/^import torch$/;"	i
+torch	alternatives/train_llama3.py	/^import torch._inductor.config as config$/;"	i
+torch	alternatives/train_llama3.py	/^import torch.distributed as dist$/;"	i
+torch	alternatives/train_llama3.py	/^import torch.nn as nn$/;"	i
 torch	dev/data/hellaswag.py	/^import torch$/;"	i
 torch	dev/data/hellaswag.py	/^import torch.nn as nn$/;"	i
 torch	dev/data/mmlu.py	/^import torch$/;"	i
 torch	dev/data/mmlu.py	/^import torch.nn as nn$/;"	i
 torch	dev/eval/export_hf.py	/^import torch$/;"	i
 torch	doc/layernorm/layernorm.py	/^import torch$/;"	i
-torch	train_gpt2.py	/^import torch$/;"	i
-torch	train_gpt2.py	/^import torch._inductor.config as config$/;"	i
-torch	train_gpt2.py	/^import torch.distributed as dist$/;"	i
-torch	train_gpt2.py	/^import torch.nn as nn$/;"	i
-torch	train_llama3.py	/^import torch$/;"	i
-torch	train_llama3.py	/^import torch._inductor.config as config$/;"	i
-torch	train_llama3.py	/^import torch.distributed as dist$/;"	i
-torch	train_llama3.py	/^import torch.nn as nn$/;"	i
 total	dev/eval/summarize_eval.py	/^total = 0$/;"	v
 total	profile_gpt2cu.py	/^total = defaultdict(lambda: 0.0)$/;"	v
 total_batch_size_bytes	llmc/dataloader.h	/^    size_t total_batch_size_bytes;  \/\/ total across all processes$/;"	m	struct:__anon5
@@ -928,38 +928,38 @@ ts	profile_gpt2cu.py	/^ts = total_time \/ 1000$/;"	v
 type	llmc/schedulers.h	/^    const char* type;$/;"	m	struct:__anon7
 uniform_	llmc/rand.h	/^void uniform_(float* data, unsigned int numel, float from, float to, mt19937_state* state) {$/;"	f
 units	profile_gpt2cu.py	/^        units = f"           {'':<40} {'ms':>8} {'GB\/s':>8} {'core %':>8} {'GiB':>8} {'GiB':>8} {'GiB':>8} {'GiB':>8} {'MInst':>8}"$/;"	v
-unpermute	train_llama3.py	/^        def unpermute(w, n_heads, dim1, dim2):$/;"	f	function:LLaMA.adapt_llama_state_dict_keys_hf
+unpermute	alternatives/train_llama3.py	/^        def unpermute(w, n_heads, dim1, dim2):$/;"	f	function:LLaMA.adapt_llama_state_dict_keys_hf
 update_detector	llmc/outlier_detector.h	/^double update_detector(OutlierDetector *detector, double new_value) {$/;"	f
-v_memory	train_gpt2.c	/^    float* v_memory;$/;"	m	struct:__anon13	file:
+v_memory	alternatives/train_gpt2.c	/^    float* v_memory;$/;"	m	struct:__anon13	file:
 validate_result	dev/cuda/common.h	/^void validate_result(D* device_result, const T* cpu_reference, const char* name, std::size_t num_elements, T tolerance=1e-4) {$/;"	f
 validate_results_cpu	dev/cpu/matmul_forward.c	/^void validate_results_cpu(const float* kernel_result, const float* cpu_reference, const char* name, int num_elements, float tolerance) {$/;"	f
+vocab_size	alternatives/train_gpt2.c	/^    int vocab_size; \/\/ vocab size, e.g. 50257$/;"	m	struct:__anon10	file:
 vocab_size	llmc/tokenizer.h	/^    uint32_t vocab_size;$/;"	m	struct:__anon3
-vocab_size	train_gpt2.c	/^    int vocab_size; \/\/ vocab size, e.g. 50257$/;"	m	struct:__anon10	file:
 volumes	dev/cuda/benchmark_on_modal.py	/^    volumes={"\/cuda-env": modal.Volume.from_name("cuda-env")},$/;"	v
 w	doc/layernorm/layernorm.py	/^w = torch.randn(C, requires_grad=True)$/;"	v
 warmup_iterations	llmc/schedulers.h	/^    int warmup_iterations;$/;"	m	struct:__anon7
 warpReduceSum	dev/cuda/common.h	/^__device__ float warpReduceSum(float val) {$/;"	f
-wpe	train_gpt2.c	/^    float* wpe; \/\/ (maxT, C)$/;"	m	struct:__anon11	file:
+wpe	alternatives/train_gpt2.c	/^    float* wpe; \/\/ (maxT, C)$/;"	m	struct:__anon11	file:
 write	doc/layernorm/layernorm.py	/^def write(tensor, handle):$/;"	f
 write	profile_gpt2cu.py	/^    write = float(row[12])$/;"	v
-write_bf16	train_gpt2.py	/^def write_bf16(tensor, file):$/;"	f
-write_bf16	train_llama3.py	/^def write_bf16(tensor, file):$/;"	f
+write_bf16	alternatives/train_gpt2.py	/^def write_bf16(tensor, file):$/;"	f
+write_bf16	alternatives/train_llama3.py	/^def write_bf16(tensor, file):$/;"	f
 write_datafile	dev/data/data_common.py	/^def write_datafile(filename, toks, model_desc="gpt-2"):$/;"	f
 write_datafile	dev/data/fineweb.py	/^from data_common import write_datafile$/;"	i
 write_datafile	dev/data/tinyshakespeare.py	/^from data_common import download_file, write_datafile$/;"	i
 write_datafile	dev/data/tinystories.py	/^from data_common import download_file, write_datafile$/;"	i
 write_evalfile	dev/data/data_common.py	/^def write_evalfile(filename, datas):$/;"	f
 write_evalfile	dev/data/hellaswag.py	/^from data_common import download_file, write_evalfile$/;"	i
-write_fp32	train_gpt2.py	/^def write_fp32(tensor, file):$/;"	f
-write_fp32	train_llama3.py	/^def write_fp32(tensor, file):$/;"	f
-write_model	train_gpt2.py	/^def write_model(model, filename, dtype):$/;"	f
-write_model	train_llama3.py	/^def write_model(model, filename, dtype):$/;"	f
-write_state	train_gpt2.py	/^def write_state(model, x, y, logits, loss, filename):$/;"	f
-write_state	train_llama3.py	/^def write_state(model, x, y, logits, loss, filename):$/;"	f
-write_tensors	train_gpt2.py	/^def write_tensors(model_tensors, L, file, dtype):$/;"	f
-write_tensors	train_llama3.py	/^def write_tensors(model_tensors, L, file, dtype):$/;"	f
-write_tokenizer	train_gpt2.py	/^def write_tokenizer(enc, filename):$/;"	f
-wte	train_gpt2.c	/^    float* wte; \/\/ (V, C)$/;"	m	struct:__anon11	file:
+write_fp32	alternatives/train_gpt2.py	/^def write_fp32(tensor, file):$/;"	f
+write_fp32	alternatives/train_llama3.py	/^def write_fp32(tensor, file):$/;"	f
+write_model	alternatives/train_gpt2.py	/^def write_model(model, filename, dtype):$/;"	f
+write_model	alternatives/train_llama3.py	/^def write_model(model, filename, dtype):$/;"	f
+write_state	alternatives/train_gpt2.py	/^def write_state(model, x, y, logits, loss, filename):$/;"	f
+write_state	alternatives/train_llama3.py	/^def write_state(model, x, y, logits, loss, filename):$/;"	f
+write_tensors	alternatives/train_gpt2.py	/^def write_tensors(model_tensors, L, file, dtype):$/;"	f
+write_tensors	alternatives/train_llama3.py	/^def write_tensors(model_tensors, L, file, dtype):$/;"	f
+write_tokenizer	alternatives/train_gpt2.py	/^def write_tokenizer(enc, filename):$/;"	f
+wte	alternatives/train_gpt2.c	/^    float* wte; \/\/ (V, C)$/;"	m	struct:__anon11	file:
 x	doc/layernorm/layernorm.py	/^x = torch.randn(B, T, C, requires_grad=True)$/;"	v
 x128	dev/cuda/common.h	/^typedef Packed128<floatX> x128;$/;"	t
 ~NvtxRange	llmc/cuda_common.h	/^    ~NvtxRange() { nvtxRangePop(); }$/;"	f	class:NvtxRange
