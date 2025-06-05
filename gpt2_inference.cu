@@ -50,7 +50,7 @@ int main(int argc, char const **argv) {
 	int B = 1;
 	int T = 1024; // Maximum sequence length for gpt2_small.
 	// int V = model.config.vocab_size;
-	// int Vp = model.config.padded_vocab_size;
+	int Vp = model.config.padded_vocab_size;
 	// int maxT = model.config.max_seq_len;
 	// int L = model.config.num_layers;
 
