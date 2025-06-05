@@ -74,7 +74,7 @@ int main(int argc, char const **argv) {
 	// Print the generated sequence.
 	for (int i = 0; i < B; ++i) {
 		for (int t = 0; t < T; ++t) {
-			if (tokenizer.init) {
+			if (tokenizer.init_ok) {
 				printf("%s", tokenizer_decode(&tokenizer, gen_tokens[T * i + t]));
 			} else {
 				printf("%d ", gen_tokens[T * i + t]);
