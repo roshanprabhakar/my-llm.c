@@ -129,6 +129,15 @@ __global__ void encoder_backward_kernel(float* dwte, float* dwpe,
   }
 }
 
+__device__ float4 ld_vec(const float* address) {
+  return *reinterpret_cast<const float4*>(address);
+}
+
+__device__ void st_vec(float* address, float4 val) {
+  *reinterpret_cast<float4*>(address) = val;
+}
+
+
 __global__ void __launch_bounds__(16*16, 2) matmul_forward_kernel4(float* out,
                                        const float* inp, const float* weight, const float* bias,
                                        int C, int OC) {
@@ -692,14 +701,6 @@ __global__ void fused_classifier_kernel3(float* logits, float* losses, float* pr
     float indicator = (i == ix) ? 1.0f : 0.0f;
     logits[idx * P + i] = (prob - indicator) * dloss;
   }
-}
-
-__device__ float4 ld_vec(const float* address) {
-  return *reinterpret_cast<const float4*>(address);
-}
-
-__device__ void st_vec(float* address, float4 val) {
-  *reinterpret_cast<float4*>(address) = val;
 }
 
 // ----------------------------------------------------------------------------
