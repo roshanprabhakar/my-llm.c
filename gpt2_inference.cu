@@ -6,6 +6,8 @@
 // Let's write an inference server for gpt2_small using the kernels already included in this
 // repository.
 
+#define GPT2_EOT 50256
+
 int main(int argc, char const **argv) {
 
 	int num_tokens = 50;
