@@ -13,13 +13,12 @@ int main(int argc, char const **argv) {
 
 	const char *system_prefix = 
 		"I am a helpful chatbot tasked with answering user questions about the world. "
-		"I am given the prompt '";
-	const char *system_suffix = "', my answer is the following: ";
+		"I am given the query '";
+	const char *system_suffix = "', my response is the following: ";
 
 	char user_prompt[50];
 	user_prompt[sizeof(user_prompt)-1] = 0;
 
-	const char *prompt = "You are a helpful chatbot tasked with answering any user questions. Use the knowledge
 	int num_tokens = 50;
 	for (int i = 1; i < argc; i += 2) {
 		if (i + 1 >= argc) { throw std::runtime_error("Usage: gpt_inference [-n | --num-tokens INT]"); }
