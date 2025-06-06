@@ -26,7 +26,7 @@ int main(int argc, char const **argv) {
 		if (strlen(argv[i]) != 2) { throw std::runtime_error("Pass parameters via a dash '-' and a single character flag."); }
 		if (argv[i][1] == 'n') { num_tokens = atoi(argv[i + 1]); }
 		if (argv[i][1] == 'p') { 
-			strncpy(user_prompt, argv[i + 1], sizeof(prompt)-1);
+			strncpy(user_prompt, argv[i + 1], sizeof(user_prompt)-1);
 		}
 	}
 
