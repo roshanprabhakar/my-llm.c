@@ -8,6 +8,7 @@
 // repository.
 
 #define GPT2_EOT 50256
+#define USER_PROMPT_MAX_CHARS 1024
 
 int main(int argc, char const **argv) {
 
@@ -16,7 +17,7 @@ int main(int argc, char const **argv) {
 		"I am given the query '";
 	const char *system_suffix = "', my response is the following: ";
 
-	char user_prompt[50];
+	char user_prompt[USER_PROMPT_MAX_CHARS];
 	user_prompt[sizeof(user_prompt)-1] = 0;
 
 	int num_tokens = 50;
