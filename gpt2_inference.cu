@@ -2,7 +2,6 @@
 #include "train_gpt2_fp32.cu"
 
 #include <stdexcept>
-
 #include <string.h>
 
 // Let's write an inference server for gpt2_small using the kernels already included in this
@@ -12,13 +11,35 @@
 
 int main(int argc, char const **argv) {
 
+	const char *system_prefix = 
+		"I am a helpful chatbot tasked with answering user questions about the world. "
+		"I am given the prompt '";
+	const char *system_suffix = "', my answer is the following: ";
+
+	char user_prompt[50];
+	user_prompt[sizeof(user_prompt)-1] = 0;
+
+	const char *prompt = "You are a helpful chatbot tasked with answering any user questions. Use the knowledge
 	int num_tokens = 50;
 	for (int i = 1; i < argc; i += 2) {
 		if (i + 1 >= argc) { throw std::runtime_error("Usage: gpt_inference [-n | --num-tokens INT]"); }
 		if (argv[i][0] != '-') { throw std::runtime_error("Parameter must be passed via a flag."); }
 		if (strlen(argv[i]) != 2) { throw std::runtime_error("Pass parameters via a dash '-' and a single character flag."); }
 		if (argv[i][1] == 'n') { num_tokens = atoi(argv[i + 1]); }
+		if (argv[i][1] == 'p') { 
+			strncpy(user_prompt, argv[i + 1], sizeof(prompt)-1);
+		}
 	}
+
+	char prompt[strlen(system_prefix) + strlen(user_prompt) + strlen(system_suffix)];
+	strcpy(prompt, system_prefix);
+	strcpy(prompt + strlen(system_prefix), user_prompt);
+	strcpy(prompt + strlen(system_prefix) + strlen(user_prompt), system_suffix);
+
+	printf("%s", prompt);
+
+	return 0;
+
 
 	// Set up the device.
 	int deviceIdx = 0;
