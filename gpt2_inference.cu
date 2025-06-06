@@ -35,7 +35,7 @@ int main(int argc, char const **argv) {
 	strcpy(prompt + strlen(system_prefix), user_prompt);
 	strcpy(prompt + strlen(system_prefix) + strlen(user_prompt), system_suffix);
 
-	printf("%s", prompt);
+	printf("%s\n", prompt);
 
 	return 0;
 
